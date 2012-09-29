@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Themormix recipes tests</title>
+        <link rel="stylesheet" href="qunit-1.10.0.css">
+    </head>
+    <body>
+        <div id="qunit"></div>
+        <script src="../src/js/jquery-1.8.2.min.js"></script>
+        <script src="../src/js/underscore-min.js"></script>
+        <script src="../src/js/thermomix-main.js"></script>
+        <script src="../src/js/thermomix-data.js"></script>
+        <script src="../src/js/thermomix-controller.js"></script>
+        <script src="../src/js/thermomix-views.js"></script>
+        <script src="qunit-1.10.0.js"></script>
+        <script>
+            $.fn.listview = function() {};
+
+            test( "App is here", function() {
+                ok( App != undefined, "No app!" );
+                ok( App.categories != undefined, "No App.categories!" );
+                ok( App.recipes != undefined, "No App.recipes!" );
+            });
+
+            test( "App renders categories", function() {
+                // Given
+                App.data = {
+                    categories: [ // Load fake data
+                        { id: 1, name: 'entrées' },
+                        { id: 2, name: 'plats' },
+                        { id: 3, name: 'desserts' }
+                    ]
+                }; 
+                App.categories.tpl = _.template($('#categories-list-template').text()); // Load template
+
+                // When 
+                App.categories.render('ul#categories-list');
+
+                // Then 
+                ok( $('ul#categories-list li').size() === 3, "Render categories from json!" );
+            });
+
+            test( "App renders recipes", function() {
+                // Given
+                App.data = {
+                    recipes: [ // Load fake data
+                        { id: 1, name: 'oeufs brouillés', categoryId: 1, recipe: 'cuire les oeufs' },
+                        { id: 2, name: 'tiramisu', categoryId: 3, recipe: 'Mettre du mascarpone' },
+                        { id: 3, name: 'Baba au rhum', categoryId: 3, recipe: 'Imbiber le baba' }
+                    ]
+                }; 
+                App.recipes.tpl = _.template($('#recipes-list-template').text()); // Load template
+
+                // When 
+                App.recipes.render('#recipes-list', 3);
+
+                // Then 
+                ok( $('#recipes-list li').size() === 2, "Render recipes from json!" );
+            });
+        </script>
+        <ul id="categories-list">
+            <script type="text/template" id="categories-list-template">
+                <% _.each(categories, function(category) { %>
+                    <li><a href="#"><%= category.name %><span class="ui-li-count"><%= category.count %></span></a></li>
+                <% }); %>
+            </script>
+        </ul>
+        <ul id="recipes-list">
+            <script type="text/template" id="recipes-list-template">
+                <% _.each(recipes, function(recipe) { %>
+                    <li><a href="#"><%= recipe.name %></a></li>
+                <% }); %>
+            </script>
+        </ul>
+    </body>
+</html>
