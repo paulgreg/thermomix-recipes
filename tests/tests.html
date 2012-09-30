@@ -64,6 +64,17 @@
                 // Then 
                 ok( $('#recipes-list li').size() === 2, "Render recipes from json!" );
             });
+
+            test( "App renders a recipe", function() {
+                // Given
+
+                // When 
+                App.recipe.render('#recipe', 2, 3);
+
+                // Then 
+                ok( $('#recipe h1').html() === "tiramisu", "Render recipe title from json!" );
+                ok( $('#recipe .content').html().length > 0, "Render recipe content from json!" );
+            });
         </script>
         <ul id="categories-list">
             <script type="text/template" id="categories-list-template">
@@ -79,5 +90,11 @@
                 <% }); %>
             </script>
         </ul>
+        <div id="recipe">
+            <a class="previous"></a>
+            <a class="next"></a>
+            <h1></h1>
+            <div class="content"></div>
+        </div>
     </body>
 </html>

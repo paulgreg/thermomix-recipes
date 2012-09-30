@@ -4,6 +4,6 @@
     // Namespaces
     App.categories = {};
     App.recipes = {};
-
+    App.recipe = {};
 
 }(window.App = window.App || {}, jQuery));

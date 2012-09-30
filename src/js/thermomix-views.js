@@ -8,15 +8,21 @@
             }).length;
             return c; 
         });
-        var categories = App.categories.tpl({ 'categories': withCount });
-        $(placeholder).html(categories);
+        var categoriesHtml = App.categories.tpl({ 'categories': withCount });
+        $(placeholder).html(categoriesHtml).listview('refresh');
     }
 
     App.recipes.render = function(placeholder, categoryId) {
-        var recipesForCategory = _.filter(App.data.recipes, function(r) { return r.categoryId == categoryId; });
-        var recipes = App.recipes.tpl({ 'recipes': recipesForCategory });
-        $(placeholder).html(recipes).listview();
-
+        var recipesForCategory = _.filter(App.data.recipes, function(r) { return r.categoryId === parseInt(categoryId, 10); });
+        var recipesHtml = App.recipes.tpl({ 'recipes': recipesForCategory, 'categoryId': categoryId });
+        $(placeholder).html(recipesHtml).listview('refresh');
     }
     
+    App.recipe.render = function(placeholder, recipeId, categoryId) {
+        var recipe = _.find(App.data.recipes, function(r) { return r.id === parseInt(recipeId, 10) });
+        var $placeholder = $(placeholder);
+        $placeholder.find('h1').html(recipe.name);
+        $placeholder.find('.content').html(recipe.recipe);
+    }
+
 }(window.App = window.App || {}, jQuery, _));
