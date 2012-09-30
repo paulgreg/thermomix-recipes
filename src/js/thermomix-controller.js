@@ -40,12 +40,19 @@
             return confirm('Annuler la saisie ?');
         });
         $('#add-recipe .save').click(function(e) {
+            var name = $('#add-recipe [name=name]').val();
+            var recipe = $('#add-recipe [name=recipe]').val();
+            if (name === "" || recipe === "") {
+                alert('Veuillez renseigner le nom ou la description.');
+                return false;
+            }
+                
             var newId = _.max(_.pluck(App.data.recipes, 'id'))+1;
             var newRecipe = {
                 'id': newId,
-                'name': $('#add-recipe [name=name]').val(),
+                'name': name,
                 'categoryId': parseInt($('#add-recipe [name=category]').val(), 10),
-                'recipe': $('#add-recipe [name=recipe]').val()
+                'recipe': recipe
             };
             App.data.recipes.push(newRecipe);
             $('#add-recipe form').get(0).reset();
