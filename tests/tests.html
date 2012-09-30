@@ -62,18 +62,33 @@
                 App.recipes.render('#recipes-list', 3);
 
                 // Then 
-                ok( $('#recipes-list li').size() === 2, "Render recipes from json!" );
+                ok( $('#recipes-list li').size() === 2, "Render recipes!" );
             });
 
-            test( "App renders a recipe", function() {
+            test( "App renders first recipe (with a next recipe link)", function() {
                 // Given
 
                 // When 
                 App.recipe.render('#recipe', 2, 3);
 
                 // Then 
-                ok( $('#recipe h1').html() === "tiramisu", "Render recipe title from json!" );
-                ok( $('#recipe .content').html().length > 0, "Render recipe content from json!" );
+                ok( $('#recipe h1').html() === "tiramisu", "Render recipe title!" );
+                ok( $('#recipe .content').html().length > 0, "Render recipe content!" );
+                ok( $('#recipe .previous:visible').length === 0, "Render recipe next link!" );
+                ok( $('#recipe .next:visible').attr('href') === "#recipe?categoryId=3&recipeId=3", "Render recipe next link!" );
+            });
+
+            test( "App renders last recipe (with a previous recipe link)", function() {
+                // Given
+
+                // When 
+                App.recipe.render('#recipe', 3, 3);
+
+                // Then 
+                ok( $('#recipe h1').html() === "Baba au rhum", "Render recipe title!" );
+                ok( $('#recipe .content').html().length > 0, "Render recipe content!" );
+                ok( $('#recipe .previous:visible').attr('href') === "#recipe?categoryId=3&recipeId=2", "Render recipe previous link!" );
+                ok( $('#recipe .next:visible').length === 0, "Render recipe next link!" );
             });
         </script>
         <ul id="categories-list">
@@ -91,9 +106,9 @@
             </script>
         </ul>
         <div id="recipe">
-            <a class="previous"></a>
-            <a class="next"></a>
             <h1></h1>
+            <a class="previous">previous</a>
+            <a class="next">next</a>
             <div class="content"></div>
         </div>
     </body>
