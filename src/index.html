@@ -55,7 +55,7 @@
         <div data-role="page" id="recipes">
 
             <div data-role="header">
-                <h1>Recettes</h1>
+                <h1></h1>
                 <a href="#add-recipe" data-icon="add" class="ui-btn-right">Ajouter</a>
             </div>
 
@@ -107,24 +107,27 @@
         <div data-role="page" id="add-recipe">
 
             <div data-role="header">
-                <a href="#categories" data-icon="delete">Annuler</a>
+                <a href="#categories" class="cancel" data-icon="delete">Annuler</a>
                 <h1>Nouvelle recette</h1>
-                <a href="#categories" data-icon="check" data-theme="b">Sauvegarder</a>
+                <a href="#categories" class="save" data-icon="check" data-theme="b">Sauvegarder</a>
             </div>
 
             <div data-role="content">
-                <label for="text-title">Titre :</label>
-                <input type="text" name="title" id="text-title" value=""  />
+                <form>
+                    <label for="add-recipe-text-name">Nom :</label>
+                    <input type="text" name="name" id="add-recipe-text-name" value=""  />
 
-                <label for="select-category" class="select">Catégorie :</label>
-                <select name="category" id="select-category">
-                    <option value="entrées">Entrées</option>
-                    <option value="plats">plats</option>
-                </select>
+                    <label for="add-recipe-select-category" class="select">Catégorie :</label>
+                    <select name="category" id="add-recipe-select-category"></select>
+                    <script type="text/template" id="categories-select-list-template">
+                        <% _.each(categories, function(category) { %>
+                            <option value="<%= category.id %>"><%= category.name %></option>
+                        <% }); %>
+                    </script>
 
-                <label for="description">Recette :</label>
-                <textarea name="description" id="description"></textarea>
-
+                    <label for="add-recipe-text-recipe">Recette :</label>
+                    <textarea name="recipe" id="add-recipe-text-recipe"></textarea>
+                </form>
             </div>
 
             <div data-role="footer" data-position="fixed">        

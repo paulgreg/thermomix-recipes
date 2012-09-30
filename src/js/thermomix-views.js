@@ -27,23 +27,26 @@
         var $placeholder = $(placeholder);
         $placeholder.find('h1').html(recipe.name);
         $placeholder.find('.content').html(recipe.recipe);
-        if (previousRecipe) {
+
+        (previousRecipe) ?
             $placeholder.find('.previous')
                 .attr('href', '#recipe?categoryId='+categoryId+'&recipeId='+previousRecipe.id)
                 .click(_.bind(App.recipe.render, this, placeholder, previousRecipe.id, categoryId))
-                .show();
-        } else {
+                .show() :
             $placeholder.find('.previous').unbind('click').hide();
-        }
-        if (nextRecipe) {
+
+        (nextRecipe) ?
             $placeholder.find('.next')
                 .attr('href', '#recipe?categoryId='+categoryId+'&recipeId='+nextRecipe.id)
                 .click(_.bind(App.recipe.render, this, placeholder, nextRecipe.id, categoryId))
-                .show();
-        } else {
+                .show() :
             $placeholder.find('.next').unbind('click').hide();
-        }
-    }
+    };
+
+    App.categories.renderSelect = function(placeholder) {
+        $(placeholder).html(App.categories.selectTpl({'categories': App.data.categories}));
+    };
+
     var getPrevious = function(elements, id) {
         var idx = getIndex(elements, id);
         return (idx > 0) ? elements[idx-1] : null;
