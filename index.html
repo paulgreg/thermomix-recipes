@@ -114,9 +114,6 @@
 
             <div data-role="content">
                 <form>
-                    <label for="edit-recipe-text-name">Nom :</label>
-                    <input type="text" name="name" id="edit-recipe-text-name" value=""  />
-
                     <label for="edit-recipe-select-category" class="select">Catégorie :</label>
                     <select name="category" id="edit-recipe-select-category"></select>
                     <script type="text/template" id="categories-select-list-template">
@@ -124,6 +121,9 @@
                             <option value="<%= category.id %>"><%= category.name %></option>
                         <% }); %>
                     </script>
+
+                    <label for="edit-recipe-text-name">Nom :</label>
+                    <input type="text" name="name" id="edit-recipe-text-name" value=""  />
 
                     <label for="edit-recipe-text-recipe">Recette :</label>
                     <textarea name="recipe" id="edit-recipe-text-recipe"></textarea>
