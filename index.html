@@ -17,7 +17,6 @@
         <script src="js/thermomix-controller.js"></script>
         <script src="js/thermomix-views.js"></script>
     </head> 
-
     <body> 
 
         <!-- Homepage / Categories list -->
@@ -43,11 +42,10 @@
                     <ul>
                         <li><a href="#categories" data-role="button" data-icon="home">Accueil</a>
                         <!--li><a href="#stars" data-role="button" data-icon="star">Favoris</a-->
-                        <li><a href="#gear" data-role="button" data-icon="gear">Configuration</a>
+                        <li><a href="#configuration" data-role="button" data-icon="gear">Configuration</a>
                     </ul>
                 </div>
             </div>
-
         </div>
 
 
@@ -73,12 +71,12 @@
                 <div data-role="navbar">
                     <ul>
                         <li><a href="#categories" data-role="button" data-icon="home">Accueil</a>
-                        <li><a href="#gear" data-role="button" data-icon="gear">Configuration</a>
+                        <li><a href="#configuration" data-role="button" data-icon="gear">Configuration</a>
                     </ul>
                 </div>
             </div>
-
         </div>
+
 
         <!-- Recipe -->
         <div data-role="page" id="recipe">
@@ -95,11 +93,12 @@
                 <div data-role="navbar">
                     <ul>
                         <li><a href="#categories" data-role="button" data-icon="home">Accueil</a>
-                        <li><a href="#gear" data-role="button" data-icon="gear">Configuration</a>
+                        <li><a href="#configuration" data-role="button" data-icon="gear">Configuration</a>
                     </ul>
                 </div>
             </div>
         </div>
+
 
         <!-- Add recipe -->
         <div data-role="page" id="add-recipe">
@@ -132,7 +131,46 @@
                 <div data-role="navbar">
                     <ul>
                         <li><a href="#categories" data-role="button" data-icon="home">Accueil</a>
-                        <li><a href="#gear" data-role="button" data-icon="gear">Configuration</a>
+                        <li><a href="#configuration" data-role="button" data-icon="gear">Configuration</a>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- Configuration -->
+        <div data-role="page" id="configuration">
+
+            <div data-role="header">
+                <a href="#categories" class="cancel" data-icon="delete">Annuler</a>
+                <h1>Configuration</h1>
+                <a href="#categories" class="save" data-icon="check" data-theme="b">Sauvegarder</a>
+            </div>
+
+            <div data-role="content">
+    
+
+                <!--
+                <ul id="categories-list" data-role="listview" data-theme="c"></ul>
+
+                <script type="text/template" id="categories-config-list-template">
+                    <% _.each(categories, function(category) { %>
+                        <li><a href="#recipes?categoryId=<%= category.id %>"><%= category.name %><span class="ui-li-count"><%= category.count %></span></a></li>
+                    <% }); %>
+                </script>
+                -->
+
+                <label for="configuration-cookbook">Nom du livre de recette :</label>
+                <input type="text" name="cookbook" id="configuration-cookbook" value="" />
+                <small>Vos recettes sont sauvegardées dans un livre de recette. La modification de cette valeur va remplacer vos recettes actuelles par celles contenues dans le livre saisi.</small>
+
+            </div>
+
+            <div data-role="footer" data-position="fixed">        
+                <div data-role="navbar">
+                    <ul>
+                        <li><a href="#categories" data-role="button" data-icon="home">Accueil</a>
+                        <li><a href="#configuration" data-role="button" data-icon="gear">Configuration</a>
                     </ul>
                 </div>
             </div>
