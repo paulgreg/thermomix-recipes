@@ -35,6 +35,7 @@
             data: { v: JSON.stringify(App.data) },
             success: function onSuccess(data) {
                 console.info('App.saveData', data);
+                window.localStorage.data = App.data; // refresh localStorage
             },
             error: function onError(data) {
                 console.error('App.saveData', data);
