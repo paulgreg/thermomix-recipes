@@ -52,7 +52,7 @@
     }
 
     // Load data at startup if browser is connected
-    if (navigator.onLine) App.loadData();
+    if (navigator.onLine && window.ThermomixRecipesUnderTest !== true) App.loadData();
 
 }(window.App= window.App || {}, jQuery));
 
