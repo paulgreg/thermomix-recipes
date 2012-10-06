@@ -3,7 +3,7 @@
     
     App.data = window.localStorage.data || {};
     App.configuration = {
-        'datastoreUrl': 'http://localhost/projects/thermomix-recipes/datastore.php?n=',
+        'datastoreUrl': 'datastore.php?n=',
         'cookbook': window.localStorage.cookbook || 'default'
     };
 
