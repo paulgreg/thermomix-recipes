@@ -53,25 +53,44 @@
                 alert('Veuillez renseigner le nom ou la description.');
                 return false;
             }
-                
-            var newId = (App.data.recipes.length > 0) ? _.max(_.pluck(App.data.recipes, 'id'))+1 : 1;
-            var newRecipe = {
-                'id': newId,
-                'name': name,
-                'categoryId': parseInt($('#edit-recipe [name=category]').val(), 10),
-                'recipe': recipe
-            };
-            App.data.recipes.push(newRecipe);
-            $('#edit-recipe form').get(0).reset();
 
+            var recipeId = $.mobile.pageData && $.mobile.pageData.recipeId ? parseInt($.mobile.pageData.recipeId, 10) : undefined;
+            if (recipeId === undefined) {
+                var newId = (App.data.recipes.length > 0) ? _.max(_.pluck(App.data.recipes, 'id'))+1 : 1;
+                var newRecipe = {
+                    'id': newId,
+                    'name': name,
+                    'categoryId': parseInt($('#edit-recipe [name=category]').val(), 10),
+                    'recipe': recipe
+                };
+                App.data.recipes.push(newRecipe);
+            } else {
+                var currentRecipe = _.find(App.data.recipes, function(c) { return c.id === recipeId; });
+                currentRecipe.name = name;
+                currentRecipe.categoryId = parseInt($('#edit-recipe [name=category]').val(), 10);
+                currentRecipe.recipe = recipe;
+            }
             App.saveData();
         });
 
     });
     $('#edit-recipe').live('pagebeforeshow',function(event) {
         App.categories.renderSelect('#edit-recipe [name=category]');
-        $('#edit-recipe [name=category] option').first().attr('selected', 'selected'); // Select first entry
+        var edit = $.mobile.pageData !== null;
+        if (edit) {
+            var recipeId = parseInt($.mobile.pageData.recipeId, 10);
+            var recipe = _.find(App.data.recipes, function(c) { return c.id === recipeId; });
+            $('#edit-recipe [name=name]').val(recipe.name);
+            $('#edit-recipe [name=category]').val(recipe.categoryId);
+            $('#edit-recipe [name=recipe]').val(recipe.recipe);
+        } else {
+            $('#edit-recipe [name=name]').val("");
+            $('#edit-recipe [name=category] option').first().attr('selected', 'selected'); // Select first entry
+            $('#edit-recipe [name=recipe]').val("");
+        }
         $('#edit-recipe [name=category]').selectmenu('refresh');
+        $('#edit-recipe h1.edit')[(edit) ? 'show' : 'hide']();
+        $('#edit-recipe h1.new')[(edit) ? 'hide' : 'show']();
     });
 
     // -------------------------- 
@@ -123,22 +142,21 @@
                 };
                 App.data.categories.push(newCategory);
             } else {
-                var category = _.find(App.data.categories, function(c) { return c.id === categoryId; });
-                category.name = name;
+                var currentCategory = _.find(App.data.categories, function(c) { return c.id === categoryId; });
+                currentCategory.name = name;
             }
-
             App.saveData();
-            $('#edit-category form').get(0).reset();
         });
 
     });
     $('#edit-category').live('pagebeforeshow',function(event) {
-        var edit = false;
-        if ($.mobile.pageData !== null) {
+        var edit = $.mobile.pageData !== null;
+        if (edit) {
             var categoryId = parseInt($.mobile.pageData.categoryId, 10);
             var category = _.find(App.data.categories, function(c) { return c.id === categoryId; });
-            if (category !== undefined) $('#edit-category [name=name]').val(category.name);
-            edit = true;
+            $('#edit-category [name=name]').val(category.name);
+        } else {
+            $('#edit-category [name=name]').val("");
         }
         $('#edit-category h1.edit')[(edit) ? 'show' : 'hide']();
         $('#edit-category h1.new')[(edit) ? 'hide' : 'show']();

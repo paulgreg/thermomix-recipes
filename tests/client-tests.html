@@ -65,7 +65,7 @@
                 ok( $('#recipes-list li').size() === 2, "Render recipes!" );
             });
 
-            test( "App renders first recipe (with a next recipe link)", function() {
+            test( "App renders a recipe", function() {
                 // Given
 
                 // When 
@@ -74,6 +74,17 @@
                 // Then 
                 ok( $('#recipe h1').html() === "tiramisu", "Render recipe title!" );
                 ok( $('#recipe .content').html().length > 0, "Render recipe content!" );
+                ok( $('#recipe .content a').length === 1, "Render recipe update link!" );
+                ok( $('#recipe .content a').attr('href') === '#edit-recipe?recipeId=2', "Render recipe update link href!" );
+            });
+
+            test( "App renders first recipe (with a next recipe link)", function() {
+                // Given
+
+                // When 
+                App.recipe.render('#recipe', 2, 3);
+
+                // Then 
                 ok( $('#recipe .previous:visible').length === 0, "Render recipe next link!" );
                 ok( $('#recipe .next:visible').attr('href') === "#recipe?categoryId=3&recipeId=3", "Render recipe next link!" );
             });
@@ -85,8 +96,6 @@
                 App.recipe.render('#recipe', 3, 3);
 
                 // Then 
-                ok( $('#recipe h1').html() === "Baba au rhum", "Render recipe title!" );
-                ok( $('#recipe .content').html().length > 0, "Render recipe content!" );
                 ok( $('#recipe .previous:visible').attr('href') === "#recipe?categoryId=3&recipeId=2", "Render recipe previous link!" );
                 ok( $('#recipe .next:visible').length === 0, "Render recipe next link!" );
             });
@@ -140,6 +149,7 @@
             <a class="previous">previous</a>
             <a class="next">next</a>
             <div class="content"></div>
+            <a href="#edit-recipe?recipeId=" data-icon="grid" data-role="button" class="edit">Modifier la recette</a>
         </div>
         <div id="edit-recipe">
             <select id="select-category"></select>

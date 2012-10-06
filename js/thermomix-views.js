@@ -42,6 +42,9 @@
         var $placeholder = $(placeholder);
         $placeholder.find('h1').html(recipe.name);
         $placeholder.find('.content').html(recipe.recipe);
+        var $editLink = $placeholder.find('a.edit').clone();
+        $editLink.attr('href', $editLink.attr('href') + recipe.id);
+        $placeholder.find('.content').append($editLink);
 
         (previousRecipe) ?
             $placeholder.find('.previous')

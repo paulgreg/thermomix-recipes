@@ -1,1 +1,3 @@
 #configuration a.add{ margin-top: 30px; }
+#recipe a.edit { display: none; }
+#recipe .content a.edit { display: block; }
