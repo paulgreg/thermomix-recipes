@@ -46,7 +46,6 @@
     };
 
     App.switchCookbook = function(newCookbook) {
-        App.saveData();
         App.configuration.cookbook = newCookbook;
         window.localStorage.cookbook = newCookbook;
         App.loadData();
