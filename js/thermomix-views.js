@@ -12,6 +12,21 @@
         $(placeholder).html(categoriesHtml).listview('refresh');
     }
 
+    App.categories.renderSelect = function(placeholder) {
+        $(placeholder).html(App.categories.selectTpl({'categories': App.data.categories}));
+    };
+
+    App.categories.renderEdit = function(placeholder) {
+        var withCount = _.map(App.data.categories, function(c) { 
+            c.count = _.filter(App.data.recipes, function(r) {
+                return r.categoryId === c.id;
+            }).length;
+            return c; 
+        });
+        var categoriesHtml = App.categories.editTpl({ 'categories': withCount });
+        $(placeholder).html(categoriesHtml).listview('refresh');
+    }
+
     App.recipes.render = function(placeholder, categoryId) {
         var recipesForCategory = _.filter(App.data.recipes, function(r) { return r.categoryId === parseInt(categoryId, 10); });
         var recipesHtml = App.recipes.tpl({ 'recipes': recipesForCategory, 'categoryId': categoryId });
@@ -41,10 +56,6 @@
                 .click(_.bind(App.recipe.render, this, placeholder, nextRecipe.id, categoryId))
                 .show() :
             $placeholder.find('.next').unbind('click').hide();
-    };
-
-    App.categories.renderSelect = function(placeholder) {
-        $(placeholder).html(App.categories.selectTpl({'categories': App.data.categories}));
     };
 
     var getPrevious = function(elements, id) {

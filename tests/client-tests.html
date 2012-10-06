@@ -96,14 +96,30 @@
                 App.categories.selectTpl = _.template($('#categories-select-list-template').text()); // Load template
 
                 // When 
-                App.categories.renderSelect('#add-recipe #select-category');
+                App.categories.renderSelect('#edit-recipe #select-category');
 
                 // Then 
-                ok( $('#add-recipe #select-category option').size() === 3, "Render select categories !" );
-                var firstOption = $($('#add-recipe #select-category option').get(0));
+                ok( $('#edit-recipe #select-category option').size() === 3, "Render select categories !" );
+                var firstOption = $($('#edit-recipe #select-category option').get(0));
                 ok( firstOption.val() === '1', "Render select categories : first option value !" );
                 ok( firstOption.text() === 'entrées', "Render select categories : first option text !" );
             });
+
+            test( "App renders categories for removal or update", function() {
+                // Given
+                App.categories.editTpl = _.template($('#categories-edit-list-template').text()); // Load template
+
+                // When 
+                App.categories.renderEdit('ul#categories-edit-list');
+
+                // Then 
+                var $list = $('ul#categories-edit-list li');
+                ok( $list.size() === 3, "Render categories from json!" );
+                ok( $($list.get(0)).find('a span').text() == 1, "count recipes in categories !" );
+                ok( $($list.get(1)).find('a span').text() == 0, "count recipes in categories !" );
+                ok( $($list.get(2)).find('a span').text() == 2, "count recipes in categories !" );
+            });
+
         </script>
         <ul id="categories-list">
             <script type="text/template" id="categories-list-template">
@@ -125,7 +141,7 @@
             <a class="next">next</a>
             <div class="content"></div>
         </div>
-        <div id="add-recipe">
+        <div id="edit-recipe">
             <select id="select-category"></select>
             <script type="text/template" id="categories-select-list-template">
                 <% _.each(categories, function(category) { %>
@@ -133,5 +149,12 @@
                 <% }); %>
             </script>
         </div>
+        <ul id="categories-edit-list">
+            <script type="text/template" id="categories-edit-list-template">
+                <% _.each(categories, function(category) { %>
+                    <li><a href="#"><%= category.name %><span class="ui-li-count"><%= category.count %></span></a></li>
+                <% }); %>
+            </script>
+        </ul>
     </body>
 </html>

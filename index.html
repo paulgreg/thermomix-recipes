@@ -8,6 +8,7 @@
         <title>Mes recettes Thermomix</title> 
         <meta name="viewport" content="width=device-width, initial-scale=1"> 
         <link rel="stylesheet"  href="css/themes/default/jquery.mobile-1.2.0-rc.2.css" />
+        <link rel="stylesheet"  href="css/thermomix.css" />
         <script src="js/jquery-1.8.2.min.js"></script>
         <script src="js/jquery.mobile-1.2.0-rc.2.min.js"></script>
         <script src="js/jqm.page.params.js"></script>
@@ -24,7 +25,7 @@
 
             <div data-role="header">
                 <h1>Mes recettes Thermomix</h1>
-                <a href="#add-recipe" data-icon="add" class="ui-btn-right">Ajouter</a>
+                <a href="#edit-recipe" data-icon="add" class="ui-btn-right">Ajouter une recette</a>
             </div>
 
             <div data-role="content">
@@ -54,7 +55,7 @@
 
             <div data-role="header">
                 <h1></h1>
-                <a href="#add-recipe" data-icon="add" class="ui-btn-right">Ajouter</a>
+                <a href="#edit-recipe" data-icon="add" class="ui-btn-right">Ajouter une recette</a>
             </div>
 
             <div data-role="content">
@@ -100,30 +101,31 @@
         </div>
 
 
-        <!-- Add recipe -->
-        <div data-role="page" id="add-recipe">
+        <!-- Edit recipe -->
+        <div data-role="page" id="edit-recipe">
 
             <div data-role="header">
                 <a href="#categories" class="cancel" data-icon="delete">Annuler</a>
-                <h1>Nouvelle recette</h1>
+                <h1 class="new">Nouvelle recette</h1>
+                <h1 class="edit">Modification d’une recette</h1>
                 <a href="#categories" class="save" data-icon="check" data-theme="b">Sauvegarder</a>
             </div>
 
             <div data-role="content">
                 <form>
-                    <label for="add-recipe-text-name">Nom :</label>
-                    <input type="text" name="name" id="add-recipe-text-name" value=""  />
+                    <label for="edit-recipe-text-name">Nom :</label>
+                    <input type="text" name="name" id="edit-recipe-text-name" value=""  />
 
-                    <label for="add-recipe-select-category" class="select">Catégorie :</label>
-                    <select name="category" id="add-recipe-select-category"></select>
+                    <label for="edit-recipe-select-category" class="select">Catégorie :</label>
+                    <select name="category" id="edit-recipe-select-category"></select>
                     <script type="text/template" id="categories-select-list-template">
                         <% _.each(categories, function(category) { %>
                             <option value="<%= category.id %>"><%= category.name %></option>
                         <% }); %>
                     </script>
 
-                    <label for="add-recipe-text-recipe">Recette :</label>
-                    <textarea name="recipe" id="add-recipe-text-recipe"></textarea>
+                    <label for="edit-recipe-text-recipe">Recette :</label>
+                    <textarea name="recipe" id="edit-recipe-text-recipe"></textarea>
                 </form>
             </div>
 
@@ -148,21 +150,20 @@
             </div>
 
             <div data-role="content">
-    
 
-                <!--
-                <ul id="categories-list" data-role="listview" data-theme="c"></ul>
+                <h2>Choix du livre de recette :</h2>
+                <input type="text" name="cookbook" id="configuration-cookbook" value="" />
+                <p>Vos recettes sont sauvegardées dans un livre de recette. La modification de cette valeur va remplacer vos recettes actuelles par celles contenues dans le livre saisi.</p>
 
-                <script type="text/template" id="categories-config-list-template">
+                <h2>Configuration des catégories :</h2>
+                <ul id="categories-edit-list" data-role="listview" data-theme="c"></ul>
+                <a href="#edit-category" class="add" data-icon="add" data-role="button">Ajouter une catégorie</a>
+
+                <script type="text/template" id="categories-edit-list-template">
                     <% _.each(categories, function(category) { %>
-                        <li><a href="#recipes?categoryId=<%= category.id %>"><%= category.name %><span class="ui-li-count"><%= category.count %></span></a></li>
+                        <li><a href="#edit-category?categoryId=<%= category.id %>"><%= category.name %><span class="ui-li-count"><%= category.count %></span></a></li>
                     <% }); %>
                 </script>
-                -->
-
-                <label for="configuration-cookbook">Nom du livre de recette :</label>
-                <input type="text" name="cookbook" id="configuration-cookbook" value="" />
-                <small>Vos recettes sont sauvegardées dans un livre de recette. La modification de cette valeur va remplacer vos recettes actuelles par celles contenues dans le livre saisi.</small>
 
             </div>
 
@@ -175,6 +176,35 @@
                 </div>
             </div>
         </div>
+
+
+        <!-- Edit category -->
+        <div data-role="page" id="edit-category">
+
+            <div data-role="header">
+                <a href="#configuration" class="cancel" data-icon="delete">Annuler</a>
+                <h1 class="new">Nouvelle catégorie</h1>
+                <h1 class="edit">Modification d’une catégorie</h1>
+                <a href="#configuration" class="save" data-icon="check" data-theme="b">Sauvegarder</a>
+            </div>
+
+            <div data-role="content">
+                <form>
+                    <label for="edit-category-text-name">Nom :</label>
+                    <input type="text" name="name" id="edit-category-text-name" value=""  />
+                </form>
+            </div>
+
+            <div data-role="footer" data-position="fixed">        
+                <div data-role="navbar">
+                    <ul>
+                        <li><a href="#categories" data-role="button" data-icon="home">Accueil</a>
+                        <li><a href="#configuration" data-role="button" data-icon="gear">Configuration</a>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
 
     </body>
 </html>
