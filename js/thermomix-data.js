@@ -20,7 +20,7 @@
                 console.error('App.loadData', xhr);
                 if (xhr.status === 404) {
                     // Cookbook doesn’t exist, try to create one 
-                    App.data = {categories: [{"id":1,"name":"default"}], recipes: []};
+                    App.data = {categories: [{id:1,name:"default"}], recipes: []};
                     App.saveData();
                 }
             }
@@ -33,6 +33,7 @@
             url: App.configuration.datastoreUrl + App.configuration.cookbook, 
             async: false, // Do not use Ajax since data are mandatory
             data: { v: JSON.stringify(App.data) },
+            datatype: 'text',
             success: function onSuccess(data) {
                 console.info('App.saveData', data);
                 window.localStorage.data = App.data; // refresh localStorage
