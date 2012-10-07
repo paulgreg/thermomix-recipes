@@ -54,22 +54,26 @@
                 return false;
             }
 
+            var categoryId = parseInt($('#edit-recipe [name=category]').val(), 10);
             var recipeId = $.mobile.pageData && $.mobile.pageData.recipeId ? parseInt($.mobile.pageData.recipeId, 10) : undefined;
             if (recipeId === undefined) {
-                var newId = (App.data.recipes.length > 0) ? _.max(_.pluck(App.data.recipes, 'id'))+1 : 1;
+                recipeId = (App.data.recipes.length > 0) ? _.max(_.pluck(App.data.recipes, 'id'))+1 : 1;
                 var newRecipe = {
-                    'id': newId,
+                    'id': recipeId,
                     'name': name,
-                    'categoryId': parseInt($('#edit-recipe [name=category]').val(), 10),
+                    'categoryId': categoryId,
                     'recipe': recipe
                 };
                 App.data.recipes.push(newRecipe);
             } else {
                 var currentRecipe = _.find(App.data.recipes, function(c) { return c.id === recipeId; });
                 currentRecipe.name = name;
-                currentRecipe.categoryId = parseInt($('#edit-recipe [name=category]').val(), 10);
+                currentRecipe.categoryId = categoryId;
                 currentRecipe.recipe = recipe;
             }
+
+            var href = $(this).data('href').replace('%categoryId%', categoryId).replace('%recipeId%', recipeId);
+            $(this).attr('href', href);
             App.saveData();
         });
 
