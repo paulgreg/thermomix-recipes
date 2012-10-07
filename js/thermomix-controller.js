@@ -28,6 +28,8 @@
         App.recipes.render('#recipes-list', $.mobile.pageData.categoryId);
         var category = _.find(App.data.categories, function(c) { return c.id === parseInt($.mobile.pageData.categoryId, 10) });
         $('#recipes h1').html(category.name);
+        var $addLink = $('#recipes a[data-icon=add]');
+        $addLink.attr('href', $addLink.data('href').replace('%categoryId%', category.id));
     });
 
     // -------------------------- 
@@ -72,15 +74,14 @@
                 currentRecipe.recipe = recipe;
             }
 
-            var href = $(this).data('href').replace('%categoryId%', categoryId).replace('%recipeId%', recipeId);
-            $(this).attr('href', href);
+            $(this).attr('href', $(this).data('href').replace('%categoryId%', categoryId).replace('%recipeId%', recipeId));
             App.saveData();
         });
 
     });
     $('#edit-recipe').live('pagebeforeshow',function(event) {
         App.categories.renderSelect('#edit-recipe [name=category]');
-        var edit = $.mobile.pageData !== null;
+        var edit = $.mobile.pageData !== null && $.mobile.pageData.recipeId;
         if (edit) {
             var recipeId = parseInt($.mobile.pageData.recipeId, 10);
             var recipe = _.find(App.data.recipes, function(c) { return c.id === recipeId; });
@@ -89,7 +90,12 @@
             $('#edit-recipe [name=recipe]').val(recipe.recipe);
         } else {
             $('#edit-recipe [name=name]').val("");
-            $('#edit-recipe [name=category] option').first().attr('selected', 'selected'); // Select first entry
+            var preselectedCategoryId = $.mobile.pageData !== null && $.mobile.pageData.categoryId;
+            if (preselectedCategoryId) {
+                $('#edit-recipe [name=category]').val(preselectedCategoryId);
+            } else {
+                $('#edit-recipe [name=category] option').first().attr('selected', 'selected');
+            }
             $('#edit-recipe [name=recipe]').val("");
         }
         $('#edit-recipe [name=category]').selectmenu('refresh');
