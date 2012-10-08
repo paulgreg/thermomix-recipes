@@ -1,41 +1,47 @@
 (function (App, $, _, undefined) {
     "use strict";
 
-    App.categories.render = function(placeholder) {
-        var withCount = _.map(App.data.categories, function(c) { 
+    var getSortedCategoriesWithCount = function() {
+        var sortedCategories = _.sortBy(App.data.categories, function(c) { return c.name; });
+        var sortedCategoriesWithCount = _.map(sortedCategories, function(c) { 
             c.count = _.filter(App.data.recipes, function(r) {
                 return r.categoryId === c.id;
             }).length;
             return c; 
         });
-        var categoriesHtml = App.categories.tpl({ 'categories': withCount });
+        return sortedCategoriesWithCount;
+    };
+
+    var getSortedRecipesForCategories = function(categoryId) {
+        var sortedRecipes = _.sortBy(App.data.recipes, function(r) { return r.name; });
+        var recipesForCategory = _.filter(sortedRecipes, function(r) { return r.categoryId === parseInt(categoryId, 10); });
+        return recipesForCategory;
+    };
+
+    App.categories.render = function(placeholder) {
+        var categoriesHtml = App.categories.tpl({ 'categories': getSortedCategoriesWithCount() });
         $(placeholder).html(categoriesHtml).listview('refresh');
     }
 
     App.categories.renderSelect = function(placeholder) {
-        $(placeholder).html(App.categories.selectTpl({'categories': App.data.categories}));
+        var sortedCategories = _.sortBy(App.data.categories, function(c) { return c.name; });
+        $(placeholder).html(App.categories.selectTpl({'categories': sortedCategories}));
     };
 
     App.categories.renderEdit = function(placeholder) {
-        var withCount = _.map(App.data.categories, function(c) { 
-            c.count = _.filter(App.data.recipes, function(r) {
-                return r.categoryId === c.id;
-            }).length;
-            return c; 
-        });
-        var categoriesHtml = App.categories.editTpl({ 'categories': withCount });
+        var categoriesHtml = App.categories.editTpl({ 'categories': getSortedCategoriesWithCount() });
         $(placeholder).html(categoriesHtml).listview('refresh');
     }
 
     App.recipes.render = function(placeholder, categoryId) {
-        var recipesForCategory = _.filter(App.data.recipes, function(r) { return r.categoryId === parseInt(categoryId, 10); });
+        var recipesForCategory = getSortedRecipesForCategories(categoryId);
         var recipesHtml = App.recipes.tpl({ 'recipes': recipesForCategory, 'categoryId': categoryId });
         $(placeholder).html(recipesHtml).listview('refresh');
     }
     
     App.recipe.render = function(placeholder, recipeId, categoryId) {
         var recipe = _.find(App.data.recipes, function(r) { return r.id === parseInt(recipeId, 10) });
-        var recipesForCategory = _.filter(App.data.recipes, function(r) { return r.categoryId === parseInt(categoryId, 10); });
+        var recipesForCategory = getSortedRecipesForCategories(categoryId);
         var previousRecipe = getPrevious(recipesForCategory, parseInt(recipeId, 10));
         var nextRecipe = getNext(recipesForCategory, parseInt(recipeId, 10));
 

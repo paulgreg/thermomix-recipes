@@ -42,7 +42,7 @@
                 ok( App.recipes != undefined, "No App.recipes!" );
             });
 
-            test( "App renders categories", function() {
+            test( "App renders categories (sorted)", function() {
                 // Given
                 App.categories.tpl = _.template($('#categories-list-template').text()); // Load template
 
@@ -52,12 +52,12 @@
                 // Then 
                 var $list = $('ul#categories-list li');
                 ok( $list.size() === 3, "Render categories from json!" );
-                ok( $($list.get(0)).find('a span').text() == 1, "count recipes in categories !" );
-                ok( $($list.get(1)).find('a span').text() == 0, "count recipes in categories !" );
-                ok( $($list.get(2)).find('a span').text() == 2, "count recipes in categories !" );
+                ok( $($list.get(0)).find('a').text() == "desserts2", "desserts" );
+                ok( $($list.get(1)).find('a').text() == "entrées1", "desserts" );
+                ok( $($list.get(2)).find('a').text() == "plats0", "desserts" );
             });
 
-            test( "App renders recipes", function() {
+            test( "App renders recipes (sorted)", function() {
                 // Given
                 App.recipes.tpl = _.template($('#recipes-list-template').text()); // Load template
 
@@ -68,7 +68,7 @@
                 ok( $('#recipes-list li').size() === 2, "Render recipes!" );
             });
 
-            test( "App renders a recipe", function() {
+            test( "App renders a recipe (sorted)", function() {
                 // Given
 
                 // When 
@@ -81,29 +81,31 @@
                 ok( $('#recipe .content a').attr('href') === '#edit-recipe?recipeId=2', "Render recipe update link href!" );
             });
 
-            test( "App renders first recipe (with a next recipe link)", function() {
-                // Given
-
-                // When 
-                App.recipe.render('#recipe', 2, 3);
-
-                // Then 
-                ok( $('#recipe .previous:visible').length === 0, "Render recipe next link!" );
-                ok( $('#recipe .next:visible').attr('href') === "#recipe?categoryId=3&recipeId=3", "Render recipe next link!" );
-            });
-
-            test( "App renders last recipe (with a previous recipe link)", function() {
+            test( "App renders first recipe (sorted, with a next recipe link)", function() {
                 // Given
 
                 // When 
                 App.recipe.render('#recipe', 3, 3);
 
                 // Then 
-                ok( $('#recipe .previous:visible').attr('href') === "#recipe?categoryId=3&recipeId=2", "Render recipe previous link!" );
+                ok( $('#recipe h1').text() === "Baba au rhum", "Render recipe title!" );
+                ok( $('#recipe .previous:visible').length === 0, "Render recipe next link!" );
+                ok( $('#recipe .next:visible').attr('href') === "#recipe?categoryId=3&recipeId=2", "Render recipe next link!" );
+            });
+
+            test( "App renders last recipe (sorted, with a previous recipe link)", function() {
+                // Given
+
+                // When 
+                App.recipe.render('#recipe', 2, 3);
+
+                // Then 
+                ok( $('#recipe h1').text() === "tiramisu", "Render recipe title!" );
+                ok( $('#recipe .previous:visible').attr('href') === "#recipe?categoryId=3&recipeId=3", "Render recipe previous link!" );
                 ok( $('#recipe .next:visible').length === 0, "Render recipe next link!" );
             });
 
-            test( "App render select categories", function() {
+            test( "App render select categories (sorted)", function() {
                 // Given
                 App.categories.selectTpl = _.template($('#categories-select-list-template').text()); // Load template
 
@@ -113,8 +115,8 @@
                 // Then 
                 ok( $('#edit-recipe #select-category option').size() === 3, "Render select categories !" );
                 var firstOption = $($('#edit-recipe #select-category option').get(0));
-                ok( firstOption.val() === '1', "Render select categories : first option value !" );
-                ok( firstOption.text() === 'entrées', "Render select categories : first option text !" );
+                ok( firstOption.val() === '3', "Render select categories : first option value !" );
+                ok( firstOption.text() === 'desserts', "Render select categories : first option text !" );
             });
 
             test( "App renders categories for removal or update", function() {
@@ -127,9 +129,9 @@
                 // Then 
                 var $list = $('ul#categories-edit-list li');
                 ok( $list.size() === 3, "Render categories from json!" );
-                ok( $($list.get(0)).find('a span').text() == 1, "count recipes in categories !" );
-                ok( $($list.get(1)).find('a span').text() == 0, "count recipes in categories !" );
-                ok( $($list.get(2)).find('a span').text() == 2, "count recipes in categories !" );
+                ok( $($list.get(0)).find('a').text() == "desserts2", "desserts" );
+                ok( $($list.get(1)).find('a').text() == "entrées1", "desserts" );
+                ok( $($list.get(2)).find('a').text() == "plats0", "desserts" );
             });
 
         </script>
