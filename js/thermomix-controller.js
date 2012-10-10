@@ -1,6 +1,8 @@
 (function (App, $, undefined) {
     "use strict";
 
+    var converter = Markdown.getSanitizingConverter(); 
+
     // -------------------------- 
     // jQuery mobile parameter plugin
     // -------------------------- 
@@ -101,6 +103,26 @@
         $('#edit-recipe [name=category]').selectmenu('refresh');
         $('#edit-recipe h1.edit')[(edit) ? 'show' : 'hide']();
         $('#edit-recipe h1.new')[(edit) ? 'hide' : 'show']();
+
+        var $textarea = $('#edit-recipe [name=recipe]');
+        var $output = $('#edit-recipe p.output');
+
+        var refresh = function() {
+            $output.html(converter.makeHtml($textarea.val()));
+        }
+
+        refresh(); // At startup
+        $textarea.on('keyup', refresh);
+
+        $('#edit-recipe .insert').click(function() {
+            var t = $textarea.get(0);
+            var v = '!['+$(this).attr('title')+']('+$(this).attr('src')+')';
+            (t.selectionStart !== 0) ?
+                t.value = t.value.substring(0, t.selectionStart) + v + t.value.substring(t.selectionEnd, t.value.length) : 
+                t.value += v;
+            refresh();
+        });
+
     });
 
     // -------------------------- 

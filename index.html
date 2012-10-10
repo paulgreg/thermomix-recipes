@@ -10,6 +10,8 @@
         <link rel="stylesheet"  href="css/themes/default/jquery.mobile-1.2.0-rc.2.css" />
         <link rel="stylesheet"  href="css/thermomix.css" />
         <script src="js/jquery-1.8.2.min.js"></script>
+        <script src="js/Markdown.Converter.js"></script>
+        <script src="js/Markdown.Sanitizer.js"></script>
         <script src="js/jquery.mobile-1.2.0-rc.2.min.js"></script>
         <script src="js/jqm.page.params.js"></script>
         <script src="js/underscore-min.js"></script>
@@ -127,7 +129,43 @@
 
                     <label for="edit-recipe-text-recipe">Recette :</label>
                     <textarea name="recipe" id="edit-recipe-text-recipe"></textarea>
+
+                    <div data-role="collapsible" class="help" data-collapsed-icon="arrow-r" and data-expanded-icon="arrow-d">
+                        <h3>Aide quant à la syntaxe</h3>
+
+                        <h4>Gras</h4>
+                        <pre>**en gras**</pre>
+
+                        <h4>Italique</h4>
+                        <pre>*en italique*, également _de cette façon_</pre>
+
+                        <h4>Listes et sous listes</h4>
+                        <pre>- élément 1<br>- élément 2<br> - sous-élément</pre>
+
+                        <h4>Titre de 1er niveau</h4>
+                        <pre># Titre #</pre>
+                        <p>ou</p>
+                        <pre>Titre<br>=====</pre>
+
+                        <h4>Titre de 2ème niveau</h4>
+                        <pre>## Titre ##</pre>
+                        <p>ou</p>
+                        <pre>Titre<br>-----</pre>
+
+                        <h4>Titre de 3ème niveau</h4>
+                        <pre>### Titre ###</pre>
+
+                        <h4>Lien</h4>
+                        <pre>[Thermomix](http://www.vorwerk.com)</pre>
+
+                        <h4>Image</h4>
+                        <pre>![description](imgs/logo_thermomix.png)</pre>
+                    </div>
+
+                    <label class="output">Rendu :</label>
+                    <p class="output"></p>
                 </form>
+
             </div>
 
             <div data-role="footer" data-position="fixed">        

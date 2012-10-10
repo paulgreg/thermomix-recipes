@@ -1,3 +1,13 @@
 #configuration a.add{ margin-top: 30px; }
 #recipe a.edit { display: none; }
 #recipe .content a.edit { display: block; }
+
+#edit-recipe label.output { display: block; margin-top: 1.5em; }
+#edit-recipe p.output { border: 1px dotted black; margin-top: .25em; min-height: 50px; background-color: #eee; }
+#edit-recipe [name=recipe] { min-height: 300px; }
+#edit-recipe img.insert { cursor: pointer; }
+#edit-recipe .help h4 { margin: .8em 0 .3em 0; }
+#edit-recipe .help pre { border: 1px dashed black; background-color: #FEFEFE; margin: 0; padding: .25em; margin: .25em; }
+#edit-recipe .help p { margin: 0; }
+
+.ui-collapsible-content { padding-top: 0; }

@@ -1,6 +1,8 @@
 (function (App, $, _, undefined) {
     "use strict";
 
+    var converter = Markdown.getSanitizingConverter(); 
+
     var getSortedCategoriesWithCount = function() {
         var sortedCategories = _.sortBy(App.data.categories, function(c) { return c.name; });
         var sortedCategoriesWithCount = _.map(sortedCategories, function(c) { 
@@ -47,7 +49,7 @@
 
         var $placeholder = $(placeholder);
         $placeholder.find('h1').html(recipe.name);
-        $placeholder.find('.content').html(recipe.recipe);
+        $placeholder.find('.content').html(converter.makeHtml(recipe.recipe));
         var $editLink = $placeholder.find('a.edit').clone();
         $editLink.attr('href', $editLink.attr('href') + recipe.id);
         $placeholder.find('.content').append($editLink);
