@@ -1,8 +1,6 @@
 (function (App, $, undefined) {
     "use strict";
 
-    var converter = Markdown.getSanitizingConverter(); 
-
     // -------------------------- 
     // jQuery mobile parameter plugin
     // -------------------------- 
@@ -108,7 +106,7 @@
         var $output = $('#edit-recipe p.output');
 
         var refresh = function() {
-            $output.html(converter.makeHtml($textarea.val()));
+            $output.html(App.converter.makeHtml($textarea.val()));
         }
 
         refresh(); // At startup
@@ -121,6 +119,7 @@
                 t.value = t.value.substring(0, t.selectionStart) + v + t.value.substring(t.selectionEnd, t.value.length) : 
                 t.value += v;
             refresh();
+            return false;
         });
 
     });
