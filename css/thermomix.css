@@ -1,7 +1,7 @@
 #configuration a.add{ margin-top: 30px; }
 #recipe a.edit { display: none; }
 #recipe .content a.edit { display: block; }
-#recipe .content p img { border: 1px solid black; margin: 0 .25em; vertical-align: sub; }
+#recipe .content img { border: 1px solid black; margin: 0 .25em; vertical-align: middle; }
 
 #edit-recipe [name=recipe] { min-height: 300px; }
 #edit-recipe .icons { text-align: center; }
@@ -11,6 +11,6 @@
 #edit-recipe .help p { margin: 0; }
 #edit-recipe label.output { display: block; margin-top: 1.5em; }
 #edit-recipe p.output { border: 1px dotted black; margin-top: .25em; min-height: 50px; background-color: #eee; }
-#edit-recipe p.output img { border: 1px solid black; margin: 0 .25em; vertical-align: sub; }
+#edit-recipe p.output img { border: 1px solid black; margin: 0 .25em; vertical-align: middle; }
 
 .ui-collapsible-content { padding-top: 0; }
