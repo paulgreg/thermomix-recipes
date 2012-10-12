@@ -42,12 +42,16 @@
     // -------------------------- 
     // Edit recipe page
     // -------------------------- 
+    var refreshMarkDown = function() {
+        $('#edit-recipe p.output').html(App.converter.makeHtml($('#edit-recipe [name=recipe]').val()));
+    };
     $('#edit-recipe').live('pagecreate',function(event) {
         App.categories.selectTpl = _.template($('#categories-select-list-template').text());
 
         $('#edit-recipe .cancel').click(function(e) {
             return confirm('Annuler la saisie ?');
         });
+
         $('#edit-recipe .save').click(function(e) {
             var name = $('#edit-recipe [name=name]').val();
             var recipe = $('#edit-recipe [name=recipe]').val();
@@ -78,6 +82,15 @@
             App.saveData();
         });
 
+        $('#edit-recipe .insert').click(function() {
+            var t = $('#edit-recipe [name=recipe]').get(0);
+            var v = '!['+$(this).attr('title')+']('+$(this).attr('src')+')';
+            (t.selectionStart !== 0) ?
+                t.value = t.value.substring(0, t.selectionStart) + v + t.value.substring(t.selectionEnd, t.value.length) : 
+                t.value += v;
+            refreshMarkDown();
+            return false;
+        });
     });
     $('#edit-recipe').live('pagebeforeshow',function(event) {
         App.categories.renderSelect('#edit-recipe [name=category]');
@@ -102,26 +115,8 @@
         $('#edit-recipe h1.edit')[(edit) ? 'show' : 'hide']();
         $('#edit-recipe h1.new')[(edit) ? 'hide' : 'show']();
 
-        var $textarea = $('#edit-recipe [name=recipe]');
-        var $output = $('#edit-recipe p.output');
-
-        var refresh = function() {
-            $output.html(App.converter.makeHtml($textarea.val()));
-        }
-
-        refresh(); // At startup
-        $textarea.on('keyup', refresh);
-
-        $('#edit-recipe .insert').click(function() {
-            var t = $textarea.get(0);
-            var v = '!['+$(this).attr('title')+']('+$(this).attr('src')+')';
-            (t.selectionStart !== 0) ?
-                t.value = t.value.substring(0, t.selectionStart) + v + t.value.substring(t.selectionEnd, t.value.length) : 
-                t.value += v;
-            refresh();
-            return false;
-        });
-
+        refreshMarkDown(); // At startup
+        $('#edit-recipe [name=recipe]').on('keyup', refreshMarkDown);
     });
 
     // -------------------------- 

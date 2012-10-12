@@ -37,12 +37,15 @@
                 ]
             }; 
 
+            module("Initialisation");
 
             test( "App is here", function() {
                 ok( App != undefined, "No app!" );
                 ok( App.categories != undefined, "No App.categories!" );
                 ok( App.recipes != undefined, "No App.recipes!" );
             });
+
+            module("Rendering");
 
             test( "App renders categories (sorted)", function() {
                 // Given
@@ -134,6 +137,40 @@
                 ok( $($list.get(0)).find('a').text() == "desserts2", "desserts" );
                 ok( $($list.get(1)).find('a').text() == "entrées1", "desserts" );
                 ok( $($list.get(2)).find('a').text() == "plats0", "desserts" );
+            });
+
+            module("Markdown editor");
+
+            test( "MarkDown editor renders text", function() {
+                // Given
+                var md = 'some text';
+
+                // When 
+                var html = App.converter.makeHtml(md);
+
+                // Then 
+                ok( html === "<p>some text</p>", "markdown text" );
+            });
+
+            test( "MarkDown editor renders title", function() {
+                // Given
+                var md = '# title #';
+
+                // When 
+                var html = App.converter.makeHtml(md);
+
+                // Then 
+                ok( html === "<h1>title</h1>", "markdown title" );
+            });
+
+            test( "MarkDown editor renders images with absolute path", function() {
+                // Given
+                var md = '![desc](imgs/icon-inverse.png)';
+                // When 
+                var html = App.converter.makeHtml(md);
+
+                // Then 
+                ok( html === '<p><img src="http://localhost/projects/thermomix-recipes/tests/client-tests.htmlimgs/icon-inverse.png" alt="desc" title="" /></p>', 'Markdown convert images');
             });
 
         </script>
