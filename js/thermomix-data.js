@@ -14,7 +14,7 @@
             async: false, // Do not use Ajax since data are mandatory
             success: function onSuccess(data) {
                 App.data = data;
-                window.localStorage.data = App.data; // refresh localStorage
+                window.localStorage.data = JSON.stringify(App.data); // refresh localStorage
             },
             error: function onError(xhr) {
                 console.error('App.loadData', xhr);
