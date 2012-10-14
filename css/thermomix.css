@@ -1,4 +1,7 @@
-#configuration a.add{ margin-top: 30px; }
+.ui-collapsible-content { padding-top: 0; }
+
+.delete { margin-top: 2em; }
+
 #recipe a.edit, #recipe a.delete { display: none; }
 #recipe .content a.edit, #recipe .content a.delete { display: block; }
 #recipe .content img { border: 1px solid black; margin: 0 .25em; vertical-align: middle; }
@@ -13,4 +16,7 @@
 #edit-recipe p.output { border: 1px dotted black; margin-top: .25em; min-height: 50px; background-color: #eee; }
 #edit-recipe p.output img { border: 1px solid black; margin: 0 .25em; vertical-align: middle; }
 
-.ui-collapsible-content { padding-top: 0; }
+#configuration a.add{ margin-top: 30px; }
+
+#edit-category .content .delete { display: none; } 
+

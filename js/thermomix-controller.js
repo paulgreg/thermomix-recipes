@@ -186,11 +186,23 @@
             App.saveData();
         });
 
+        $('#edit-category .delete').click(function(e) {
+            var confirmation = confirm('Supprimer cette catégorie ?');
+            if (confirmation) {
+                var categoryId = parseInt($.mobile.pageData.categoryId, 10);
+                App.data.categories = _.filter(App.data.categories, function(c) {
+                    return c.id !== categoryId;
+                });
+                App.saveData();
+            }
+            return confirmation;
+        });
     });
     $('#edit-category').live('pagebeforeshow',function(event) {
         var edit = $.mobile.pageData !== null;
+        var categoryId = undefined;
         if (edit) {
-            var categoryId = parseInt($.mobile.pageData.categoryId, 10);
+            categoryId = parseInt($.mobile.pageData.categoryId, 10);
             var category = _.find(App.data.categories, function(c) { return c.id === categoryId; });
             $('#edit-category [name=name]').val(category.name);
         } else {
@@ -198,6 +210,15 @@
         }
         $('#edit-category h1.edit')[(edit) ? 'show' : 'hide']();
         $('#edit-category h1.new')[(edit) ? 'hide' : 'show']();
+
+        var showDeleteButton = false;
+        if (categoryId !== undefined) { 
+            var count = _.filter(App.data.recipes, function(r) {
+                return r.categoryId === categoryId;
+            }).length;
+            showDeleteButton = count === 0;
+        }
+        $('#edit-category a.delete')[(showDeleteButton === true) ? 'show' : 'hide']();
     });
 
 }(window.App = window.App || {}, jQuery));
