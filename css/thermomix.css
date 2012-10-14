@@ -1,5 +1,8 @@
 .ui-collapsible-content { padding-top: 0; }
 
+#connection-status { position: fixed; bottom: 60px; right: 5px; z-index: 1001; }
+#connection-status .offline{ display: none; }
+
 .delete { margin-top: 2em; }
 
 #recipe a.edit, #recipe a.delete { display: none; }

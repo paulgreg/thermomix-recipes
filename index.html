@@ -20,14 +20,18 @@
         <script src="js/thermomix-controller.js"></script>
         <script src="js/thermomix-views.js"></script>
     </head> 
-    <body> 
+    <body>
+        <div id="connection-status">
+            <img class="online" src="imgs/connect.png" title="Connecté (application en lecture/écriture)" alt="Connecté" />
+            <img class="offline" src="imgs/disconnect.png" title="Déconnecté (application en lecture seule)" alt="Disconnecté" />
+        </div>
 
         <!-- Homepage / Categories list -->
         <div data-role="page" id="categories">
 
             <div data-role="header">
                 <h1>Mes recettes Thermomix</h1>
-                <a href="#edit-recipe" data-icon="add" class="ui-btn-right">Ajouter une recette</a>
+                <a href="#edit-recipe" data-icon="add" class="ui-btn-right action">Ajouter une recette</a>
             </div>
 
             <div data-role="content">
@@ -57,7 +61,7 @@
 
             <div data-role="header">
                 <h1></h1>
-                <a href="#edit-recipe" data-href="#edit-recipe?categoryId=%categoryId%" data-icon="add" class="ui-btn-right">Ajouter une recette</a>
+                <a href="#edit-recipe" data-href="#edit-recipe?categoryId=%categoryId%" data-icon="add" class="ui-btn-right action">Ajouter une recette</a>
             </div>
 
             <div data-role="content">
@@ -91,8 +95,8 @@
             </div>
 
             <div class="content" data-role="content"></div>
-            <a href="#edit-recipe?recipeId=" data-icon="grid" data-role="button" data-theme="e" class="edit">Modifier cette recette</a>
-            <a href="#recipes?categoryId=" data-icon="delete" data-role="button" data-theme="a" class="delete">Supprimer cette recette</a>
+            <a href="#edit-recipe?recipeId=" data-icon="grid" data-role="button" data-theme="e" class="edit action">Modifier cette recette</a>
+            <a href="#recipes?categoryId=" data-icon="delete" data-role="button" data-theme="a" class="delete action">Supprimer cette recette</a>
 
             <div data-role="footer" data-position="fixed">        
                 <div data-role="navbar">
@@ -112,7 +116,7 @@
                 <a href="#categories" class="cancel" data-icon="delete">Annuler</a>
                 <h1 class="new">Nouvelle recette</h1>
                 <h1 class="edit">Modification d’une recette</h1>
-                <a href="#" data-href="#recipe?categoryId=%categoryId%&recipeId=%recipeId%" class="save" data-icon="check" data-theme="b">Sauvegarder</a>
+                <a href="#" data-href="#recipe?categoryId=%categoryId%&recipeId=%recipeId%" class="save action" data-icon="check" data-theme="b">Sauvegarder</a>
             </div>
 
             <div data-role="content">
@@ -195,7 +199,7 @@
             <div data-role="header">
                 <a href="#categories" class="cancel" data-icon="delete">Annuler</a>
                 <h1>Configuration</h1>
-                <a href="#categories" class="save" data-icon="check" data-theme="b">Sauvegarder</a>
+                <a href="#categories" class="save action" data-icon="check" data-theme="b">Sauvegarder</a>
             </div>
 
             <div data-role="content">
@@ -206,7 +210,7 @@
 
                 <h2>Configuration des catégories :</h2>
                 <ul id="categories-edit-list" data-role="listview" data-theme="c"></ul>
-                <a href="#edit-category" class="add" data-icon="add" data-role="button">Ajouter une catégorie</a>
+                <a href="#edit-category" class="add action" data-icon="add" data-role="button">Ajouter une catégorie</a>
 
                 <script type="text/template" id="categories-edit-list-template">
                     <% _.each(categories, function(category) { %>
@@ -234,14 +238,14 @@
                 <a href="#configuration" class="cancel" data-icon="delete">Annuler</a>
                 <h1 class="new">Nouvelle catégorie</h1>
                 <h1 class="edit">Modification d’une catégorie</h1>
-                <a href="#configuration" class="save" data-icon="check" data-theme="b">Sauvegarder</a>
+                <a href="#configuration" class="save action" data-icon="check" data-theme="b">Sauvegarder</a>
             </div>
 
             <div data-role="content">
                 <form>
                     <label for="edit-category-text-name">Nom :</label>
                     <input type="text" name="name" id="edit-category-text-name" value=""  />
-                    <a href="#configuration" data-icon="delete" data-role="button" data-theme="a" class="delete">Supprimer cette catégorie</a>
+                    <a href="#configuration" data-icon="delete" data-role="button" data-theme="a" class="delete action">Supprimer cette catégorie</a>
                 </form>
             </div>
 
