@@ -124,6 +124,8 @@
                 ok( firstOption.text() === 'desserts', "Render select categories : first option text !" );
             });
 
+            module("Configuration");
+
             test( "App renders categories for removal or update", function() {
                 // Given
                 App.categories.editTpl = _.template($('#categories-edit-list-template').text()); // Load template
@@ -170,7 +172,8 @@
                 var html = App.converter.makeHtml(md);
 
                 // Then 
-                ok( html === '<p><img src="http://localhost/projects/thermomix-recipes/tests/client-tests.htmlimgs/icon-inverse.png" alt="desc" title="" /></p>', 'Markdown convert images');
+                var baseUrl = window.location.protocol + '//' + window.location.host + window.location.pathname;
+                ok( html === '<p><img src="'+baseUrl+'imgs/icon-inverse.png" alt="desc" title="" /></p>', 'Markdown convert images');
             });
 
         </script>
