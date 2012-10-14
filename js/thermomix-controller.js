@@ -37,6 +37,18 @@
     // -------------------------- 
     $('#recipe').live('pagebeforeshow',function(event) {
         App.recipe.render('#recipe', $.mobile.pageData.recipeId, $.mobile.pageData.categoryId);
+
+        $('#recipe .content a.delete').click(function() {
+            var confirmation = confirm('Supprimer cette recette ?');
+            if (confirmation) {
+                var recipeId = parseInt($.mobile.pageData.recipeId, 10);
+                App.data.recipes = _.filter(App.data.recipes, function(r) {
+                    return r.id !== recipeId;
+                });
+                App.saveData();
+            }
+            return confirmation;
+        });
     });
 
     // -------------------------- 

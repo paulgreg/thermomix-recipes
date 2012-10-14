@@ -23,7 +23,7 @@
     App.categories.render = function(placeholder) {
         var categoriesHtml = App.categories.tpl({ 'categories': getSortedCategoriesWithCount() });
         $(placeholder).html(categoriesHtml).listview('refresh');
-    }
+    };
 
     App.categories.renderSelect = function(placeholder) {
         var sortedCategories = _.sortBy(App.data.categories, function(c) { return c.name; });
@@ -53,6 +53,9 @@
         var $editLink = $placeholder.find('a.edit').clone();
         $editLink.attr('href', $editLink.attr('href') + recipe.id);
         $placeholder.find('.content').append($editLink);
+        var $deleteLink = $placeholder.find('a.delete').clone();
+        $deleteLink.attr('href', $deleteLink.attr('href') + categoryId);
+        $placeholder.find('.content').append($deleteLink);
 
         (previousRecipe) ?
             $placeholder.find('.previous')

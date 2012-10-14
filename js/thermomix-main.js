@@ -6,9 +6,10 @@
     App.recipes = {};
     App.recipe = {};
 
-    var baseUrl = window.location.protocol + '//' + window.location.host + window.location.pathname;
 
     App.converter = Markdown.getSanitizingConverter(); 
+
+    var baseUrl = window.location.protocol + '//' + window.location.host + window.location.pathname;
 
     App.converter.hooks.chain("preConversion", function (text) {
         var t = text.replace(/!\[([^\]]*)\]\(([^\)]*)\)/g, function(matcher, desc, img) {
