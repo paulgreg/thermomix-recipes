@@ -5,7 +5,7 @@
         'datastoreUrl': 'datastore.php?n=',
         'cookbook': window.localStorage.cookbook || 'default'
     };
-    App.data = window.localStorage.data || {};
+    App.data = window.localStorage.data !== undefined ? JSON.parse(window.localStorage.data) : {};
 
     var load = function(onSuccess, onError) {
         $.ajax({
@@ -26,7 +26,7 @@
             datatype: 'text',
             success: function onSuccess(data) {
                 console.info('App.saveData', data);
-                window.localStorage.data = App.data; // refresh localStorage
+                window.localStorage.data = JSON.stringify(App.data); // refresh localStorage
             },
             error: function onError(data) {
                 console.error('App.saveData on save', data);
