@@ -20,3 +20,18 @@
 - Concurrency check is very very basic for now (on save, we compare a timestamp between local data and server data and ask user if he want to override all data or not).
 
 CouchDB would address thoses issues but, as I said, I have problem running it on my power-pc server.
+
+## Legal stuff
+
+Code of that application is released under GPLv2 : http://opensource.org/licenses/GPL-2.0
+
+This application uses following OpenSource code or images : 
+- Underscore (http://underscorejs.org/), 
+- jQuery (http://jquery.com/), 
+- jQuery Mobile (http://jquerymobile.com/), 
+- jQuery mobile page param plugin (https://github.com/jblas/jquery-mobile-plugins/tree/master/page-params),
+- qUnit (http://qunitjs.com),
+- PageDown editor (https://code.google.com/p/pagedown/),
+- FamFamFam icons (http://www.famfamfam.com/).
+
+I also used some icons from Thermomix manual and derived the logo for the icon.
