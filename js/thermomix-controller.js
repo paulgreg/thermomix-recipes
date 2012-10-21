@@ -101,6 +101,8 @@
                 t.value = t.value.substring(0, t.selectionStart) + v + t.value.substring(t.selectionEnd, t.value.length) : 
                 t.value += v;
             refreshMarkDown();
+            t.selectionStart += v.length;
+            t.focus();
             return false;
         });
     });
