@@ -55,9 +55,7 @@
     // Edit recipe page
     // -------------------------- 
     var refreshMarkDown = function() {
-        var $recipe = $('#edit-recipe [name=recipe]');
-        $('#edit-recipe p.output').html(App.converter.makeHtml($recipe.val()));
-        $recipe.focus();
+        $('#edit-recipe p.output').html(App.converter.makeHtml($('#edit-recipe [name=recipe]').val()));
     };
     $('#edit-recipe').live('pagecreate',function(event) {
         App.categories.selectTpl = _.template($('#categories-select-list-template').text());
