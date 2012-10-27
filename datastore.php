@@ -1,7 +1,5 @@
 <?php
 
-ob_start("ob_gzhandler");
-
 if (isset($_SERVER) && isset($_SERVER['REQUEST_METHOD'])) {
 
     $ds = new DataStore();
