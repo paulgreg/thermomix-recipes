@@ -31,9 +31,9 @@
                     { id: 3, name: 'desserts' }
                 ],
                 recipes: [
-                    { id: 1, name: 'oeufs brouillés', categoryId: 1, recipe: 'cuire les oeufs' },
+                    { id: 1, name: 'oeufs brouillés', categoryId: 1, recipe: 'cuire les oeufs', lastDone: 1 },
                     { id: 2, name: 'tiramisu', categoryId: 3, recipe: 'Mettre du mascarpone' },
-                    { id: 3, name: 'Baba au rhum', categoryId: 3, recipe: 'Imbiber le baba' }
+                    { id: 3, name: 'Baba au rhum', categoryId: 3, recipe: 'Imbiber le baba', lastDone: 2 }
                 ]
             }; 
 
@@ -71,6 +71,19 @@
 
                 // Then 
                 ok( $('#recipes-list li').size() === 2, "Render recipes!" );
+            });
+
+            test( "App renders recipes (sorted by last done)", function() {
+                // Given
+                App.recipes.tplLastDone = _.template($('#recipes-last-done-list-template').text()); // Load template
+
+                // When 
+                App.recipes.renderByLastDone('#recipes-last-done-list');
+
+                // Then 
+                ok( $('#recipes-last-done-list li').size() === 2, "Render recipes!" );
+                ok( $('#recipes-last-done-list li').first().find('a').attr('href') === '#recipe?categoryId=1&recipeId=1', "First recipe in list is last done!" );
+                ok( $('#recipes-last-done-list li').last().find('a').attr('href') === '#recipe?categoryId=3&recipeId=3', "Last recipe in list is first done!" );
             });
 
             test( "App renders a recipe (sorted)", function() {
@@ -188,6 +201,13 @@
             <script type="text/template" id="recipes-list-template">
                 <% _.each(recipes, function(recipe) { %>
                     <li><a href="#"><%= recipe.name %></a></li>
+                <% }); %>
+            </script>
+        </ul>
+        <ul id="recipes-last-done-list">
+            <script type="text/template" id="recipes-last-done-list-template">
+                <% _.each(recipes, function(recipe) { %>
+                    <li><a href="#recipe?categoryId=<%= recipe.categoryId %>&recipeId=<%= recipe.id %>"><%= recipe.name %></a></li>
                 <% }); %>
             </script>
         </ul>

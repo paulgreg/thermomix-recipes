@@ -3,7 +3,7 @@
 
     var converter = Markdown.getSanitizingConverter(); 
 
-    var getSortedCategoriesWithCount = function() {
+    var getSortedCategoriesWithCount = function(sortBy) {
         var sortedCategories = _.sortBy(App.data.categories, function(c) { return c.name; });
         var sortedCategoriesWithCount = _.map(sortedCategories, function(c) { 
             c.count = _.filter(App.data.recipes, function(r) {
@@ -19,6 +19,12 @@
         var recipesForCategory = _.filter(sortedRecipes, function(r) { return r.categoryId === parseInt(categoryId, 10); });
         return recipesForCategory;
     };
+    
+    var getLastDoneRecipes = function() {
+        var recipesLastDone = _.filter(App.data.recipes, function(r) { return r.lastDone !== undefined; });
+        var sortedRecipes = _.sortBy(recipesLastDone, function(r) { return r.lastDone; });
+        return sortedRecipes;
+    };
 
     App.categories.render = function(placeholder) {
         var categoriesHtml = App.categories.tpl({ 'categories': getSortedCategoriesWithCount() });
@@ -33,29 +39,39 @@
     App.categories.renderEdit = function(placeholder) {
         var categoriesHtml = App.categories.editTpl({ 'categories': getSortedCategoriesWithCount() });
         $(placeholder).html(categoriesHtml).listview('refresh');
-    }
+    };
 
     App.recipes.render = function(placeholder, categoryId) {
         var recipesForCategory = getSortedRecipesForCategories(categoryId);
         var recipesHtml = App.recipes.tpl({ 'recipes': recipesForCategory, 'categoryId': categoryId });
         $(placeholder).html(recipesHtml).listview('refresh');
-    }
-    
+    };
+
+    App.recipes.renderByLastDone = function(placeholder) {
+        var recipesForCategory = getLastDoneRecipes();
+        var recipesHtml = App.recipes.tplLastDone({ 'recipes': recipesForCategory });
+        $(placeholder).html(recipesHtml).listview('refresh');
+    };
+
     App.recipe.render = function(placeholder, recipeId, categoryId) {
-        var recipe = _.find(App.data.recipes, function(r) { return r.id === parseInt(recipeId, 10) });
+        var recipe = _.find(App.data.recipes, function(r) { return r.id === parseInt(recipeId, 10); });
         var recipesForCategory = getSortedRecipesForCategories(categoryId);
         var previousRecipe = getPrevious(recipesForCategory, parseInt(recipeId, 10));
         var nextRecipe = getNext(recipesForCategory, parseInt(recipeId, 10));
 
+        var addLink = function($content, $link, recipeId) {
+            var $el = $link.clone();
+            $el.attr('href', $el.attr('href') + recipeId);
+            $content.append($el);
+        };
+
         var $placeholder = $(placeholder);
+        var $content = $placeholder.find('.content');
         $placeholder.find('h1').html(recipe.name);
-        $placeholder.find('.content').html(App.converter.makeHtml(recipe.recipe));
-        var $editLink = $placeholder.find('a.edit').clone();
-        $editLink.attr('href', $editLink.attr('href') + recipe.id);
-        $placeholder.find('.content').append($editLink);
-        var $deleteLink = $placeholder.find('a.delete').clone();
-        $deleteLink.attr('href', $deleteLink.attr('href') + categoryId);
-        $placeholder.find('.content').append($deleteLink);
+        $content.html(App.converter.makeHtml(recipe.recipe));
+        addLink($content, $placeholder.find('a.done'), recipe.id);
+        addLink($content, $placeholder.find('a.edit'), recipe.id);
+        addLink($content, $placeholder.find('a.delete'), recipe.id);
 
         (previousRecipe) ?
             $placeholder.find('.previous')

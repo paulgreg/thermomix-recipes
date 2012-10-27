@@ -3,10 +3,15 @@
 #connection-status { position: fixed; bottom: 60px; right: 5px; z-index: 1001; }
 #connection-status .offline{ display: none; }
 
+.edit { margin-top: 1em; }
 .delete { margin-top: 2em; }
 
-#recipe a.edit, #recipe a.delete { display: none; }
-#recipe .content a.edit, #recipe .content a.delete { display: block; }
+#recipe a.done, 
+#recipe a.edit, 
+#recipe a.delete { display: none; }
+#recipe .content a.done, 
+#recipe .content a.edit, 
+#recipe .content a.delete { display: block; }
 #recipe .content img { border: 1px solid black; margin: 0 .25em; vertical-align: middle; }
 
 #edit-recipe [name=recipe] { min-height: 300px; }

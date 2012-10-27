@@ -33,15 +33,32 @@
     });
 
     // -------------------------- 
+    // Recipes by last done page
+    // -------------------------- 
+    $('#recipes-last-done').live('pagecreate',function(event) {
+        App.recipes.tplLastDone = _.template($('#recipes-last-done-list-template').text());
+    });
+    $('#recipes-last-done').live('pagebeforeshow',function(event) {
+        App.recipes.renderByLastDone('#recipes-last-done-list');
+    });
+
+    // -------------------------- 
     // Recipe page
     // -------------------------- 
     $('#recipe').live('pagebeforeshow',function(event) {
         App.recipe.render('#recipe', $.mobile.pageData.recipeId, $.mobile.pageData.categoryId);
 
+        var recipeId = parseInt($.mobile.pageData.recipeId, 10);
+
+        $('#recipe .content a.done').click(function() {
+            var currentRecipe = _.find(App.data.recipes, function(c) { return c.id === recipeId; });
+            currentRecipe.lastDone = (new Date()).getTime();
+            App.saveData();
+            return false;
+        });
         $('#recipe .content a.delete').click(function() {
             var confirmation = confirm('Supprimer cette recette ?');
             if (confirmation) {
-                var recipeId = parseInt($.mobile.pageData.recipeId, 10);
                 App.data.recipes = _.filter(App.data.recipes, function(r) {
                     return r.id !== recipeId;
                 });

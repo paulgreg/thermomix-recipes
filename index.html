@@ -51,6 +51,7 @@
                     <ul>
                         <li><a href="#categories" data-role="button" data-icon="home">Accueil</a>
                         <!--li><a href="#stars" data-role="button" data-icon="star">Favoris</a-->
+                        <li><a href="#recipes-last-done" data-role="button" data-icon="info">Suggestions</a>
                         <li><a href="#configuration" data-role="button" data-icon="gear">Configuration</a>
                     </ul>
                 </div>
@@ -80,12 +81,40 @@
                 <div data-role="navbar">
                     <ul>
                         <li><a href="#categories" data-role="button" data-icon="home">Accueil</a>
+                        <li><a href="#recipes-last-done" data-role="button" data-icon="info">Suggestions</a>
                         <li><a href="#configuration" data-role="button" data-icon="gear">Configuration</a>
                     </ul>
                 </div>
             </div>
         </div>
 
+        <!-- Recipes list by last done -->
+        <div data-role="page" id="recipes-last-done">
+
+            <div data-role="header">
+                <h1>Suggestions</h1>
+            </div>
+
+            <div data-role="content">
+                <ul id="recipes-last-done-list" data-role="listview" data-theme="c"></ul>
+
+                <script type="text/template" id="recipes-last-done-list-template">
+                    <% _.each(recipes, function(recipe) { %>
+                        <li><a href="#recipe?categoryId=<%= recipe.categoryId %>&recipeId=<%= recipe.id %>"><%= recipe.name %></a></li>
+                    <% }); %>
+                </script>
+            </div>
+
+            <div data-role="footer" data-position="fixed">        
+                <div data-role="navbar">
+                    <ul>
+                        <li><a href="#categories" data-role="button" data-icon="home">Accueil</a>
+                        <li><a href="#recipes-last-done" data-role="button" data-icon="info">Suggestions</a>
+                        <li><a href="#configuration" data-role="button" data-icon="gear">Configuration</a>
+                    </ul>
+                </div>
+            </div>
+        </div>
 
         <!-- Recipe -->
         <div data-role="page" id="recipe">
@@ -97,6 +126,8 @@
             </div>
 
             <div class="content" data-role="content"></div>
+
+            <a href="#recipe?recipeId=" data-icon="check" data-role="button" data-theme="c" class="done action">Marquer cette recette comme faite</a>
             <a href="#edit-recipe?recipeId=" data-icon="grid" data-role="button" data-theme="e" class="edit action">Modifier cette recette</a>
             <a href="#recipes?categoryId=" data-icon="delete" data-role="button" data-theme="a" class="delete action">Supprimer cette recette</a>
 
@@ -104,6 +135,7 @@
                 <div data-role="navbar">
                     <ul>
                         <li><a href="#categories" data-role="button" data-icon="home">Accueil</a>
+                        <li><a href="#recipes-last-done" data-role="button" data-icon="info">Suggestions</a>
                         <li><a href="#configuration" data-role="button" data-icon="gear">Configuration</a>
                     </ul>
                 </div>
@@ -188,6 +220,7 @@
                 <div data-role="navbar">
                     <ul>
                         <li><a href="#categories" data-role="button" data-icon="home">Accueil</a>
+                        <li><a href="#recipes-last-done" data-role="button" data-icon="info">Suggestions</a>
                         <li><a href="#configuration" data-role="button" data-icon="gear">Configuration</a>
                     </ul>
                 </div>
@@ -226,6 +259,7 @@
                 <div data-role="navbar">
                     <ul>
                         <li><a href="#categories" data-role="button" data-icon="home">Accueil</a>
+                        <li><a href="#recipes-last-done" data-role="button" data-icon="info">Suggestions</a>
                         <li><a href="#configuration" data-role="button" data-icon="gear">Configuration</a>
                     </ul>
                 </div>
@@ -255,6 +289,7 @@
                 <div data-role="navbar">
                     <ul>
                         <li><a href="#categories" data-role="button" data-icon="home">Accueil</a>
+                        <li><a href="#recipes-last-done" data-role="button" data-icon="info">Suggestions</a>
                         <li><a href="#configuration" data-role="button" data-icon="gear">Configuration</a>
                     </ul>
                 </div>
