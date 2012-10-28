@@ -59,10 +59,11 @@
         var previousRecipe = getPrevious(recipesForCategory, parseInt(recipeId, 10));
         var nextRecipe = getNext(recipesForCategory, parseInt(recipeId, 10));
 
-        var addLink = function($content, $link, recipeId) {
+        var addLink = function($content, $link, id) {
             var $el = $link.clone();
-            $el.attr('href', $el.attr('href') + recipeId);
+            $el.attr('href', $el.attr('href') + id);
             $content.append($el);
+            return $el;
         };
 
         var $placeholder = $(placeholder);
@@ -71,7 +72,8 @@
         $content.html(App.converter.makeHtml(recipe.recipe));
         addLink($content, $placeholder.find('a.done'), recipe.id);
         addLink($content, $placeholder.find('a.edit'), recipe.id);
-        addLink($content, $placeholder.find('a.delete'), recipe.id);
+        var $deleteLink = addLink($content, $placeholder.find('a.delete'), recipe.categoryId);
+        $deleteLink.data('recipeId', recipe.id);
 
         (previousRecipe) ?
             $placeholder.find('.previous')

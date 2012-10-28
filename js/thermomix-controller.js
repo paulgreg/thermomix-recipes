@@ -48,15 +48,16 @@
     $('#recipe').live('pagebeforeshow',function(event) {
         App.recipe.render('#recipe', $.mobile.pageData.recipeId, $.mobile.pageData.categoryId);
 
-        var recipeId = parseInt($.mobile.pageData.recipeId, 10);
-
-        $('#recipe .content a.done').click(function() {
+        $('#recipe .content a.done').live('click', function() {
+            var recipeId = parseInt($(this).attr('href').match(/recipeId=(\d*)/)[1], 10);
             var currentRecipe = _.find(App.data.recipes, function(c) { return c.id === recipeId; });
             currentRecipe.lastDone = (new Date()).getTime();
             App.saveData();
             return false;
         });
-        $('#recipe .content a.delete').click(function() {
+        $('#recipe .content a.delete').live('click', function() {
+            var recipeId = $(this).data('recipeId');
+            var currentRecipe = _.find(App.data.recipes, function(c) { return c.id === recipeId; });
             var confirmation = confirm('Supprimer cette recette ?');
             if (confirmation) {
                 App.data.recipes = _.filter(App.data.recipes, function(r) {
