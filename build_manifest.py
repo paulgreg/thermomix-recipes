@@ -38,16 +38,13 @@ def produce_manifest_entries(dir):
 
 if __name__ == '__main__':
 
-  if os.getcwd().rfind('/scripts') != -1:
-    os.chdir('../')
-
   f = open(MANIFEST, 'w')
   f.write('CACHE MANIFEST\n')
 
   # Update manifest's version timestamp on every run to force the cache update.
   f.write('#%s\n\n' % str(datetime.datetime.now()))
   f.write('index.html\n')
-  for d in ['imgs', 'css', 'js']:
+  for d in ['js', 'css', 'css/themes/default/images', 'imgs']:
     f.writelines(produce_manifest_entries(d))
   f.write('\nNETWORK:\n*\n')
 
