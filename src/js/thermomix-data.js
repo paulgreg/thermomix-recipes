@@ -43,7 +43,7 @@
             console.error('App.loadData', xhr);
             if (xhr.status === 404) {
                 // Cookbook doesn’t exist, try to create one 
-                App.data = {categories: [{id:1,name:"default"}], recipes: [], lastSave: (new Date()).getTime() };
+                App.data = {"categories": [{"id":1,"name":"default"}], "recipes": [], "lastSave": (new Date()).getTime() };
                 save();
             }
         });
