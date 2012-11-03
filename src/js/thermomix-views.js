@@ -77,6 +77,7 @@
 
         (previousRecipe) ?
             $placeholder.find('.previous')
+                .unbind('click')
                 .attr('href', '#recipe?categoryId='+categoryId+'&recipeId='+previousRecipe.id)
                 .click(_.bind(App.recipe.render, this, placeholder, previousRecipe.id, categoryId))
                 .show() :
@@ -84,6 +85,7 @@
 
         (nextRecipe) ?
             $placeholder.find('.next')
+                .unbind('click')
                 .attr('href', '#recipe?categoryId='+categoryId+'&recipeId='+nextRecipe.id)
                 .click(_.bind(App.recipe.render, this, placeholder, nextRecipe.id, categoryId))
                 .show() :
@@ -105,6 +107,6 @@
             }
         }
         return -1;
-    }
+    };
 
 }(window.App = window.App || {}, jQuery, _));
