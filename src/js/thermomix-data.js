@@ -1,5 +1,13 @@
 (function (App, $, undefined) {
     "use strict";
+
+    { // if ?cookbook=name is set, load that cookbook
+        var g = /[^?]*cookbook=([a-zA-Z0-9]*)/.exec(window.location.search);
+        if (g != undefined && g.length === 2) {
+            window.localStorage.cookbook = g[1];
+            window.location.search = ''; // Cleanup the querystring to avoid side effects ; that will also reload the page
+        }
+    }
     
     App.configuration = {
         'datastoreUrl': 'datastore.php?n=',
