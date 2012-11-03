@@ -15,22 +15,27 @@ You’ll need PHP5 on the server to run the app.
 
 Run "rake".
 
-The build process copy files, concat and minify JavaScript, appends git last commit hash to html file and generate the appcache.manifest for offline use.
+The build process :
+
+- copies files,
+- concats and minifies JavaScript,
+- appends git last commit hash to html file
+- generates the appcache.manifest for offline use.
 
 ### Prerequisites
 
-To build the application, you’ll need rake and grunt (which uses nodejs).
-For developpement, you’ll need to active Apache’s rewrite mod (see src/.htaccess file).
+To build the application, you’ll need rake and grunt (which depends on nodejs).
+For developpement, you’ll need to activate Apache’s rewrite mod (see src/.htaccess file).
 
 ## Installation
 
-1. Copy files on the server,
+1. Once the build process ran, Copy all "dist" files on the server,
 2. set write attributes to the data folder for the web server’s user.
 
 ## Know issues
 
 - Application labels and messages are written in french.
-- For now, all data (meaning all categories and all recipes) are sent on the server on each save (yeah I know, not really bandwith efficient for now).
+- For now, all data (meaning all categories and all recipes) are sent on the server on each save (yeah I know, not really bandwith efficient).
 - Concurrency check is very very basic for now (on save, we compare a timestamp between local data and server data and ask user if he want to override all data or not).
 
 ## Legal stuff
