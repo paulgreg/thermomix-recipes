@@ -144,8 +144,7 @@
             $('#edit-recipe [name=recipe]').val("");
         }
         $('#edit-recipe [name=category]').selectmenu('refresh');
-        $('#edit-recipe h1.edit')[(edit) ? 'show' : 'hide']();
-        $('#edit-recipe h1.new')[(edit) ? 'hide' : 'show']();
+        $('#edit-recipe h1').text(edit ? 'Modification d’une recette' : 'Nouvelle recette');
 
         refreshMarkDown(); // At startup
         $('#edit-recipe [name=recipe]').on('keyup', refreshMarkDown);
