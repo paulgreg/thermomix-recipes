@@ -1,6 +1,6 @@
 <?php
 define('__ROOT__', dirname(dirname(__FILE__)));
-require_once(__ROOT__."/datastore.php");
+require_once(__ROOT__."/src/datastore.php");
 
 class DataStoreTest extends PHPUnit_Framework_TestCase {
 
