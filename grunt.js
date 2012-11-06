@@ -19,7 +19,7 @@ module.exports = function(grunt) {
     },
     concat: {
       dist: {
-        src: ['<banner:meta.banner>', 'src/js/jquery-1.8.2.min.js', 'src/js/jquery.mobile-1.2.0-rc.2.min.js', 'src/js/jqm.page.params.js', 'src/js/Markdown.Converter.js', 'src/js/Markdown.Sanitizer.js', 'src/js/underscore-min.js', 'src/js/thermomix-main.js', 'src/js/thermomix-data.js', 'src/js/thermomix-controller.js', 'src/js/thermomix-views.js' ],
+        src: ['<banner:meta.banner>', 'src/js/jquery-1.8.2.min.js', 'src/js/jquery.mobile-1.2.0.min.js', 'src/js/jqm.page.params.js', 'src/js/Markdown.Converter.js', 'src/js/Markdown.Sanitizer.js', 'src/js/underscore-min.js', 'src/js/thermomix-main.js', 'src/js/thermomix-data.js', 'src/js/thermomix-controller.js', 'src/js/thermomix-views.js' ],
         dest: 'dist/js/thermomix-recipes.js'
       }
     },

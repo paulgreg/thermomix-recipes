@@ -24,7 +24,6 @@ task :default do
   system "grunt concat min"
 
   puts "Removing non minified css/js files"
-  FileUtils.rm "#{BUILD_DIR}/css/themes/default/jquery.mobile-1.2.0-rc.2.css"
   FileUtils.rm "#{BUILD_DIR}/js/thermomix-recipes.js"
 
   puts "Generate manifest"
