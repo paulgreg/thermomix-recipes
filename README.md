@@ -7,6 +7,10 @@
 - You can switch between cookbooks, which are stored on separated files on the server.
 - Application should work on offline mode, in a read only mode.
 
+### Demo
+
+Here’s a demo version of the application : http://thermomix.recipes.free.fr
+
 ### Prerequisites
 
 You’ll need PHP5 on the server to run the app.
