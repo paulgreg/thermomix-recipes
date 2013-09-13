@@ -22,7 +22,7 @@ __author__ = 'ericbidelman@chromium.org (Eric Bidelman)'
 import os
 import datetime
 
-MANIFEST = 'cache.appcache'
+MANIFEST = 'cache.manifest'
 
 def produce_manifest_entries(dir):
   files = os.walk(dir)
