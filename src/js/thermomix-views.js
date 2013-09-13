@@ -87,21 +87,25 @@
         var $deleteLink = addLink($content, $placeholder.find('a.delete'), recipe.categoryId);
         $deleteLink.data('recipeId', recipe.id);
 
-        (previousRecipe) ?
+        if (previousRecipe) {
             $placeholder.find('.previous')
                 .unbind('click')
                 .attr('href', '#recipe?categoryId='+categoryId+'&recipeId='+previousRecipe.id)
                 .click(_.bind(App.recipe.render, this, placeholder, previousRecipe.id, categoryId))
-                .show() :
+                .show();
+        } else {
             $placeholder.find('.previous').unbind('click').hide();
+        }
 
-        (nextRecipe) ?
+        if (nextRecipe) {
             $placeholder.find('.next')
                 .unbind('click')
                 .attr('href', '#recipe?categoryId='+categoryId+'&recipeId='+nextRecipe.id)
                 .click(_.bind(App.recipe.render, this, placeholder, nextRecipe.id, categoryId))
-                .show() :
+                .show();
+        } else {
             $placeholder.find('.next').unbind('click').hide();
+        }
     };
 
     var getPrevious = function(elements, id) {

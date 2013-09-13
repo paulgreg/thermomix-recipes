@@ -3,7 +3,7 @@
 
     { // if ?cookbook=name is set, load that cookbook
         var g = /[^?]*cookbook=([a-zA-Z0-9]*)/.exec(window.location.search);
-        if (g != undefined && g.length === 2) {
+        if (g && g.length === 2) {
             window.localStorage.cookbook = g[1];
             window.location.search = ''; // Cleanup the querystring to avoid side effects ; that will also reload the page
         }
@@ -59,7 +59,7 @@
 
     App.saveData = function() {
         load(function onSuccess(dataOnServer) {
-            var shouldSave = undefined;
+            var shouldSave;
             // Basic timestamp check to avoid overiding data
             if (dataOnServer.lastSave === undefined || parseInt(dataOnServer.lastSave, 10) === App.data.lastSave) { 
                 shouldSave = true;
@@ -83,7 +83,9 @@
     };
 
     // Load data at startup if browser is connected
-    if (navigator.onLine && window.ThermomixRecipesUnderTest !== true) App.loadData();
+    if (navigator.onLine && window.ThermomixRecipesUnderTest !== true) {
+        App.loadData();
+    }
 
 }(window.App= window.App || {}, jQuery));
 

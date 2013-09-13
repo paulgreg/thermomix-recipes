@@ -36,7 +36,9 @@
                 alert('La connection semble avoir été retrouvé, veuillez rafraîchir la page pour pouvoir à nouveau ajouter, modifier ou supprimer des recettes ou catégories.');
             }, false);
 
-            if (!navigator.onLine) setReadOnly();
+            if (!navigator.onLine) {
+                setReadOnly();
+            }
         });
     }
 

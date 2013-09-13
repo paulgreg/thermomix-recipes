@@ -26,7 +26,7 @@
     });
     $('#recipes').live('pagebeforeshow',function(event) {
         App.recipes.render('#recipes-list', $.mobile.pageData.categoryId);
-        var category = _.find(App.data.categories, function(c) { return c.id === parseInt($.mobile.pageData.categoryId, 10) });
+        var category = _.find(App.data.categories, function(c) { return c.id === parseInt($.mobile.pageData.categoryId, 10); });
         $('#recipes h1').html(category.name);
         var $addLink = $('#recipes a[data-icon=add]');
         $addLink.attr('href', $addLink.data('href').replace('%categoryId%', category.id));
@@ -129,9 +129,11 @@
         $('#edit-recipe .insert').click(function() {
             var t = $('#edit-recipe [name=recipe]').get(0);
             var v = '!['+$(this).attr('title')+']('+$(this).attr('src')+')';
-            (t.selectionStart !== 0) ?
-                t.value = t.value.substring(0, t.selectionStart) + v + t.value.substring(t.selectionEnd, t.value.length) : 
+            if (t.selectionStart !== 0) {
+                t.value = t.value.substring(0, t.selectionStart) + v + t.value.substring(t.selectionEnd, t.value.length);
+            } else {
                 t.value += v;
+            }
             refreshMarkDown();
             t.selectionStart += v.length;
             t.focus();
@@ -233,7 +235,7 @@
     });
     $('#edit-category').live('pagebeforeshow',function(event) {
         var edit = $.mobile.pageData !== null;
-        var categoryId = undefined;
+        var categoryId;
         if (edit) {
             categoryId = parseInt($.mobile.pageData.categoryId, 10);
             var category = _.find(App.data.categories, function(c) { return c.id === categoryId; });
