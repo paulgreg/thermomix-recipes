@@ -43,6 +43,20 @@
     });
 
     // -------------------------- 
+    // Search
+    // -------------------------- 
+    $('#search').live('pagecreate',function(event) {
+        App.recipes.tplSearch = _.template($('#recipes-results-template').text());
+    });
+    $('#search').live('pagebeforeshow',function(event) {
+
+        $('#search input').live('keyup', function(e) {
+            var $input = $(this);
+            App.recipes.renderSearch('#recipes-results', $input.val());
+        });
+    });
+
+    // -------------------------- 
     // Recipe page
     // -------------------------- 
     $('#recipe').live('pagebeforeshow',function(event) {

@@ -233,5 +233,12 @@
                 <% }); %>
             </script>
         </ul>
+        <ul id="recipes-results"></ul>
+            <script type="text/template" id="recipes-results-template">
+                <% _.each(recipes, function(recipe) { %>
+                    <li><a href="#recipe?categoryId=<%= recipe.categoryId %>&recipeId=<%= recipe.id %>"><%= recipe.name %></a></li>
+                <% }); %>
+            </script>
+        </ul>
     </body>
 </html>

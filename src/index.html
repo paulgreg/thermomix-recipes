@@ -41,7 +41,7 @@
                 <div data-role="navbar">
                     <ul>
                         <li><a href="#categories" data-role="button" data-icon="home">Accueil</a>
-                        <!--li><a href="#stars" data-role="button" data-icon="star">Favoris</a-->
+                        <li><a href="#search" data-role="button" data-icon="search">Chercher</a>
                         <li><a href="#recipes-last-done" data-role="button" data-icon="info">Suggestions</a>
                         <li><a href="#configuration" data-role="button" data-icon="gear">Configuration</a>
                     </ul>
@@ -72,6 +72,7 @@
                 <div data-role="navbar">
                     <ul>
                         <li><a href="#categories" data-role="button" data-icon="home">Accueil</a>
+                        <li><a href="#search" data-role="button" data-icon="search">Chercher</a>
                         <li><a href="#recipes-last-done" data-role="button" data-icon="info">Suggestions</a>
                         <li><a href="#configuration" data-role="button" data-icon="gear">Configuration</a>
                     </ul>
@@ -100,6 +101,39 @@
                 <div data-role="navbar">
                     <ul>
                         <li><a href="#categories" data-role="button" data-icon="home">Accueil</a>
+                        <li><a href="#search" data-role="button" data-icon="search">Chercher</a>
+                        <li><a href="#recipes-last-done" data-role="button" data-icon="info">Suggestions</a>
+                        <li><a href="#configuration" data-role="button" data-icon="gear">Configuration</a>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- Search-->
+        <div data-role="page" id="search">
+
+            <div data-role="header">
+                <h1>Chercher</h1>
+            </div>
+
+            <div data-role="content">
+
+                <input type="search" data-theme="c" data-mini="true" />
+                <ul id="recipes-results" data-role="listview" data-theme="c"></ul>
+
+                <script type="text/template" id="recipes-results-template">
+                    <% _.each(recipes, function(recipe) { %>
+                        <li><a href="#recipe?categoryId=<%= recipe.categoryId %>&recipeId=<%= recipe.id %>"><%= recipe.name %></a></li>
+                    <% }); %>
+                </script>
+            </div>
+
+            <div data-role="footer" data-position="fixed">        
+                <div data-role="navbar">
+                    <ul>
+                        <li><a href="#categories" data-role="button" data-icon="home">Accueil</a>
+                        <li><a href="#search" data-role="button" data-icon="search">Chercher</a>
                         <li><a href="#recipes-last-done" data-role="button" data-icon="info">Suggestions</a>
                         <li><a href="#configuration" data-role="button" data-icon="gear">Configuration</a>
                     </ul>
@@ -126,6 +160,7 @@
                 <div data-role="navbar">
                     <ul>
                         <li><a href="#categories" data-role="button" data-icon="home">Accueil</a>
+                        <li><a href="#search" data-role="button" data-icon="search">Chercher</a>
                         <li><a href="#recipes-last-done" data-role="button" data-icon="info">Suggestions</a>
                         <li><a href="#configuration" data-role="button" data-icon="gear">Configuration</a>
                     </ul>
@@ -210,6 +245,7 @@
                 <div data-role="navbar">
                     <ul>
                         <li><a href="#categories" data-role="button" data-icon="home">Accueil</a>
+                        <li><a href="#search" data-role="button" data-icon="search">Chercher</a>
                         <li><a href="#recipes-last-done" data-role="button" data-icon="info">Suggestions</a>
                         <li><a href="#configuration" data-role="button" data-icon="gear">Configuration</a>
                     </ul>
@@ -249,6 +285,7 @@
                 <div data-role="navbar">
                     <ul>
                         <li><a href="#categories" data-role="button" data-icon="home">Accueil</a>
+                        <li><a href="#search" data-role="button" data-icon="search">Chercher</a>
                         <li><a href="#recipes-last-done" data-role="button" data-icon="info">Suggestions</a>
                         <li><a href="#configuration" data-role="button" data-icon="gear">Configuration</a>
                     </ul>
@@ -279,6 +316,7 @@
                 <div data-role="navbar">
                     <ul>
                         <li><a href="#categories" data-role="button" data-icon="home">Accueil</a>
+                        <li><a href="#search" data-role="button" data-icon="search">Chercher</a>
                         <li><a href="#recipes-last-done" data-role="button" data-icon="info">Suggestions</a>
                         <li><a href="#configuration" data-role="button" data-icon="gear">Configuration</a>
                     </ul>

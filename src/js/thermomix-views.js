@@ -26,6 +26,12 @@
         return sortedRecipes;
     };
 
+    var getRecipesForThatTerm = function(term) {
+        var recipesResults = _.filter(App.data.recipes, function(r) { return r.name.toLowerCase().indexOf(term.toLowerCase()) !== -1; });
+        var sortedRecipes = _.sortBy(recipesResults, function(r) { return r.name; });
+        return sortedRecipes;
+    };
+
     App.categories.render = function(placeholder) {
         var categoriesHtml = App.categories.tpl({ 'categories': getSortedCategoriesWithCount() });
         $(placeholder).html(categoriesHtml).listview('refresh');
@@ -50,6 +56,12 @@
     App.recipes.renderByLastDone = function(placeholder) {
         var recipesForCategory = getLastDoneRecipes();
         var recipesHtml = App.recipes.tplLastDone({ 'recipes': recipesForCategory });
+        $(placeholder).html(recipesHtml).listview('refresh');
+    };
+
+    App.recipes.renderSearch = function(placeholder, term) {
+        var recipesResults = (term.length > 3) ? getRecipesForThatTerm(term) : [];
+        var recipesHtml = App.recipes.tplSearch({ 'recipes': recipesResults });
         $(placeholder).html(recipesHtml).listview('refresh');
     };
 
