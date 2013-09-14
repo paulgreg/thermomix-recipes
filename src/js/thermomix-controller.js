@@ -49,11 +49,13 @@
         App.recipes.tplSearch = _.template($('#recipes-results-template').text());
     });
     $('#search').live('pagebeforeshow',function(event) {
-
-        $('#search input').focus().live('keyup', function(e) {
+        $('#search input').live('keyup', function(e) {
             var $input = $(this);
             App.recipes.renderSearch('#recipes-results', $input.val(), '#search .noresult');
         });
+    });
+    $('#search').live('pageshow',function(event) {
+        $('#search input').focus();
     });
 
     // -------------------------- 
