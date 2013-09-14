@@ -59,10 +59,12 @@
         $(placeholder).html(recipesHtml).listview('refresh');
     };
 
-    App.recipes.renderSearch = function(placeholder, term) {
-        var recipesResults = (term.length > 3) ? getRecipesForThatTerm(term) : [];
+    App.recipes.renderSearch = function(placeholder, term, noresult) {
+        var tooshort = (term.length < 4);
+        var recipesResults = tooshort ? [] : getRecipesForThatTerm(term);
         var recipesHtml = App.recipes.tplSearch({ 'recipes': recipesResults });
         $(placeholder).html(recipesHtml).listview('refresh');
+        $(noresult)[tooshort ? 'show' : 'hide']();
     };
 
     App.recipe.render = function(placeholder, recipeId, categoryId) {

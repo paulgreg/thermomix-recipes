@@ -50,9 +50,9 @@
     });
     $('#search').live('pagebeforeshow',function(event) {
 
-        $('#search input').live('keyup', function(e) {
+        $('#search input').focus().live('keyup', function(e) {
             var $input = $(this);
-            App.recipes.renderSearch('#recipes-results', $input.val());
+            App.recipes.renderSearch('#recipes-results', $input.val(), '#search .noresult');
         });
     });
 
