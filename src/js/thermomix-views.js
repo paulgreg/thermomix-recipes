@@ -22,7 +22,7 @@
     
     var getLastDoneRecipes = function() {
         var recipesLastDone = _.filter(App.data.recipes, function(r) { return r.lastDone !== undefined; });
-        var sortedRecipes = _.sortBy(recipesLastDone, function(r) { return r.lastDone; });
+        var sortedRecipes = _.shuffle(recipesLastDone);
         return sortedRecipes;
     };
 
