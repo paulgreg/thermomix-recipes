@@ -22,18 +22,25 @@
     { // Block edit/save/delete when offline
         $(function() {
             var $connectionStatus = $('#connection-status');
+            var online = true;
             var setReadOnly = function() {
-                $connectionStatus.find('.online').hide();
-                $connectionStatus.find('.offline').show();
-                $('a.action').each(function(i, a) {
-                    $(a).hide();
-                });
-                alert('La connection semble avoir été perdue. Seule la consultation est possible.');
+                if (online) {
+                    online = false;
+                    $connectionStatus.find('.online').hide();
+                    $connectionStatus.find('.offline').show();
+                    $('a.action').each(function(i, a) {
+                        $(a).hide();
+                    });
+                    alert(document.webL10n.get('error-connection-lost'));
+                }
             };
 
             window.addEventListener("offline", setReadOnly, false);
             window.addEventListener("online", function() {
-                alert('La connection semble avoir été retrouvé, veuillez rafraîchir la page pour pouvoir à nouveau ajouter, modifier ou supprimer des recettes ou catégories.');
+                if (!online) {
+                    online = true;
+                    alert(document.webL10n.get('error-connection-back'));
+                }
             }, false);
 
             if (!navigator.onLine) {

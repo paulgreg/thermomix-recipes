@@ -44,7 +44,7 @@ if __name__ == '__main__':
   # Update manifest's version timestamp on every run to force the cache update.
   f.write('#%s\n\n' % str(datetime.datetime.now()))
   f.write('index.html\n')
-  for d in ['js', 'css', 'css/themes/default/images', 'imgs']:
+  for d in ['js', 'css', 'css/themes/default/images', 'imgs', 'ini']:
     f.writelines(produce_manifest_entries(d))
   f.write('\nNETWORK:\n*\n')
 

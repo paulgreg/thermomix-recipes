@@ -74,7 +74,7 @@
         $('#recipe .content a.delete').live('click', function() {
             var recipeId = $(this).data('recipeId');
             var currentRecipe = _.find(App.data.recipes, function(c) { return c.id === recipeId; });
-            var confirmation = confirm('Supprimer cette recette ?');
+            var confirmation = confirm(document.webL10n.get('delete-recipe-question'));
             if (confirmation) {
                 App.data.recipes = _.filter(App.data.recipes, function(r) {
                     return r.id !== recipeId;
@@ -95,14 +95,14 @@
         App.categories.selectTpl = _.template($('#categories-select-list-template').text());
 
         $('#edit-recipe .cancel').click(function(e) {
-            return confirm('Annuler la saisie ?');
+            return confirm(document.webL10n.get('cancel-question'));
         });
 
         $('#edit-recipe .save').click(function(e) {
             var name = $('#edit-recipe [name=name]').val();
             var recipe = $('#edit-recipe [name=recipe]').val();
             if (name === "" || recipe === "") {
-                alert('Veuillez renseigner le nom ou la description.');
+                alert(document.webL10n.get('missing-name-or-description'));
                 return false;
             }
 
@@ -162,7 +162,8 @@
             $('#edit-recipe [name=recipe]').val("");
         }
         $('#edit-recipe [name=category]').selectmenu('refresh');
-        $('#edit-recipe h1').text(edit ? 'Modification d’une recette' : 'Nouvelle recette');
+        $('#edit-recipe h1.edit')[(edit) ? 'show' : 'hide']();
+        $('#edit-recipe h1.new')[(edit) ? 'hide' : 'show']();
 
         refreshMarkDown(); // At startup
         $('#edit-recipe [name=recipe]').on('keyup', refreshMarkDown);
@@ -176,12 +177,12 @@
         App.categories.editTpl = _.template($('#categories-edit-list-template').text());
 
         $('#configuration .cancel').click(function(e) {
-            return confirm('Annuler ?');
+            return confirm(document.webL10n.get('cancel-question'));
         });
         $('#configuration .save').click(function(e) {
             var cookbook = $('#configuration-cookbook').val();
             if (cookbook === "") {
-                alert('Veuillez renseigner le nom du livre de recette.');
+                alert(document.webL10n.get('missing-cookbook'));
                 return false;
             }
             if (cookbook !== App.configuration.cookbook) {
@@ -199,12 +200,12 @@
     // -------------------------- 
     $('#edit-category').live('pagecreate',function(event) {
         $('#edit-category .cancel').click(function(e) {
-            return confirm('Annuler la saisie ?');
+            return confirm(document.webL10n.get('cancel-question'));
         });
         $('#edit-category .save').click(function(e) {
             var name = $('#edit-category [name=name]').val();
             if (name === "") {
-                alert('Veuillez renseigner le nom.');
+                alert(document.webL10n.get('missing-name'));
                 return false;
             }
 
@@ -224,7 +225,7 @@
         });
 
         $('#edit-category .delete').click(function(e) {
-            var confirmation = confirm('Supprimer cette catégorie ?');
+            var confirmation = confirm(document.webL10n.get('delete-category-question'));
             if (confirmation) {
                 var categoryId = parseInt($.mobile.pageData.categoryId, 10);
                 App.data.categories = _.filter(App.data.categories, function(c) {

@@ -26,6 +26,9 @@ task :default do
   puts "Removing non minified css/js files"
   FileUtils.rm "#{BUILD_DIR}/js/thermomix-recipes.js"
 
+  puts "Copying l10n resource"
+  FileUtils.cp "#{SOURCE_DIR}/js/l10n.ini", "#{BUILD_DIR}/js"
+
   puts "Generate manifest"
   system "(cd dist && ../build_manifest.py)"
 

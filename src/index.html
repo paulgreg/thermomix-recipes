@@ -5,26 +5,27 @@
         <meta name="robots" content="noindex, nofollow"/>
         <meta name="author" content="Gr&eacute;gory Paul"/>
         <link rel="icon" type="image/png" href="imgs/favicon.ico" />
-        <title>Mes recettes Thermomix</title> 
+        <title data-l10n-id="maintitle">Mes recettes Thermomix</title> 
         <meta name="viewport" content="width=device-width, initial-scale=1"> 
         <link rel="stylesheet"  href="css/jquery.mobile-1.2.0.min.css" />
         <link rel="stylesheet"  href="css/thermomix.css" />
         <link rel="apple-touch-icon" href="imgs/logo.png" />
         <link rel="apple-touch-icon" sizes="72x72" href="imgs/logo.png" />
         <script src="js/thermomix-recipes.min.js"></script>
+        <link rel="prefetch" type="application/l10n" href="js/l10n.ini" />
     </head> 
     <body>
         <div id="connection-status">
-            <img class="online" src="imgs/connect.png" title="Connecté (application en lecture/écriture)" alt="Connecté" />
-            <img class="offline" src="imgs/disconnect.png" title="Déconnecté (application en lecture seule)" alt="Disconnecté" />
+            <img data-l10n-id="online" class="online" src="imgs/connect.png" title="Connecté (application en lecture/écriture)" alt="Connecté" />
+            <img data-l10n-id="offline"class="offline" src="imgs/disconnect.png" title="Déconnecté (application en lecture seule)" alt="Disconnecté" />
         </div>
 
         <!-- Homepage / Categories list -->
         <div data-role="page" id="categories">
 
             <div data-role="header">
-                <h1>Mes recettes Thermomix</h1>
-                <a href="#edit-recipe" data-icon="add" class="ui-btn-right action">Ajouter une recette</a>
+                <h1 data-l10n-id="maintitle">Mes recettes Thermomix</h1>
+                <a href="#edit-recipe" data-icon="add" class="ui-btn-right action"><span data-l10n-id="add-recipe">Ajouter une recette</span></a>
             </div>
 
             <div data-role="content">
@@ -40,10 +41,10 @@
             <div data-role="footer" data-position="fixed">        
                 <div data-role="navbar">
                     <ul>
-                        <li><a href="#categories" data-role="button" data-icon="home">Accueil</a>
-                        <li><a href="#search" data-role="button" data-icon="search">Chercher</a>
-                        <li><a href="#recipes-last-done" data-role="button" data-icon="info">Suggestions</a>
-                        <li><a href="#configuration" data-role="button" data-icon="gear">Configuration</a>
+                        <li><a href="#categories" data-role="button" data-icon="home"><span data-l10n-id="home">Accueil</span></a>
+                        <li><a href="#search" data-role="button" data-icon="search"><span data-l10n-id="search">Chercher</span></a>
+                        <li><a href="#recipes-last-done" data-role="button" data-icon="info"><span data-l10n-id="suggestion">Suggestions</span></a>
+                        <li><a href="#configuration" data-role="button" data-icon="gear"><span data-l10n-id="configuration">Configuration</span></a>
                     </ul>
                 </div>
             </div>
@@ -55,7 +56,7 @@
 
             <div data-role="header">
                 <h1></h1>
-                <a href="#edit-recipe" data-href="#edit-recipe?categoryId=%categoryId%" data-icon="add" class="ui-btn-right action">Ajouter une recette</a>
+                <a href="#edit-recipe" data-href="#edit-recipe?categoryId=%categoryId%" data-icon="add" class="ui-btn-right action"><span data-l10n-id="add-recipe">Ajouter une recette</span></a>
             </div>
 
             <div data-role="content">
@@ -71,10 +72,10 @@
             <div data-role="footer" data-position="fixed">        
                 <div data-role="navbar">
                     <ul>
-                        <li><a href="#categories" data-role="button" data-icon="home">Accueil</a>
-                        <li><a href="#search" data-role="button" data-icon="search">Chercher</a>
-                        <li><a href="#recipes-last-done" data-role="button" data-icon="info">Suggestions</a>
-                        <li><a href="#configuration" data-role="button" data-icon="gear">Configuration</a>
+                        <li><a href="#categories" data-role="button" data-icon="home"><span data-l10n-id="home">Accueil</span></a>
+                        <li><a href="#search" data-role="button" data-icon="search"><span data-l10n-id="search">Chercher</span></a>
+                        <li><a href="#recipes-last-done" data-role="button" data-icon="info"><span data-l10n-id="suggestion">Suggestions</span></a>
+                        <li><a href="#configuration" data-role="button" data-icon="gear"><span data-l10n-id="configuration">Configuration</span></a>
                     </ul>
                 </div>
             </div>
@@ -84,7 +85,7 @@
         <div data-role="page" id="recipes-last-done">
 
             <div data-role="header">
-                <h1>Suggestions</h1>
+                <h1 data-l10n-id="suggestion">Suggestions</h1>
             </div>
 
             <div data-role="content">
@@ -100,10 +101,10 @@
             <div data-role="footer" data-position="fixed">        
                 <div data-role="navbar">
                     <ul>
-                        <li><a href="#categories" data-role="button" data-icon="home">Accueil</a>
-                        <li><a href="#search" data-role="button" data-icon="search">Chercher</a>
-                        <li><a href="#recipes-last-done" data-role="button" data-icon="info">Suggestions</a>
-                        <li><a href="#configuration" data-role="button" data-icon="gear">Configuration</a>
+                        <li><a href="#categories" data-role="button" data-icon="home"><span data-l10n-id="home">Accueil</span></a>
+                        <li><a href="#search" data-role="button" data-icon="search"><span data-l10n-id="search">Chercher</span></a>
+                        <li><a href="#recipes-last-done" data-role="button" data-icon="info"><span data-l10n-id="suggestion">Suggestions</span></a>
+                        <li><a href="#configuration" data-role="button" data-icon="gear"><span data-l10n-id="configuration">Configuration</span></a>
                     </ul>
                 </div>
             </div>
@@ -114,14 +115,14 @@
         <div data-role="page" id="search">
 
             <div data-role="header">
-                <h1>Chercher</h1>
+                <h1 data-l10n-id="search">Chercher</h1>
             </div>
 
             <div data-role="content">
 
                 <input type="search" data-theme="c" data-mini="true" />
                 <ul id="recipes-results" data-role="listview" data-theme="c"></ul>
-                <p class="noresult">Pas de résultat</p>
+                <p data-l10n-id="noresult" class="noresult">Pas de résultat</p>
 
                 <script type="text/template" id="recipes-results-template">
                     <% _.each(recipes, function(recipe) { %>
@@ -133,10 +134,10 @@
             <div data-role="footer" data-position="fixed">        
                 <div data-role="navbar">
                     <ul>
-                        <li><a href="#categories" data-role="button" data-icon="home">Accueil</a>
-                        <li><a href="#search" data-role="button" data-icon="search">Chercher</a>
-                        <li><a href="#recipes-last-done" data-role="button" data-icon="info">Suggestions</a>
-                        <li><a href="#configuration" data-role="button" data-icon="gear">Configuration</a>
+                        <li><a href="#categories" data-role="button" data-icon="home"><span data-l10n-id="home">Accueil</span></a>
+                        <li><a href="#search" data-role="button" data-icon="search"><span data-l10n-id="search">Chercher</span></a>
+                        <li><a href="#recipes-last-done" data-role="button" data-icon="info"><span data-l10n-id="suggestion">Suggestions</span></a>
+                        <li><a href="#configuration" data-role="button" data-icon="gear"><span data-l10n-id="configuration">Configuration</span></a>
                     </ul>
                 </div>
             </div>
@@ -146,24 +147,24 @@
         <div data-role="page" id="recipe">
 
             <div data-role="header">
-                <a href="#recipe" class="previous" data-icon="arrow-l">Précédent</a>
+                <a href="#recipe" class="previous" data-icon="arrow-l"><span data-l10n-id="prev">Précédent</span></a>
                 <h1></h1>
-                <a href="#recipe" class="next" data-icon="arrow-r">Suivant</a>
+                <a href="#recipe" class="next" data-icon="arrow-r"><span data-l10n-id="next">Suivant</span></a>
             </div>
 
             <div class="content" data-role="content"></div>
 
-            <a href="#recipe?recipeId=" data-icon="check" data-role="button" data-theme="c" class="done action">Marquer cette recette comme faite</a>
-            <a href="#edit-recipe?recipeId=" data-icon="grid" data-role="button" data-theme="e" class="edit action">Modifier cette recette</a>
-            <a href="#recipes?categoryId=" data-icon="delete" data-role="button" data-theme="a" class="delete action">Supprimer cette recette</a>
+            <a href="#recipe?recipeId=" data-icon="check" data-role="button" data-theme="c" class="done action"><span data-l10n-id="mark-done">Marquer cette recette comme faite</span></a>
+            <a href="#edit-recipe?recipeId=" data-icon="grid" data-role="button" data-theme="e" class="edit action"><span data-l10n-id="edit-recipe">Modifier cette recette</span></a>
+            <a href="#recipes?categoryId=" data-icon="delete" data-role="button" data-theme="a" class="delete action"><span data-l10n-id="delete-recipe">Supprimer cette recette</span></a>
 
             <div data-role="footer" data-position="fixed">        
                 <div data-role="navbar">
                     <ul>
-                        <li><a href="#categories" data-role="button" data-icon="home">Accueil</a>
-                        <li><a href="#search" data-role="button" data-icon="search">Chercher</a>
-                        <li><a href="#recipes-last-done" data-role="button" data-icon="info">Suggestions</a>
-                        <li><a href="#configuration" data-role="button" data-icon="gear">Configuration</a>
+                        <li><a href="#categories" data-role="button" data-icon="home"><span data-l10n-id="home">Accueil</span></a>
+                        <li><a href="#search" data-role="button" data-icon="search"><span data-l10n-id="search">Chercher</span></a>
+                        <li><a href="#recipes-last-done" data-role="button" data-icon="info"><span data-l10n-id="suggestion">Suggestions</span></a>
+                        <li><a href="#configuration" data-role="button" data-icon="gear"><span data-l10n-id="configuration">Configuration</span></a>
                     </ul>
                 </div>
             </div>
@@ -174,14 +175,15 @@
         <div data-role="page" id="edit-recipe">
 
             <div data-role="header">
-                <a href="#categories" class="cancel" data-icon="delete">Annuler</a>
-                <h1></h1>
-                <a href="#" data-href="#recipe?categoryId=%categoryId%&recipeId=%recipeId%" class="save action" data-icon="check" data-theme="b">Sauvegarder</a>
+                <a href="#categories" class="cancel" data-icon="delete"><span data-l10n-id="cancel">Annuler</span></a>
+                <h1 class="new"><span data-l10n-id="new-recipe">Nouvelle recette</span></h1>
+                <h1 class="edit"><span data-l10n-id="edit-recipe">Modification d’une recette</span></h1>
+                <a href="#" data-href="#recipe?categoryId=%categoryId%&recipeId=%recipeId%" class="save action" data-icon="check" data-theme="b"><span data-l10n-id="save">Sauvergarder</span></a>
             </div>
 
             <div data-role="content">
                 <form>
-                    <label for="edit-recipe-select-category" class="select">Catégorie :</label>
+                    <label for="edit-recipe-select-category" class="select"><span data-l10n-id="category">Catégorie</span> :</label>
                     <select name="category" id="edit-recipe-select-category"></select>
                     <script type="text/template" id="categories-select-list-template">
                         <% _.each(categories, function(category) { %>
@@ -189,54 +191,52 @@
                         <% }); %>
                     </script>
 
-                    <label for="edit-recipe-text-name">Nom :</label>
+                    <label for="edit-recipe-text-name"><span data-l10n-id="name">Nom</span> :</label>
                     <input type="text" name="name" id="edit-recipe-text-name" value=""  />
 
-                    <label for="edit-recipe-text-recipe">Recette :</label>
+                    <label for="edit-recipe-text-recipe"><span data-l10n-id="recipe">Recette</span> :</label>
                     <textarea name="recipe" id="edit-recipe-text-recipe"></textarea>
 
                     <p class="icons"> 
-                        <img src="imgs/icon-inverse.png" title="inverse" class="insert"/>
-                        <img src="imgs/icon-mijotage.png" title="mijotage" class="insert"/>
-                        <img src="imgs/icon-tare.png" title="tare" class="insert"/>
-                        <img src="imgs/icon-ouverture.png" title="ouverture" class="insert"/>
-                        <img src="imgs/icon-verrouillage.png" title="verrouillage" class="insert"/>
-                        <img src="imgs/icon-petrin.png" title="petrin" class="insert"/>
+                        <img data-l10n-id="reverse" src="imgs/icon-inverse.png" title="inverse" class="insert"/>
+                        <img data-l10n-id="simmer" src="imgs/icon-mijotage.png" title="mijotage" class="insert"/>
+                        <img data-l10n-id="tare" src="imgs/icon-tare.png" title="tare" class="insert"/>
+                        <img data-l10n-id="opening" src="imgs/icon-ouverture.png" title="ouverture" class="insert"/>
+                        <img data-l10n-id="locking" src="imgs/icon-verrouillage.png" title="verrouillage" class="insert"/>
+                        <img data-l10n-id="pickle" src="imgs/icon-petrin.png" title="petrin" class="insert"/>
                     </p>
 
                     <div data-role="collapsible" class="help" data-collapsed-icon="arrow-r" and data-expanded-icon="arrow-d">
-                        <h3>Aide quant à la syntaxe</h3>
+                        <h3><span data-l10n-id="help-syntax">Aide quant à la syntaxe</span></h3>
 
-                        <h4>Gras</h4>
-                        <pre>**en gras**</pre>
+                        <h4 data-l10n-id="bold">Gras</h4>
+                        <pre>**<span data-l10n-id="in-bold">en gras</span>**</pre>
 
-                        <h4>Italique</h4>
-                        <pre>*en italique*, également _de cette façon_</pre>
+                        <h4 data-l10n-id="italic">Italique</h4>
+                        <pre>*<span data-l10n-id="in-bold">en italique</span>*</pre>
+                        <p data-l10n-id="or">ou</p>
+                        <pre>_<span data-l10n-id="in-bold">en italique</span>_</pre>
 
-                        <h4>Listes et sous listes</h4>
-                        <pre>- élément 1<br>- élément 2<br> - sous-élément</pre>
+                        <h4 data-l10n-id="list-sublist">Listes et sous listes</h4>
+                        <pre>- <span data-l10n-id="item">élément</span> 1<br>- <span data-l10n-id="item">élément</span> 2<br> - <span data-l10n-id="subitem">sous-élément</span></pre>
 
-                        <h4>Titre de 1er niveau</h4>
-                        <pre># Titre #</pre>
-                        <p>ou</p>
-                        <pre>Titre<br>=====</pre>
+                        <h4 data-l10n-id="title1">Titre de 1er niveau</h4>
+                        <pre># <span data-l10n-id="title">Titre</span> #</pre>
 
-                        <h4>Titre de 2ème niveau</h4>
-                        <pre>## Titre ##</pre>
-                        <p>ou</p>
-                        <pre>Titre<br>-----</pre>
+                        <h4 data-l10n-id="title2">Titre de 2ème niveau</h4>
+                        <pre>## <span data-l10n-id="title">Titre</span> ##</pre>
 
-                        <h4>Titre de 3ème niveau</h4>
-                        <pre>### Titre ###</pre>
+                        <h4 data-l10n-id="title3">Titre de 3ème niveau</h4>
+                        <pre>### <span data-l10n-id="title">Titre</span> ###</pre>
 
-                        <h4>Lien</h4>
+                        <h4 data-l10n-id="link">Lien</h4>
                         <pre>[Thermomix](http://www.vorwerk.com)</pre>
 
-                        <h4>Image</h4>
+                        <h4 data-l10n-id="image">Image</h4>
                         <pre>![description](imgs/logo_thermomix.png)</pre>
                     </div>
 
-                    <label class="output">Rendu :</label>
+                    <label data-l10n-id="output" class="output">Rendu :</label>
                     <p class="output"></p>
                 </form>
 
@@ -245,10 +245,10 @@
             <div data-role="footer" data-position="fixed">        
                 <div data-role="navbar">
                     <ul>
-                        <li><a href="#categories" data-role="button" data-icon="home">Accueil</a>
-                        <li><a href="#search" data-role="button" data-icon="search">Chercher</a>
-                        <li><a href="#recipes-last-done" data-role="button" data-icon="info">Suggestions</a>
-                        <li><a href="#configuration" data-role="button" data-icon="gear">Configuration</a>
+                        <li><a href="#categories" data-role="button" data-icon="home"><span data-l10n-id="home">Accueil</span></a>
+                        <li><a href="#search" data-role="button" data-icon="search"><span data-l10n-id="search">Chercher</span></a>
+                        <li><a href="#recipes-last-done" data-role="button" data-icon="info"><span data-l10n-id="suggestion">Suggestions</span></a>
+                        <li><a href="#configuration" data-role="button" data-icon="gear"><span data-l10n-id="configuration">Configuration</span></a>
                     </ul>
                 </div>
             </div>
@@ -260,19 +260,19 @@
 
             <div data-role="header">
                 <a href="#categories" class="cancel" data-icon="delete">Annuler</a>
-                <h1>Configuration</h1>
-                <a href="#categories" class="save action" data-icon="check" data-theme="b">Sauvegarder</a>
+                <h1 data-l10n-id="configuration">Configuration</h1>
+                <a href="#categories" class="save action" data-icon="check" data-theme="b"><span data-l10n-id="save">Sauvergarder</span></a>
             </div>
 
             <div data-role="content">
 
-                <h2>Choix du livre de recette :</h2>
+                <h2><span data-l10n-id="cookbook-choice">Choix du livre de recette</span> :</h2>
                 <input type="text" name="cookbook" id="configuration-cookbook" value="" />
-                <p>Vos recettes sont sauvegardées dans un livre de recette. La modification de cette valeur va remplacer vos recettes actuelles par celles contenues dans le livre saisi.</p>
+                <p data-l10n-id="cookbook-details">Vos recettes sont sauvegardées dans un livre de recette. La modification de cette valeur va remplacer vos recettes actuelles par celles contenues dans le livre saisi.</p>
 
-                <h2>Configuration des catégories :</h2>
+                <h2 data-l10n-id="categories-configuration">Configuration des catégories :</h2>
                 <ul id="categories-edit-list" data-role="listview" data-theme="c"></ul>
-                <a href="#edit-category" class="add action" data-icon="add" data-role="button">Ajouter une catégorie</a>
+                <a href="#edit-category" class="add action" data-icon="add" data-role="button"><span data-l10n-id="add-category">Ajouter une catégorie</span></a>
 
                 <script type="text/template" id="categories-edit-list-template">
                     <% _.each(categories, function(category) { %>
@@ -285,10 +285,10 @@
             <div data-role="footer" data-position="fixed">        
                 <div data-role="navbar">
                     <ul>
-                        <li><a href="#categories" data-role="button" data-icon="home">Accueil</a>
-                        <li><a href="#search" data-role="button" data-icon="search">Chercher</a>
-                        <li><a href="#recipes-last-done" data-role="button" data-icon="info">Suggestions</a>
-                        <li><a href="#configuration" data-role="button" data-icon="gear">Configuration</a>
+                        <li><a href="#categories" data-role="button" data-icon="home"><span data-l10n-id="home">Accueil</span></a>
+                        <li><a href="#search" data-role="button" data-icon="search"><span data-l10n-id="search">Chercher</span></a>
+                        <li><a href="#recipes-last-done" data-role="button" data-icon="info"><span data-l10n-id="suggestion">Suggestions</span></a>
+                        <li><a href="#configuration" data-role="button" data-icon="gear"><span data-l10n-id="configuration">Configuration</span></a>
                     </ul>
                 </div>
             </div>
@@ -299,27 +299,27 @@
         <div data-role="page" id="edit-category">
 
             <div data-role="header">
-                <a href="#configuration" class="cancel" data-icon="delete">Annuler</a>
-                <h1 class="new">Nouvelle catégorie</h1>
-                <h1 class="edit">Modification d’une catégorie</h1>
-                <a href="#configuration" class="save action" data-icon="check" data-theme="b">Sauvegarder</a>
+                <a href="#configuration" class="cancel" data-icon="delete"><span data-l10n-id="cancel">Annuler</span></a>
+                <h1 class="new"><span data-l10n-id="new-category">Nouvelle catégorie</span></h1>
+                <h1 class="edit"><span data-l10n-id="edit-category">Modification d’une catégorie</span></h1>
+                <a href="#configuration" class="save action" data-icon="check" data-theme="b"><span data-l10n-id="save">Sauvergarder</span></a>
             </div>
 
             <div data-role="content">
                 <form>
-                    <label for="edit-category-text-name">Nom :</label>
+                    <label for="edit-category-text-name"><span data-l10n-id="name">Nom</span> :</label>
                     <input type="text" name="name" id="edit-category-text-name" value=""  />
-                    <a href="#configuration" data-icon="delete" data-role="button" data-theme="a" class="delete action">Supprimer cette catégorie</a>
+                    <a href="#configuration" data-icon="delete" data-role="button" data-theme="a" class="delete action"><span data-l10n-id="delete-category">Supprimer cette catégorie</span></a>
                 </form>
             </div>
 
             <div data-role="footer" data-position="fixed">        
                 <div data-role="navbar">
                     <ul>
-                        <li><a href="#categories" data-role="button" data-icon="home">Accueil</a>
-                        <li><a href="#search" data-role="button" data-icon="search">Chercher</a>
-                        <li><a href="#recipes-last-done" data-role="button" data-icon="info">Suggestions</a>
-                        <li><a href="#configuration" data-role="button" data-icon="gear">Configuration</a>
+                        <li><a href="#categories" data-role="button" data-icon="home"><span data-l10n-id="home">Accueil</span></a>
+                        <li><a href="#search" data-role="button" data-icon="search"><span data-l10n-id="search">Chercher</span></a>
+                        <li><a href="#recipes-last-done" data-role="button" data-icon="info"><span data-l10n-id="suggestion">Suggestions</span></a>
+                        <li><a href="#configuration" data-role="button" data-icon="gear"><span data-l10n-id="configuration">Configuration</span></a>
                     </ul>
                 </div>
             </div>

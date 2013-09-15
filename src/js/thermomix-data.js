@@ -38,7 +38,7 @@
             },
             error: function onError(data) {
                 console.error('App.saveData on save', data);
-                alert('Erreur lors de la sauvegarde');
+                alert(document.webL10n.get('error-on-save'));
             }
         });
     };
@@ -64,7 +64,7 @@
             if (dataOnServer.lastSave === undefined || parseInt(dataOnServer.lastSave, 10) === App.data.lastSave) { 
                 shouldSave = true;
             } else {
-                shouldSave = confirm('Les donnés sur le serveur semblent plus récentes que celles chargées dans l’application. Vous pouvez forcer la sauvegarde mais cela risque d’écraser des données sur le serveur. Dans le doute, cliquez sur annuler et rafraîchissez la page.');
+                shouldSave = confirm(document.webL10n.get('error-old-data'));
             }
             if (shouldSave === true) {
                 App.data.lastSave = (new Date()).getTime();
@@ -72,7 +72,7 @@
             }
         }, function onError() {
             console.error('App.saveData on load to check timestamp', xhr);
-            alert('Erreur lors de la sauvegarde');
+            alert(document.webL10n.get('error-on-save'));
         });
     };
 

@@ -6,6 +6,7 @@ $javascripts = array(
     'jquery.mobile-1.2.0.min.js',
     'jqm.page.params.js',
     'underscore-min.js',
+    'l10n.js',
     'thermomix-main.js',
     'thermomix-data.js',
     'thermomix-controller.js',

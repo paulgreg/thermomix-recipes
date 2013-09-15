@@ -51,9 +51,10 @@ This application uses following OpenSource code or images :
 - jQuery (http://jquery.com/), 
 - jQuery Mobile (http://jquerymobile.com/), 
 - jQuery mobile page param plugin (https://github.com/jblas/jquery-mobile-plugins/tree/master/page-params),
+- webL10n library for localization (https://github.com/fabi1cazenave/webL10n/),
 - qUnit (http://qunitjs.com),
 - PageDown editor (https://code.google.com/p/pagedown/),
 - FamFamFam icons (http://www.famfamfam.com/),
-- Grunt for JavaScript build.
+- Grunt for JavaScript build (http://gruntjs.com/).
 
 I also used some icons from the Thermomix manual and derived the logo for the icon.
