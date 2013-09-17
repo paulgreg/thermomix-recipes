@@ -32,7 +32,7 @@ def produce_manifest_entries(dir):
     if not '.git' in root:
       # Need to exclude large files because of AppCache 5MB limit.
       exclude_list = ['.mp3', '.mp4', '.ogv', '.ogg', '.webm', '.DS_Store']
-      l.extend('/%s/%s\n' % (root.replace('\\', '/'), f)  for f in fileList
+      l.extend('%s/%s\n' % (root.replace('\\', '/'), f)  for f in fileList
                if f[f.rfind('.'):] not in exclude_list)
   return l
 
