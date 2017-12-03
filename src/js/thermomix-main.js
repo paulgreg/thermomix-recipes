@@ -31,7 +31,6 @@
                     $('a.action').each(function(i, a) {
                         $(a).hide();
                     });
-                    alert(document.webL10n.get('error-connection-lost'));
                 }
             };
 
@@ -39,7 +38,6 @@
             window.addEventListener("online", function() {
                 if (!online) {
                     online = true;
-                    alert(document.webL10n.get('error-connection-back'));
                 }
             }, false);
 
