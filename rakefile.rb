@@ -9,6 +9,7 @@ task :default do
   puts "Copying files..."
   FileUtils.mkdir_p "#{BUILD_DIR}/data"
   FileUtils.cp "#{SOURCE_DIR}/index.html", BUILD_DIR
+  FileUtils.cp "#{SOURCE_DIR}/sw.js", BUILD_DIR
   FileUtils.cp "#{SOURCE_DIR}/datastore.php", BUILD_DIR
   FileUtils.cp "./dist.htaccess", "#{BUILD_DIR}/.htaccess"
   FileUtils.cp_r "#{SOURCE_DIR}/css", BUILD_DIR
@@ -28,9 +29,6 @@ task :default do
 
   puts "Copying l10n resource"
   FileUtils.cp "#{SOURCE_DIR}/js/l10n.ini", "#{BUILD_DIR}/js"
-
-  puts "Generate manifest"
-  system "(cd dist && ../build_manifest.py)"
 
   puts "Build done !"
   system "notify-send 'Build done'"
