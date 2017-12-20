@@ -22,7 +22,7 @@
         <script src="qunit-1.10.0.js"></script>
         <link rel="prefetch" type="application/l10n" href="js/l10n.ini" />
         <script>
-            // Mock jquery mobile function 
+            // Mock jquery mobile function
             $.fn.listview = function() {};
 
             // Mocked app data
@@ -37,7 +37,7 @@
                     { "id": 2, "name": "tiramisu", "categoryId": 3, "recipe": "Mettre du mascarpone" },
                     { "id": 3, "name": "Baba au rhum", "categoryId": 3, "recipe": "Imbiber le baba", "lastDone": 2 }
                 ]
-            }; 
+            };
 
             module("Initialisation");
 
@@ -53,10 +53,10 @@
                 // Given
                 App.categories.tpl = _.template($('#categories-list-template').text()); // Load template
 
-                // When 
+                // When
                 App.categories.render('ul#categories-list');
 
-                // Then 
+                // Then
                 var $list = $('ul#categories-list li');
                 ok( $list.size() === 3, "Render categories from json!" );
                 ok( $($list.get(0)).find('a').text() == "desserts2", "desserts" );
@@ -68,10 +68,10 @@
                 // Given
                 App.recipes.tpl = _.template($('#recipes-list-template').text()); // Load template
 
-                // When 
+                // When
                 App.recipes.render('#recipes-list', 3);
 
-                // Then 
+                // Then
                 ok( $('#recipes-list li').size() === 2, "Render recipes!" );
             });
 
@@ -79,22 +79,20 @@
                 // Given
                 App.recipes.tplLastDone = _.template($('#recipes-last-done-list-template').text()); // Load template
 
-                // When 
+                // When
                 App.recipes.renderByLastDone('#recipes-last-done-list');
 
-                // Then 
+                // Then
                 ok( $('#recipes-last-done-list li').size() === 2, "Render recipes!" );
-                ok( $('#recipes-last-done-list li').first().find('a').attr('href') === '#recipe?categoryId=1&recipeId=1', "First recipe in list is last done!" );
-                ok( $('#recipes-last-done-list li').last().find('a').attr('href') === '#recipe?categoryId=3&recipeId=3', "Last recipe in list is first done!" );
             });
 
             test( "App renders a recipe (sorted)", function() {
                 // Given
 
-                // When 
+                // When
                 App.recipe.render('#recipe', 2, 3);
 
-                // Then 
+                // Then
                 ok( $('#recipe h1').html() === "tiramisu", "Render recipe title!" );
                 ok( $('#recipe .content').html().length > 0, "Render recipe content!" );
                 ok( $('#recipe .content a').length === 1, "Render recipe update link!" );
@@ -104,10 +102,10 @@
             test( "App renders first recipe (sorted, with a next recipe link)", function() {
                 // Given
 
-                // When 
+                // When
                 App.recipe.render('#recipe', 3, 3);
 
-                // Then 
+                // Then
                 ok( $('#recipe h1').text() === "Baba au rhum", "Render recipe title!" );
                 ok( $('#recipe .previous:visible').length === 0, "Render recipe next link!" );
                 ok( $('#recipe .next:visible').attr('href') === "#recipe?categoryId=3&recipeId=2", "Render recipe next link!" );
@@ -116,10 +114,10 @@
             test( "App renders last recipe (sorted, with a previous recipe link)", function() {
                 // Given
 
-                // When 
+                // When
                 App.recipe.render('#recipe', 2, 3);
 
-                // Then 
+                // Then
                 ok( $('#recipe h1').text() === "tiramisu", "Render recipe title!" );
                 ok( $('#recipe .previous:visible').attr('href') === "#recipe?categoryId=3&recipeId=3", "Render recipe previous link!" );
                 ok( $('#recipe .next:visible').length === 0, "Render recipe next link!" );
@@ -129,10 +127,10 @@
                 // Given
                 App.categories.selectTpl = _.template($('#categories-select-list-template').text()); // Load template
 
-                // When 
+                // When
                 App.categories.renderSelect('#edit-recipe #select-category');
 
-                // Then 
+                // Then
                 ok( $('#edit-recipe #select-category option').size() === 3, "Render select categories !" );
                 var firstOption = $($('#edit-recipe #select-category option').get(0));
                 ok( firstOption.val() === '3', "Render select categories : first option value !" );
@@ -145,10 +143,10 @@
                 // Given
                 App.categories.editTpl = _.template($('#categories-edit-list-template').text()); // Load template
 
-                // When 
+                // When
                 App.categories.renderEdit('ul#categories-edit-list');
 
-                // Then 
+                // Then
                 var $list = $('ul#categories-edit-list li');
                 ok( $list.size() === 3, "Render categories from json!" );
                 ok( $($list.get(0)).find('a').text() == "desserts2", "desserts" );
@@ -162,10 +160,10 @@
                 // Given
                 var md = 'some text';
 
-                // When 
+                // When
                 var html = App.converter.makeHtml(md);
 
-                // Then 
+                // Then
                 ok( html === "<p>some text</p>", "markdown text" );
             });
 
@@ -173,20 +171,20 @@
                 // Given
                 var md = '# title #';
 
-                // When 
+                // When
                 var html = App.converter.makeHtml(md);
 
-                // Then 
+                // Then
                 ok( html === "<h1>title</h1>", "markdown title" );
             });
 /*
             test( "MarkDown editor renders images with absolute path", function() {
                 // Given
                 var md = '![desc](imgs/icon-inverse.png)';
-                // When 
+                // When
                 var html = App.converter.makeHtml(md);
 
-                // Then 
+                // Then
                 var baseUrl = window.location.protocol + '//' + window.location.host + window.location.pathname;
                 ok( html === '<p><img src="'+baseUrl+'imgs/icon-inverse.png" alt="desc" title="" /></p>', 'Markdown convert images');
             });
