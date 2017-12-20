@@ -5,7 +5,7 @@
 - Data (categories, recipes and cookbook name) are stored in the client’s localStorage.
 - Data (localStorage exported in JSON) are persisted on the server using a small piece of code in PHP.
 - You can switch between cookbooks, which are stored on separated files on the server.
-- Application should work on offline mode, in a read only mode.
+- Application should work on offline mode, in a read only mode (using a ServiceWorker).
 
 ### Demo
 
@@ -23,13 +23,12 @@ The build process :
 
 - copies files,
 - concats and minifies JavaScript,
-- appends git last commit hash to html file
-- generates the appcache.manifest for offline use.
+- appends git last commit hash to html file.
 
 ### Prerequisites
 
 To build the application, you’ll need rake and grunt (which depends on nodejs).
-For developpement, you’ll need to activate Apache’s rewrite mod (see src/.htaccess file).
+For developpement, you’ll need to activate Apache’s rewrite mod (see src/.htaccess file) if you’re using apache.
 
 ## Installation
 
