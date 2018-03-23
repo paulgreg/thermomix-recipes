@@ -43,8 +43,6 @@ For developpement, you’ll need to activate Apache’s rewrite mod (see src/.ht
 
 ## Legal stuff
 
-Code of that application is released under GPLv2 : http://opensource.org/licenses/GPL-2.0
-
 This application uses following OpenSource code or images : 
 - Underscore (http://underscorejs.org/), 
 - jQuery (http://jquery.com/), 
