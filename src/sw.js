@@ -16,7 +16,7 @@ self.addEventListener('fetch', evt => {
 
 function fromNetwork(request, timeout) {
   return new Promise((fulfill, reject) => {
-    const timeoutId = setTimeout(reject, timeout)
+    const timeoutId = request.method === 'GET' ? setTimeout(reject, timeout) : undefined
     fetch(request).then(response => {
       clearTimeout(timeoutId)
 
