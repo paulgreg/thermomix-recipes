@@ -13,7 +13,7 @@
         'datastoreUrl': 'datastore.php?n=',
         'cookbook': window.localStorage.cookbook || 'default'
     };
-    App.data = window.localStorage.data !== undefined ? JSON.parse(window.localStorage.data) : {};
+    App.data = window.localStorage.recipes !== undefined ? JSON.parse(window.localStorage.recipes) : {};
 
     var load = function(onSuccess, onError) {
         $.ajax({
@@ -34,7 +34,7 @@
             datatype: 'text',
             success: function onSuccess(data) {
                 console.info('App.saveData', data);
-                window.localStorage.data = JSON.stringify(App.data); // refresh localStorage
+                window.localStorage.recipes = JSON.stringify(App.data); // refresh localStorage
             },
             error: function onError(data) {
                 console.error('App.saveData on save', data);
@@ -46,7 +46,7 @@
     App.loadData = function() {
         load(function onSuccess(data) {
             App.data = data;
-            window.localStorage.data = JSON.stringify(App.data); // refresh localStorage
+            window.localStorage.recipes = JSON.stringify(App.data); // refresh localStorage
         }, function onError(xhr) {
             console.error('App.loadData', xhr);
             if (xhr.status === 404) {
