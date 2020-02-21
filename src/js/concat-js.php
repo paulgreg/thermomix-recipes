@@ -1,9 +1,10 @@
 <?php
 $javascripts = array(
-    'jquery-1.8.2.min.js',
+    'jquery-1.12.4.min.js',
+    'jquery-migrate-1.4.1.min.js',
     'Markdown.Converter.js',
     'Markdown.Sanitizer.js',
-    'jquery.mobile-1.2.0.min.js',
+    'jquery.mobile-1.2.1.min.js',
     'jqm.page.params.js',
     'underscore-min.js',
     'l10n.js',

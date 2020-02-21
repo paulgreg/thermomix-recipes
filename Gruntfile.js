@@ -4,7 +4,7 @@ module.exports = function(grunt) {
         pkg: grunt.file.readJSON('package.json'),
         concat: {
             dist: {
-                src: ['src/js/jquery-1.8.2.min.js', 'src/js/jquery.mobile-1.2.0.min.js', 'src/js/jqm.page.params.js', 'src/js/Markdown.Converter.js', 'src/js/Markdown.Sanitizer.js', 'src/js/underscore-min.js', 'src/js/l10n.js', 'src/js/thermomix-main.js', 'src/js/thermomix-data.js', 'src/js/thermomix-controller.js', 'src/js/thermomix-views.js' ],
+                src: ['src/js/jquery-1.12.4.min.js', 'src/js/jquery-migrate-1.4.1.min.js', 'src/js/jquery.mobile-1.2.1.min.js', 'src/js/jqm.page.params.js', 'src/js/Markdown.Converter.js', 'src/js/Markdown.Sanitizer.js', 'src/js/underscore-min.js', 'src/js/l10n.js', 'src/js/thermomix-main.js', 'src/js/thermomix-data.js', 'src/js/thermomix-controller.js', 'src/js/thermomix-views.js' ],
                 dest: 'dist/js/thermomix-recipes.js'
             }
         },
