@@ -1,0 +1,14 @@
+web:
+    image: nginx:latest
+    ports:
+        - "8000:80"
+    volumes:
+        - ./dist:/app
+        - ./nginx.conf:/etc/nginx/nginx.conf
+    links:
+        - php
+
+php:
+    image: php:7-fpm
+    volumes:
+        - ./dist:/app
