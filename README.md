@@ -17,6 +17,9 @@ You’ll need PHP5 on the server to run the app.
 
 ## Build
 
+node 8 is needed to run rake.
+node 10 is not compatible (you can use nvm to switch between node version easily).
+
 Run "rake".
 
 The build process :
@@ -43,10 +46,10 @@ For developpement, you’ll need to activate Apache’s rewrite mod (see src/.ht
 
 ## Legal stuff
 
-This application uses following OpenSource code or images : 
-- Underscore (http://underscorejs.org/), 
-- jQuery (http://jquery.com/), 
-- jQuery Mobile (http://jquerymobile.com/), 
+This application uses following OpenSource code or images :
+- Underscore (http://underscorejs.org/),
+- jQuery (http://jquery.com/),
+- jQuery Mobile (http://jquerymobile.com/),
 - jQuery mobile page param plugin (https://github.com/jblas/jquery-mobile-plugins/tree/master/page-params),
 - webL10n library for localization (https://github.com/fabi1cazenave/webL10n/),
 - qUnit (http://qunitjs.com),
