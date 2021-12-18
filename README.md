@@ -17,8 +17,8 @@ You’ll need PHP5 on the server to run the app.
 
 ## Build
 
-node 8 is needed to run rake.
-node 10 is not compatible (you can use nvm to switch between node version easily).
+node 8 is needed to run grunt.
+node 10+ is not compatible.
 
 Run "rake".
 
