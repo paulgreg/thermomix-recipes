@@ -28,5 +28,4 @@ task :default do
   FileUtils.cp "#{SOURCE_DIR}/js/l10n.ini", "#{BUILD_DIR}/js"
 
   puts "Build done !"
-  system "notify-send 'Build done'"
 end
