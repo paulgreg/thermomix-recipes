@@ -10,7 +10,7 @@
     }
     
     App.configuration = {
-        'datastoreUrl': '/json-store/thermomixrecipes/',
+        'datastoreUrl': '/json-store/thermomix-recipes/',
         'cookbook': window.localStorage.cookbook || 'default'
     };
     App.data = window.localStorage.recipes !== undefined ? JSON.parse(window.localStorage.recipes) : {};

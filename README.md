@@ -13,7 +13,7 @@ Here’s a read only demo version of the application : http://thermomix.recipes.
 
 ### Hosting pre-requisites
 
-You‘ll need to host [json-store](https://github.com/paulgreg/json-store) on same server and create a directory `thermomixrecipes` in it’s data directory.
+You‘ll need to host [json-store](https://github.com/paulgreg/json-store) on same server and create a directory `thermomix-recipes` in it’s data directory.
 
 If you want to keep previous behavior (store directly from same projet), you can use branch `with-php-store`. You’ll need then PHP support on server.
 
