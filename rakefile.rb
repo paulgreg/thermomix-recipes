@@ -9,6 +9,7 @@ task :default do
   puts "Copying files..."
   FileUtils.mkdir_p "#{BUILD_DIR}/data"
   FileUtils.cp "#{SOURCE_DIR}/index.html", BUILD_DIR
+  FileUtils.cp "#{SOURCE_DIR}/manifest.json", BUILD_DIR
   FileUtils.cp "#{SOURCE_DIR}/sw.js", BUILD_DIR
   FileUtils.cp "./dist.htaccess", "#{BUILD_DIR}/.htaccess"
   FileUtils.cp_r "#{SOURCE_DIR}/css", BUILD_DIR
