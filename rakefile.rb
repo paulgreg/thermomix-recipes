@@ -7,7 +7,7 @@ task :default do
   FileUtils.rm_r BUILD_DIR, :force => true
 
   puts "Copying files..."
-  FileUtils.mkdir_p "#{BUILD_DIR}/data"
+  FileUtils.mkdir_p "#{BUILD_DIR}/"
   FileUtils.cp "#{SOURCE_DIR}/index.html", BUILD_DIR
   FileUtils.cp "#{SOURCE_DIR}/manifest.json", BUILD_DIR
   FileUtils.cp "#{SOURCE_DIR}/sw.js", BUILD_DIR
