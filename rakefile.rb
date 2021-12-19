@@ -10,7 +10,6 @@ task :default do
   FileUtils.mkdir_p "#{BUILD_DIR}/data"
   FileUtils.cp "#{SOURCE_DIR}/index.html", BUILD_DIR
   FileUtils.cp "#{SOURCE_DIR}/sw.js", BUILD_DIR
-  FileUtils.cp "#{SOURCE_DIR}/datastore.php", BUILD_DIR
   FileUtils.cp "./dist.htaccess", "#{BUILD_DIR}/.htaccess"
   FileUtils.cp_r "#{SOURCE_DIR}/css", BUILD_DIR
   FileUtils.cp_r "#{SOURCE_DIR}/imgs", BUILD_DIR

@@ -3,17 +3,19 @@
 - That application is a basic cookbook based on jQuery mobile (dedicated for a kitchen robot my wife bought called 'thermomix').
 - Application is mainly written in JavaScript, on the client side.
 - Data (categories, recipes and cookbook name) are stored in the client’s localStorage.
-- Data (localStorage exported in JSON) are persisted on the server using a small piece of code in PHP.
+- Data (localStorage exported in JSON) are persisted on the server using [json-store project](https://github.com/paulgreg/json-store)
 - You can switch between cookbooks, which are stored on separated files on the server.
 - Application should work on offline mode, in a read only mode (using a ServiceWorker).
 
 ### Demo
 
-Here’s a demo version of the application : http://thermomix.recipes.free.fr
+Here’s a read only demo version of the application : http://thermomix.recipes.free.fr
 
-### Prerequisites
+### Hosting pre-requisites
 
-You’ll need PHP5 on the server to run the app.
+You‘ll need to host [json-store](https://github.com/paulgreg/json-store) on same server and create a directory `thermomixrecipes` in it’s data directory.
+
+If you want to keep previous behavior (store directly from same projet), you can use branch `with-php-store`. You’ll need then PHP support on server.
 
 ## Build
 

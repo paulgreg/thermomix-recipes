@@ -10,14 +10,14 @@
     }
     
     App.configuration = {
-        'datastoreUrl': 'datastore.php?n=',
+        'datastoreUrl': '/json-store/thermomixrecipes/',
         'cookbook': window.localStorage.cookbook || 'default'
     };
     App.data = window.localStorage.recipes !== undefined ? JSON.parse(window.localStorage.recipes) : {};
 
     var load = function(onSuccess, onError) {
         $.ajax({
-            url: App.configuration.datastoreUrl + App.configuration.cookbook, 
+            url: App.configuration.datastoreUrl + App.configuration.cookbook + '.json', 
             dataType: 'json',
             async: false, // Do not use Ajax since data are mandatory
             success: onSuccess,
@@ -28,10 +28,11 @@
     var save = function() {
         $.ajax({
             type: 'POST',
-            url: App.configuration.datastoreUrl + App.configuration.cookbook, 
+            url: App.configuration.datastoreUrl + App.configuration.cookbook + '.json', 
             async: false, // Do not use Ajax since data are mandatory
-            data: { v: JSON.stringify(App.data) },
-            datatype: 'text',
+            data: JSON.stringify(App.data),
+            contentType:"application/json; charset=utf-8",
+            datatype: 'json',
             success: function onSuccess(data) {
                 console.info('App.saveData', data);
                 window.localStorage.recipes = JSON.stringify(App.data); // refresh localStorage
@@ -70,9 +71,14 @@
                 App.data.lastSave = (new Date()).getTime();
                 save();
             }
-        }, function onError() {
+        }, function onError(xhr) {
             console.error('App.saveData on load to check timestamp', xhr);
-            alert(document.webL10n.get('error-on-save'));
+            if (xhr.status === 404) {
+                App.data.lastSave = (new Date()).getTime();
+                save();
+            } else {
+                alert(document.webL10n.get('error-on-save'));
+            }
         });
     };
 
