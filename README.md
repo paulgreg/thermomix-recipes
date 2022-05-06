@@ -11,6 +11,11 @@
 
 Here’s a demo version of the application : http://thermomix.recipes.free.fr
 
+## Self-hosting variants
+
+There is a [branch](https://github.com/paulgreg/thermomix-recipes/tree/json-store) storing data on server (using [json-store](https://github.com/paulgreg/json-store), a simple way to store json).
+
+
 ### Prerequisites
 
 You’ll need PHP5 on the server to run the app.
