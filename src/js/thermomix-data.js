@@ -8,7 +8,7 @@
             window.location.search = ''; // Cleanup the querystring to avoid side effects ; that will also reload the page
         }
     }
-    
+
     App.configuration = {
         'datastoreUrl': '/json-store/thermomix-recipes/',
         'cookbook': window.localStorage.cookbook || 'default'
@@ -17,9 +17,10 @@
 
     var load = function(onSuccess, onError) {
         $.ajax({
-            url: App.configuration.datastoreUrl + App.configuration.cookbook + '.json', 
+            url: App.configuration.datastoreUrl + App.configuration.cookbook + '.json',
             dataType: 'json',
             async: false, // Do not use Ajax since data are mandatory
+            headers: { "Authorization": "Basic " + App.authorization},
             success: onSuccess,
             error: onError
         });
@@ -28,11 +29,12 @@
     var save = function() {
         $.ajax({
             type: 'POST',
-            url: App.configuration.datastoreUrl + App.configuration.cookbook + '.json', 
+            url: App.configuration.datastoreUrl + App.configuration.cookbook + '.json',
             async: false, // Do not use Ajax since data are mandatory
             data: JSON.stringify(App.data),
             contentType:"application/json; charset=utf-8",
             datatype: 'json',
+            headers: { "Authorization": "Basic " + App.authorization },
             success: function onSuccess(data) {
                 console.info('App.saveData', data);
                 window.localStorage.recipes = JSON.stringify(App.data); // refresh localStorage
@@ -51,7 +53,7 @@
         }, function onError(xhr) {
             console.error('App.loadData', xhr);
             if (xhr.status === 404) {
-                // Cookbook doesn’t exist, try to create one 
+                // Cookbook doesn’t exist, try to create one
                 App.data = {"categories": [{"id":1,"name":"default"}], "recipes": [], "lastSave": (new Date()).getTime() };
                 save();
             }
@@ -62,7 +64,7 @@
         load(function onSuccess(dataOnServer) {
             var shouldSave;
             // Basic timestamp check to avoid overiding data
-            if (dataOnServer.lastSave === undefined || parseInt(dataOnServer.lastSave, 10) === App.data.lastSave) { 
+            if (dataOnServer.lastSave === undefined || parseInt(dataOnServer.lastSave, 10) === App.data.lastSave) {
                 shouldSave = true;
             } else {
                 shouldSave = confirm(document.webL10n.get('error-old-data'));
