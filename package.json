@@ -2,7 +2,7 @@
     "name": "thermomix-recipes",
     "version": "0.2.0",
     "devDependencies": {
-        "grunt": "~0.4.1",
+        "grunt": "~1.5.3",
         "grunt-cli": "^1.2.0",
         "grunt-contrib-concat": "~0.3.0",
         "grunt-contrib-jshint": "~0.6.4",
