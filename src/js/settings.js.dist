@@ -1,4 +1,0 @@
-(function (App, $, undefined) {
-    "use strict";
-    App.authorization = 'user:passord-encoded-in-base64';
-}(window.App= window.App || {}, jQuery));

@@ -1,13 +1,44 @@
 {
-    "name": "thermomix-recipes",
-    "version": "0.2.0",
-    "devDependencies": {
-        "grunt": "~0.4.1",
-        "grunt-cli": "^1.2.0",
-        "grunt-contrib-concat": "~0.3.0",
-        "grunt-contrib-jshint": "~0.6.4",
-        "grunt-contrib-qunit": "~0.2.2",
-        "grunt-contrib-uglify": "~0.2.0",
-        "grunt-contrib-watch": "~0.5.3"
-    }
+  "name": "thermomix-recipes",
+  "version": "1.0.0",
+  "private": true,
+  "dependencies": {
+    "fast-json-patch": "^3.1.1",
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0",
+    "react-router-dom": "^7.5.1",
+    "uuid": "^11.1.0"
+  },
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build --base=/thermomix-recipes/",
+    "deploy": "npm i && ./to_ghpages"
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "devDependencies": {
+    "@types/react": "^19.1.2",
+    "@types/react-dom": "^19.1.2",
+    "@vitejs/plugin-react": "^4.4.1",
+    "prettier": "^3.5.3",
+    "typescript": "^5.8.3",
+    "vite": "^6.3.2",
+    "vite-plugin-svgr": "^4.3.0"
+  }
 }

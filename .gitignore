@@ -1,3 +1,4 @@
-dist
-node_modules
-src/js/settings.js
+/node_modules
+/dist
+src/settings.json
+.vite
