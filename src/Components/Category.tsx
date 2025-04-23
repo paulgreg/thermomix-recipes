@@ -1,11 +1,17 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
-import { useDataContext } from './DataContext'
-import { t } from './i18n/i18n'
-import { CategoryComponent } from './Types'
+import { Link, useNavigate } from 'react-router-dom'
+import { useDataContext } from '../DataContext'
+import { t } from '../i18n/i18n'
+import { InjectableComponent } from '../Types'
 
-const Category: React.FC<CategoryComponent> = ({ category }) => {
+const Category: React.FC<InjectableComponent> = ({ category }) => {
     const { cookBook } = useDataContext()
+    const navigate = useNavigate()
+
+    if (!category) {
+        navigate('/')
+        return <></>
+    }
 
     const recipes = cookBook.recipes.filter(
         ({ categoryId }) => categoryId === category.id
@@ -13,6 +19,10 @@ const Category: React.FC<CategoryComponent> = ({ category }) => {
 
     return (
         <>
+            <header>
+                <Link to="/">{t('home')}</Link> &gt;{' '}
+                <span>{category.name}</span>
+            </header>
             <div className="content">
                 {recipes.length === 0 && <p>{t('recipes.empty')}</p>}
                 {recipes
@@ -20,8 +30,7 @@ const Category: React.FC<CategoryComponent> = ({ category }) => {
                     .map((recipe) => (
                         <div key={recipe.id} className="row">
                             <Link
-                                to={`/recipes/${recipe.id}`}
-                                style={{ margin: 4 }}
+                                to={`/category/${category.id}/recipe/${recipe.id}`}
                             >
                                 {recipe.name}
                             </Link>
@@ -32,8 +41,6 @@ const Category: React.FC<CategoryComponent> = ({ category }) => {
                 <Link to="/search">{t('search')}</Link>
                 {' | '}
                 <Link to="/add">{t('recipe.add')}</Link>
-                {' | '}
-                <Link to="/">{t('home')}</Link>
             </footer>
         </>
     )

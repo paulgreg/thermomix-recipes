@@ -1,7 +1,3 @@
-import { v4 as uuidv4 } from 'uuid'
-
-export const getId = () => uuidv4()
-
 export const debounce = <T extends (...args: any[]) => void>(
     fn: T,
     delay: number

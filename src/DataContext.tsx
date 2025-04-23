@@ -6,9 +6,10 @@ import React, {
     useState,
 } from 'react'
 import settings from './settings.json'
-import { debounce, getId } from './utils'
+import { getId } from './Utils/id'
 import * as jsonpatch from 'fast-json-patch'
 import { CookBook } from './Types'
+import { debounce } from './Utils/debounce'
 
 const DEBOUNCE_SAVE_TIME = 2000
 

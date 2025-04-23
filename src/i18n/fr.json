@@ -3,12 +3,14 @@
     "home": "Accueil",
     "search": "chercher",
     "recipe.add": "ajouter une recette",
-    "configure": "configuration",
+    "configure": "configurer",
     "category.empty": "Aucune catégorie",
     "category.add": "Ajouter une catégorie",
     "category.delete": "Supprimer la catégorie $ ?",
     "category.rename": "Renommer la catégorie",
     "recipes.empty": "Aucune recette",
+    "tags.no": "aucun",
     "error.badid": "Paramètre inconnu",
-    "error.nocategory": "Catégorie introuvable"
+    "error.nocategory": "Catégorie introuvable",
+    "error.norecipe": "Recette introuvable"
 }

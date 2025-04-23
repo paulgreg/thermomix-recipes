@@ -1,21 +1,24 @@
-import React from 'react'
+import React, { useMemo } from 'react'
 import { Link } from 'react-router-dom'
-import { useDataContext } from './DataContext'
-import { t } from './i18n/i18n'
-import { Category } from './Types'
+import { useDataContext } from '../DataContext'
+import { t } from '../i18n/i18n'
+import { Category } from '../Types'
 
 const Home = () => {
     const { cookBook, addCategory, renameCategory, deleteCategory } =
         useDataContext()
 
-    const categories = cookBook.categories.map((category) => {
-        const { id, name } = category
-        console.log(cookBook)
-        const recipesByCategory = cookBook.recipes.filter(
-            ({ categoryId }) => categoryId === id
-        )
-        return { id, name, count: recipesByCategory.length }
-    })
+    const categories = useMemo(
+        () =>
+            cookBook.categories.map((category) => {
+                const { id, name } = category
+                const recipesByCategory = cookBook.recipes.filter(
+                    ({ categoryId }) => categoryId === id
+                )
+                return { id, name, count: recipesByCategory.length }
+            }),
+        [cookBook]
+    )
 
     const onAddCategory = () => {
         const name = window.prompt(t('category.add'))
@@ -33,25 +36,22 @@ const Home = () => {
 
     return (
         <>
+            <header>
+                <Link to="/">{t('title')}</Link>
+            </header>
             <div className="content">
                 {categories.length === 0 && <p>{t('category.empty')}</p>}
                 {categories
                     .toSorted((c1, c2) => c1.name.localeCompare(c2.name))
                     .map((category) => (
-                        <div
-                            key={category.id}
-                            className="row"
-                            style={{
-                                display: 'grid',
-                                gridTemplateColumns: '1fr 10fr 1fr',
-                                gap: 10,
-                            }}
-                        >
-                            <div
-                                style={{
-                                    display: 'flex',
-                                }}
-                            >
+                        <div key={category.id} className="grid row">
+                            <span style={{ display: 'flex' }}>
+                                <button
+                                    className="icon"
+                                    onClick={onRenameCategory(category)}
+                                >
+                                    ✏️
+                                </button>
                                 {category.count === 0 && (
                                     <button
                                         className="icon"
@@ -60,17 +60,8 @@ const Home = () => {
                                         🗑️
                                     </button>
                                 )}
-                                <button
-                                    className="icon"
-                                    onClick={onRenameCategory(category)}
-                                >
-                                    ✏️
-                                </button>
-                            </div>
-                            <Link
-                                to={`/category/${category.id}`}
-                                style={{ margin: 4 }}
-                            >
+                            </span>
+                            <Link to={`/category/${category.id}`}>
                                 {category.name}
                             </Link>
                             <small style={{ fontSize: '.7em' }}>
@@ -78,8 +69,10 @@ const Home = () => {
                             </small>
                         </div>
                     ))}
-                <div style={{}} onClick={onAddCategory}>
-                    <button>{t('category.add')}</button>
+                <div style={{ marginTop: 20 }}>
+                    <button style={{ margin: 'auto' }} onClick={onAddCategory}>
+                        {t('category.add')}
+                    </button>
                 </div>
             </div>
             <footer>

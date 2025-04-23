@@ -1,6 +1,6 @@
 import React, { useState, useRef, MouseEvent } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-import { useDataContext } from './DataContext'
+import { useDataContext } from '../DataContext'
 
 const Config = () => {
     const inputRef = useRef<HTMLInputElement>(null)
@@ -49,7 +49,7 @@ const Config = () => {
                         />
                         {error && (
                             <strong
-                                style={{ display: 'block', color: '#E1EEBC' }}
+                                style={{ display: 'block', color: '#e1eebc' }}
                             >
                                 {error}
                             </strong>

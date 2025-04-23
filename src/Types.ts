@@ -17,9 +17,8 @@ export type Recipe = {
     tags?: string[]
 }
 
-export type CategoryComponent = {
-    category: Category
-}
-export type RecipeComponent = {
-    recipe: Recipe
+export type InjectableComponent = {
+    category?: Category
+    recipe?: Recipe
+    tag?: string
 }
