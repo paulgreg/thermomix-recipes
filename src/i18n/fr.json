@@ -1,0 +1,14 @@
+{
+    "title": "Mes recettes thermomix",
+    "home": "Accueil",
+    "search": "chercher",
+    "recipe.add": "ajouter une recette",
+    "configure": "configuration",
+    "category.empty": "Aucune catégorie",
+    "category.add": "Ajouter une catégorie",
+    "category.delete": "Supprimer la catégorie $ ?",
+    "category.rename": "Renommer la catégorie",
+    "recipes.empty": "Aucune recette",
+    "error.badid": "Paramètre inconnu",
+    "error.nocategory": "Catégorie introuvable"
+}
