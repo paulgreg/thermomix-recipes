@@ -4,14 +4,15 @@ export type CookBook = {
     lastSave: number
 }
 
-export type Category = {
-    id: string
+export interface NamedEntity {
     name: string
 }
-
-export type Recipe = {
+export type Category = NamedEntity & {
     id: string
-    name: string
+}
+
+export type Recipe = NamedEntity & {
+    id: string
     categoryId: string
     recipe: string
     tags?: string[]

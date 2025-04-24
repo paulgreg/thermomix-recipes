@@ -6,6 +6,7 @@ import {
     removeAccent,
     replaceSpecialCharBySpace,
     replaceStars,
+    sortByName,
 } from '../Utils/string'
 import TagsCloud from '../Components/TagsCloud'
 
@@ -57,7 +58,7 @@ const SearchPage: React.FC = () => {
                 ></input>
 
                 <div>
-                    {matchingRecipes.map((recipe) => (
+                    {matchingRecipes.toSorted(sortByName).map((recipe) => (
                         <div key={recipe.id} className="row">
                             <Link to={`/recipe/${recipe.id}`}>
                                 {replaceStars(recipe.name)}

@@ -1,3 +1,5 @@
+import { NamedEntity } from '../Types'
+
 export const replaceStars = (str: string) => str.replaceAll('*', '⭐')
 
 export const removeAccent = (str: string) =>
@@ -5,3 +7,6 @@ export const removeAccent = (str: string) =>
 
 export const replaceSpecialCharBySpace = (str: string) =>
     str.replace(/[-_'`"()[\]]/g, ' ')
+
+export const sortByName = (o1: NamedEntity, o2: NamedEntity) =>
+    o1.name.localeCompare(o2.name)

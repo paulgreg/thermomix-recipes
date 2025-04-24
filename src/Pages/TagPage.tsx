@@ -2,7 +2,7 @@ import React, { useMemo } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { useDataContext } from '../DataContext'
 import { t } from '../i18n/i18n'
-import { replaceStars } from '../Utils/string'
+import { replaceStars, sortByName } from '../Utils/string'
 import { InjectableComponent } from '../Types'
 
 const TagPage: React.FC<InjectableComponent> = ({ tag }) => {
@@ -31,7 +31,7 @@ const TagPage: React.FC<InjectableComponent> = ({ tag }) => {
             </header>
             <div className="content">
                 <div>
-                    {matchingRecipes.map((recipe) => (
+                    {matchingRecipes.toSorted(sortByName).map((recipe) => (
                         <div key={recipe.id} className="row">
                             <Link to={`/recipe/${recipe.id}`}>
                                 {replaceStars(recipe.name)}

@@ -24,9 +24,9 @@ const ConfigPage = () => {
         return true
     }
 
-    const onLoad = (e: MouseEvent<HTMLButtonElement>) => {
+    const onLoad = async (e: MouseEvent<HTMLButtonElement>) => {
         if (inputRef.current && commonCheck(e)) {
-            load(inputRef.current.value)
+            await load(inputRef.current.value)
             navigate('/')
         }
     }

@@ -4,7 +4,7 @@ import { useDataContext } from '../DataContext'
 import { t } from '../i18n/i18n'
 import { InjectableComponent } from '../Types'
 import useOnline from '../Utils/useOnline'
-import { replaceStars } from '../Utils/string'
+import { replaceStars, sortByName } from '../Utils/string'
 
 const CategoryPage: React.FC<InjectableComponent> = ({ category }) => {
     const { cookBook } = useDataContext()
@@ -28,7 +28,7 @@ const CategoryPage: React.FC<InjectableComponent> = ({ category }) => {
             </header>
             <div className="content">
                 {recipes.length === 0 && <p>{t('recipes.empty')}</p>}
-                {recipes.map((recipe) => (
+                {recipes.toSorted(sortByName).map((recipe) => (
                     <div key={recipe.id} className="row">
                         <Link
                             to={`/category/${category.id}/recipe/${recipe.id}`}

@@ -4,10 +4,10 @@ import { useDataContext } from '../DataContext'
 import { t } from '../i18n/i18n'
 import { Category } from '../Types'
 import useOnline from '../Utils/useOnline'
+import { sortByName } from '../Utils/string'
 
 const HomePage = () => {
-    const { cookBook, addCategory, renameCategory, deleteCategory } =
-        useDataContext()
+    const { cookBook, addOrEditCategory, deleteCategory } = useDataContext()
     const online = useOnline()
 
     const categories = useMemo(
@@ -24,12 +24,12 @@ const HomePage = () => {
 
     const onAddCategory = () => {
         const name = window.prompt(t('category.add'))
-        if (name) addCategory(name)
+        if (name) addOrEditCategory(name)
     }
     const onRenameCategory = (category: Category) => () => {
         const { name, id } = category
         const newName = window.prompt(t('category.rename', name), name)
-        if (newName) renameCategory(id, newName)
+        if (newName) addOrEditCategory(newName, id)
     }
     const onDeleteCategory = (category: Category) => () => {
         const { name, id } = category
@@ -43,7 +43,7 @@ const HomePage = () => {
             </header>
             <div className="content">
                 {categories.length === 0 && <p>{t('category.empty')}</p>}
-                {categories.map((category) => (
+                {categories.toSorted(sortByName).map((category) => (
                     <div key={category.id} className="grid row">
                         <span style={{ display: 'flex' }}>
                             {online && (

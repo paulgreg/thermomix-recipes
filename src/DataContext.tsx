@@ -24,8 +24,7 @@ type DataContextType = {
     initLoad: (cookbookName?: string) => Promise<void>
     load: (key: string) => Promise<void>
     save: (key: string, cookBook: CookBook) => Promise<void>
-    addCategory: (name: string) => Promise<void>
-    renameCategory: (id: string, newName: string) => Promise<void>
+    addOrEditCategory: (name: string, id?: string) => Promise<void>
     deleteCategory: (id: string) => Promise<void>
     addOrEditRecipe: (
         categoryId: string,
@@ -75,7 +74,7 @@ const DataContextProvider: React.FC<DataContextProviderPropsType> = ({
                     }
                     if (response.status === 404) {
                         setNewDoc(true)
-                        return []
+                        return EMPTY_COOKBOOK
                     }
                 })
                 .catch((e) => {
@@ -85,29 +84,23 @@ const DataContextProvider: React.FC<DataContextProviderPropsType> = ({
         []
     )
 
-    const convertIdToString = (cookBook: CookBook): CookBook => {
+    const convertIdToStringAndRemovePreviousValues = (
+        cookBook: CookBook
+    ): CookBook => {
         const categories = cookBook.categories.map((category) => ({
             ...category,
             id: String(category.id),
+            count: undefined,
         }))
         const recipes = cookBook.recipes.map((recipe) => ({
             ...recipe,
             categoryId: String(recipe.categoryId),
             id: String(recipe.id),
+            lastDone: undefined,
         }))
 
         return { categories, recipes, lastSave: cookBook.lastSave }
     }
-
-    const sortCookBook = (cookBook: CookBook): CookBook => ({
-        ...cookBook,
-        categories: cookBook.categories.toSorted((c1, c2) =>
-            c1.name.localeCompare(c2.name)
-        ),
-        recipes: cookBook.recipes.toSorted((r1, r2) =>
-            r1.name.localeCompare(r2.name)
-        ),
-    })
 
     const load = useCallback(
         async (key: string) => {
@@ -117,14 +110,12 @@ const DataContextProvider: React.FC<DataContextProviderPropsType> = ({
 
             const rawData = localStorage.getItem(key)
             if (rawData) {
-                localData = sortCookBook(JSON.parse(rawData) ?? EMPTY_COOKBOOK)
+                localData = JSON.parse(rawData)
             }
 
             const json = await loadOnline(key)
             if (json) {
-                serverData = sortCookBook(
-                    convertIdToString(json) ?? EMPTY_COOKBOOK
-                )
+                serverData = convertIdToStringAndRemovePreviousValues(json)
             }
 
             setCookBook(serverData ?? localData ?? EMPTY_COOKBOOK)
@@ -144,11 +135,9 @@ const DataContextProvider: React.FC<DataContextProviderPropsType> = ({
     const save = useCallback(
         async (key: string, cookBook: CookBook) => {
             cookBook.lastSave = Date.now()
-            const sortedCookBook = sortCookBook(cookBook)
             localStorage.setItem(KEY_NAME, key)
-            localStorage.setItem(key, JSON.stringify(sortedCookBook))
-            saveOnline(key, sortedCookBook, previousCookBook, newDoc)
-            setCookBook(sortedCookBook)
+            localStorage.setItem(key, JSON.stringify(cookBook))
+            saveOnline(key, cookBook, previousCookBook, newDoc)
         },
         [previousCookBook, newDoc]
     )
@@ -189,12 +178,21 @@ const DataContextProvider: React.FC<DataContextProviderPropsType> = ({
         []
     )
 
-    const addCategory = useCallback(
-        async (name: string) => {
-            const categories = cookBook.categories.concat({
-                id: getId(),
+    const addOrEditCategory = useCallback(
+        async (name: string, maybeId?: string) => {
+            const id = maybeId ?? getId()
+
+            const newCategory = {
+                id,
                 name,
-            })
+            }
+
+            const categories = maybeId
+                ? cookBook.categories.map((category) =>
+                      category.id === maybeId ? newCategory : category
+                  )
+                : cookBook.categories.concat(newCategory)
+
             const newCookbook = {
                 ...cookBook,
                 categories,
@@ -205,24 +203,6 @@ const DataContextProvider: React.FC<DataContextProviderPropsType> = ({
         [cookBook, key]
     )
 
-    const renameCategory = useCallback(
-        async (id: string, newName: string) => {
-            const newCookbook = {
-                ...cookBook,
-                categories: cookBook.categories.map((category) =>
-                    String(category.id) === id
-                        ? {
-                              ...category,
-                              name: newName,
-                          }
-                        : category
-                ),
-            }
-            setCookBook(newCookbook)
-            if (key) await save(key, newCookbook)
-        },
-        [cookBook, key]
-    )
     const deleteCategory = async (id: string) => {
         const recipeFromThatCategory = cookBook.recipes.find(
             (recipe) => recipe.categoryId === id
@@ -302,8 +282,7 @@ const DataContextProvider: React.FC<DataContextProviderPropsType> = ({
             initLoad,
             load,
             save,
-            addCategory,
-            renameCategory,
+            addOrEditCategory,
             deleteCategory,
             addOrEditRecipe,
             deleteRecipe,
