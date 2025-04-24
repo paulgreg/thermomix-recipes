@@ -5,30 +5,28 @@ import ConfigPage from './Pages/ConfigPage'
 import { BrowserRouter, Routes, Route, useParams } from 'react-router-dom'
 import HomePage from './Pages/HomePage'
 import DataContextProvider, { useDataContext } from './DataContext'
-import { InjectableComponent, CookBook } from './Types'
+import { InjectableComponent } from './Types'
 import CategoryPage from './Pages/CategoryPage'
 import ErrorMessage from './Components/Error'
 import settings from './settings.json'
 import RecipePage from './Pages/RecipePage'
-import './index.css'
 import EditRecipePage from './Pages/EditRecipePage'
 import SearchPage from './Pages/SearchPage'
 import TagPage from './Pages/TagPage'
+import './index.css'
 
 type ValidateInjectableType = {
     component: React.FC<InjectableComponent>
 }
 
 const validate =
-    (
-        cookBook: CookBook,
-        categoryIdStr?: string,
-        recipeIdStr?: string,
-        tag?: string
-    ) =>
+    (categoryIdStr?: string, recipeIdStr?: string, tag?: string) =>
     (Component: React.FC<InjectableComponent>) => {
+        const { cookBook, loaded } = useDataContext()
         let category
         let recipe
+
+        if (!loaded) return <></>
 
         if (categoryIdStr) {
             if (!RegExp(/\w+/).exec(categoryIdStr))
@@ -54,9 +52,8 @@ const validate =
     }
 
 const ValidateComponent: React.FC<ValidateInjectableType> = ({ component }) => {
-    const { cookBook } = useDataContext()
     const { categoryId, recipeId, tag } = useParams()
-    return validate(cookBook, categoryId, recipeId, tag)(component)
+    return validate(categoryId, recipeId, tag)(component)
 }
 
 const container: HTMLElement | null = document.getElementById('root')

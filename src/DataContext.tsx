@@ -19,6 +19,7 @@ const KEY_NAME = 'THERMOMIXRECIPES_KEY'
 type DataContextType = {
     key: string | null
     cookBook: CookBook
+    loaded: boolean
     availableTags: string[]
     initLoad: () => Promise<void>
     load: (key: string) => Promise<void>
@@ -53,6 +54,7 @@ interface DataContextProviderPropsType {
 const DataContextProvider: React.FC<DataContextProviderPropsType> = ({
     children,
 }) => {
+    const [loaded, setLoaded] = useState(false)
     const [cookBook, setCookBook] = useState<CookBook>(EMPTY_COOKBOOK)
     const [previousCookBook, setPreviousCookBook] =
         useState<CookBook>(EMPTY_COOKBOOK)
@@ -133,7 +135,8 @@ const DataContextProvider: React.FC<DataContextProviderPropsType> = ({
 
     const initLoad = async () => {
         const key = localStorage.getItem(KEY_NAME)
-        if (key) load(key)
+        if (key) await load(key)
+        setLoaded(true)
     }
 
     const save = useCallback(
@@ -291,6 +294,7 @@ const DataContextProvider: React.FC<DataContextProviderPropsType> = ({
     const contextValue = useMemo(
         () => ({
             key,
+            loaded,
             cookBook,
             availableTags,
             initLoad,
