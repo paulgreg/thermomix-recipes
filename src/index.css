@@ -14,17 +14,23 @@ body {
     background: #f7fce9;
 }
 
+label {
+    font-size: 20px;
+}
 input,
 select,
-button {
+button,
+textarea {
+    font-size: 20px;
+    border: 1px solid black;
+}
+input,
+select {
     padding: 6px;
     margin: 6px;
-    font-size: 24px;
-    border: 1px solid black;
 }
 input[type='text'],
 select {
-    margin-top: 20px;
     color: black;
     background: white;
 }
@@ -32,7 +38,7 @@ button {
     border-radius: 12px;
     margin-left: auto;
     margin-right: auto;
-    padding: 4px;
+    padding: 0 8px;
     display: block;
     color: var(--main-bg-color);
     background: var(--main-fg-color);
@@ -85,11 +91,35 @@ footer span {
 }
 
 h1,
-h2 {
+h2,
+h3,
+h4 {
     margin: 4px;
+}
+h1 {
+    font-size: 24px;
+}
+h2 {
+    font-size: 22px;
+}
+h3,
+summary {
+    font-size: 20px;
 }
 a {
     color: var(--main-fg-color);
+}
+
+form p {
+    margin: 4px 0;
+}
+
+pre {
+    margin: 2px 0 12px 0;
+    font-size: 16px;
+    white-space: pre;
+    color: black;
+    background: white;
 }
 
 .error {
@@ -123,8 +153,18 @@ a {
 }
 
 .thermomixIcon {
+    margin: 0 2px;
     height: 28px;
     width: 28px;
     vertical-align: bottom;
     border: 1px solid var(--main-fg-color);
+}
+
+.tag {
+    margin: 4px;
+    padding: 4px;
+    border-radius: 10px;
+    color: white;
+    background-color: var(--main-fg-color);
+    text-decoration: none;
 }

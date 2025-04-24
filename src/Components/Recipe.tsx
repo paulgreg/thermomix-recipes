@@ -4,11 +4,14 @@ import { t } from '../i18n/i18n'
 import { InjectableComponent } from '../Types'
 import Markdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
-import Settings from '../settings.json'
+import settings from '../settings.json'
 import { useDataContext } from '../DataContext'
+import Tags from './Tags'
+import useOnline from './useOnline'
 
 const Recipe: React.FC<InjectableComponent> = ({ category, recipe }) => {
     const navigate = useNavigate()
+    const online = useOnline()
     const { deleteRecipe } = useDataContext()
 
     const onDelete = useCallback(() => {
@@ -40,9 +43,9 @@ const Recipe: React.FC<InjectableComponent> = ({ category, recipe }) => {
                         textAlign: 'left',
                     }}
                 >
-                    <p>
-                        {t('tags.label')}: {recipe.tags ?? t('tags.no')}
-                    </p>
+                    <div>
+                        <Tags tags={recipe?.tags ?? []} />
+                    </div>
                     <Markdown
                         remarkPlugins={[remarkGfm]}
                         components={{
@@ -52,7 +55,7 @@ const Recipe: React.FC<InjectableComponent> = ({ category, recipe }) => {
                                     src={
                                         props?.src?.startsWith('http')
                                             ? props.src
-                                            : Settings.baseUrl + props.src
+                                            : settings.baseUrl + props.src
                                     }
                                     alt={props.alt}
                                     className="thermomixIcon"
@@ -65,21 +68,30 @@ const Recipe: React.FC<InjectableComponent> = ({ category, recipe }) => {
                 </div>
             </div>
             <footer>
-                <button
-                    style={{ color: 'white', backgroundColor: 'crimson' }}
-                    onClick={onDelete}
-                >
-                    {t('recipe.delete')}
-                </button>
-                <button
-                    onClick={() => navigate(`/recipe/${recipe.id}/edit`)}
-                    style={{
-                        color: 'black',
-                        backgroundColor: 'bisque',
-                    }}
-                >
-                    {t('recipe.edit')}
-                </button>
+                {online && (
+                    <>
+                        <button
+                            style={{
+                                color: 'white',
+                                backgroundColor: 'crimson',
+                            }}
+                            onClick={onDelete}
+                        >
+                            {t('recipe.delete')}
+                        </button>
+                        <button
+                            onClick={() =>
+                                navigate(`/recipe/${recipe.id}/edit`)
+                            }
+                            style={{
+                                color: 'black',
+                                backgroundColor: 'bisque',
+                            }}
+                        >
+                            {t('recipe.edit')}
+                        </button>
+                    </>
+                )}
             </footer>
         </>
     )

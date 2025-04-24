@@ -3,10 +3,12 @@ import { Link } from 'react-router-dom'
 import { useDataContext } from '../DataContext'
 import { t } from '../i18n/i18n'
 import { Category } from '../Types'
+import useOnline from './useOnline'
 
 const Home = () => {
     const { cookBook, addCategory, renameCategory, deleteCategory } =
         useDataContext()
+    const online = useOnline()
 
     const categories = useMemo(
         () =>
@@ -44,19 +46,24 @@ const Home = () => {
                 {categories.map((category) => (
                     <div key={category.id} className="grid row">
                         <span style={{ display: 'flex' }}>
-                            <button
-                                className="icon"
-                                onClick={onRenameCategory(category)}
-                            >
-                                ✏️
-                            </button>
-                            {category.count === 0 && (
-                                <button
-                                    className="icon"
-                                    onClick={onDeleteCategory(category)}
-                                >
-                                    🗑️
-                                </button>
+                            {online && (
+                                <>
+                                    <button
+                                        className="icon"
+                                        onClick={onRenameCategory(category)}
+                                    >
+                                        ✏️
+                                    </button>
+
+                                    {category.count === 0 && (
+                                        <button
+                                            className="icon"
+                                            onClick={onDeleteCategory(category)}
+                                        >
+                                            🗑️
+                                        </button>
+                                    )}
+                                </>
                             )}
                         </span>
                         <Link to={`/category/${category.id}`}>
@@ -68,17 +75,26 @@ const Home = () => {
                     </div>
                 ))}
                 <div style={{ marginTop: 20 }}>
-                    <button style={{ margin: 'auto' }} onClick={onAddCategory}>
-                        {t('category.add')}
-                    </button>
+                    {online && (
+                        <button
+                            style={{ margin: 'auto' }}
+                            onClick={onAddCategory}
+                        >
+                            {t('category.add')}
+                        </button>
+                    )}
                 </div>
             </div>
             <footer>
                 <Link to="/search">{t('search')}</Link>
-                {' | '}
-                <Link to="/recipe/add">{t('recipe.add')}</Link>
-                {' | '}
-                <Link to="/configure">{t('configure')}</Link>
+                {online && (
+                    <>
+                        {' | '}
+                        <Link to="/recipe/add">{t('recipe.add')}</Link>
+                        {' | '}
+                        <Link to="/configure">{t('configure')}</Link>
+                    </>
+                )}
             </footer>
         </>
     )

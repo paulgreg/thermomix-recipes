@@ -8,7 +8,7 @@ import DataContextProvider, { useDataContext } from './DataContext'
 import { InjectableComponent, CookBook } from './Types'
 import Category from './Components/Category'
 import ErrorMessage from './Components/Error'
-import Settings from './settings.json'
+import settings from './settings.json'
 import Recipe from './Components/Recipe'
 import './index.css'
 import EditRecipe from './Components/EditRecipe'
@@ -63,7 +63,7 @@ if (container) {
     root.render(
         <React.StrictMode>
             <DataContextProvider>
-                <BrowserRouter basename={Settings.baseUrl}>
+                <BrowserRouter basename={settings.baseUrl}>
                     <Routes>
                         <Route path="/" element={<App />}>
                             <Route index element={<Home />} />

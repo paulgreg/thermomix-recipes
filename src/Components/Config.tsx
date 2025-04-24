@@ -1,6 +1,7 @@
 import React, { useState, useRef, MouseEvent } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { useDataContext } from '../DataContext'
+import { t } from '../i18n/i18n'
 
 const Config = () => {
     const inputRef = useRef<HTMLInputElement>(null)
@@ -34,13 +35,13 @@ const Config = () => {
             <div className="content">
                 <form>
                     <label>
-                        Type a cookbook name :
+                        {t('configure.label')} :
                         <input
                             ref={inputRef}
                             type="text"
                             name="key"
                             defaultValue={key ?? ''}
-                            placeholder="myCookbook"
+                            placeholder={t('configure.label.placeholder')}
                             minLength={3}
                             maxLength={32}
                             pattern="[a-zA-Z0-9-]+"
@@ -54,27 +55,20 @@ const Config = () => {
                                 {error}
                             </strong>
                         )}
-                        <small>
-                            (only letters or number without space or special
-                            characters)
-                        </small>
+                        <small>({t('configure.restrictions')})</small>
                     </label>
                     <p>
                         <button
                             style={{ margin: '1em auto 0' }}
                             onClick={onLoad}
                         >
-                            Load
+                            {t('load')}
                         </button>
-                        <small>
-                            (will fetch data from server and overwrite your
-                            local data if any)
-                        </small>
                     </p>
                 </form>
             </div>
             <footer>
-                <Link to="/">back</Link>
+                <Link to="/">{t('back')}</Link>
             </footer>
         </>
     )

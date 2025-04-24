@@ -3,9 +3,11 @@ import { Link, useNavigate } from 'react-router-dom'
 import { useDataContext } from '../DataContext'
 import { t } from '../i18n/i18n'
 import { InjectableComponent } from '../Types'
+import useOnline from './useOnline'
 
 const Category: React.FC<InjectableComponent> = ({ category }) => {
     const { cookBook } = useDataContext()
+    const online = useOnline()
     const navigate = useNavigate()
 
     if (!category) {
@@ -37,8 +39,12 @@ const Category: React.FC<InjectableComponent> = ({ category }) => {
             </div>
             <footer>
                 <Link to="/search">{t('search')}</Link>
-                {' | '}
-                <Link to="/recipe/add">{t('recipe.add')}</Link>
+                {online && (
+                    <>
+                        {' | '}
+                        <Link to="/recipe/add">{t('recipe.add')}</Link>
+                    </>
+                )}
             </footer>
         </>
     )

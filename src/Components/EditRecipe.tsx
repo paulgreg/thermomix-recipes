@@ -3,15 +3,49 @@ import { useNavigate } from 'react-router-dom'
 import { t } from '../i18n/i18n'
 import { InjectableComponent } from '../Types'
 import { useDataContext } from '../DataContext'
+import { ReactTags } from 'react-tag-autocomplete'
+import type { TagSelected } from 'react-tag-autocomplete'
+import './react-tags.css'
+import ThermomixIcons from './ThermomixIcons'
 
 const EditRecipe: React.FC<InjectableComponent> = ({ recipe }) => {
     const navigate = useNavigate()
     const { cookBook, availableTags, addOrEditRecipe } = useDataContext()
     const formRef = useRef<HTMLFormElement>(null)
+    const textAreaRef = useRef<HTMLTextAreaElement>(null)
     const [nameValue, setNameValue] = useState(recipe?.name ?? '')
     const [categoryIdValue, setCategoryIdValue] = useState(recipe?.categoryId)
-    const [tagsValue, setTagsValue] = useState((recipe?.tags ?? []).join(' '))
+    const [tagsValue, setTagsValue] = useState<TagSelected[]>(
+        (recipe?.tags ?? [])?.map((t) => ({ value: t, label: t }))
+    )
     const [recipeValue, setRecipeValue] = useState(recipe?.recipe ?? '')
+
+    const onAddTag = useCallback(
+        (newTag: TagSelected) => {
+            setTagsValue([...tagsValue, newTag])
+        },
+        [tagsValue]
+    )
+
+    const onDeleteTag = useCallback(
+        (tagIndex: number) => {
+            setTagsValue(tagsValue.filter((_, i) => i !== tagIndex))
+        },
+        [tagsValue]
+    )
+
+    const onIconClick = useCallback((markdown: string) => {
+        if (!textAreaRef.current) return
+        const value = textAreaRef.current.value
+        const newRecipeValue =
+            value.substring(0, textAreaRef.current.selectionStart) +
+            markdown +
+            value.substring(textAreaRef.current.selectionEnd)
+        textAreaRef.current.value = newRecipeValue
+        setRecipeValue(newRecipeValue)
+        textAreaRef.current.selectionStart += markdown.length
+        textAreaRef.current.focus()
+    }, [])
 
     const onSubmit = useCallback(async () => {
         if (!nameValue || !categoryIdValue) {
@@ -23,7 +57,7 @@ const EditRecipe: React.FC<InjectableComponent> = ({ recipe }) => {
             categoryIdValue,
             nameValue,
             recipeValue,
-            tagsValue.split(' '),
+            tagsValue.map(({ label }) => label),
             recipe?.id
         )
         navigate(`/recipe/${recipeId}`)
@@ -35,7 +69,6 @@ const EditRecipe: React.FC<InjectableComponent> = ({ recipe }) => {
                 <span>{recipe?.name ?? t('recipe.new')}</span>
             </header>
             <div className="content">
-                <h1>{recipe?.name}</h1>
                 <form
                     ref={formRef}
                     className="area"
@@ -44,7 +77,7 @@ const EditRecipe: React.FC<InjectableComponent> = ({ recipe }) => {
                     }}
                     action={onSubmit}
                 >
-                    <p className="area">
+                    <div className="area">
                         <label htmlFor="name">{t('recipe.name.label')} :</label>
                         <input
                             type="text"
@@ -53,8 +86,8 @@ const EditRecipe: React.FC<InjectableComponent> = ({ recipe }) => {
                             value={nameValue}
                             onChange={(e) => setNameValue(e.target.value)}
                         />
-                    </p>
-                    <p className="area">
+                    </div>
+                    <div className="area">
                         <label htmlFor="category">
                             {t('category.label')} :
                         </label>
@@ -70,36 +103,69 @@ const EditRecipe: React.FC<InjectableComponent> = ({ recipe }) => {
                                 </option>
                             ))}
                         </select>
-                    </p>
-                    <p className="area">
+                    </div>
+                    <div className="area">
                         <label htmlFor="tags">{t('tags.label')} :</label>
-                        <input
-                            type="text"
+                        <ReactTags
                             id="tags"
-                            list="availableTags"
-                            value={tagsValue}
-                            placeholder={t('tags.placeholder')}
-                            onChange={(e) => setTagsValue(e.target.value)}
+                            placeholderText={t('tags.placeholder')}
+                            selected={tagsValue}
+                            allowNew={true}
+                            newOptionText={t('tags.add')}
+                            onAdd={onAddTag}
+                            onDelete={onDeleteTag}
+                            suggestions={availableTags.map((t) => ({
+                                value: t,
+                                label: t,
+                            }))}
                         />
-                        <datalist id="availableTags">
-                            {availableTags.map((tag) => (
-                                <option value={tag} key={tag} />
-                            ))}
-                        </datalist>
-                    </p>
-                    <p className="area">
+                    </div>
+                    <div className="area">
                         <label htmlFor="recipe">{t('recipe.label')} : </label>
                         <textarea
+                            ref={textAreaRef}
                             id="recipe"
                             value={recipeValue}
                             onChange={(e) => setRecipeValue(e.target.value)}
                             style={{
                                 display: 'block',
                                 width: '100%',
-                                height: '80vh',
+                                height: '60vh',
                             }}
                         ></textarea>
-                    </p>
+                    </div>
+                    <div style={{ margin: '4px auto 8px auto' }}>
+                        <ThermomixIcons onIconClick={onIconClick} />
+                    </div>
+                    <details>
+                        <summary>{t('help.title')}</summary>
+
+                        <h3>{t('help.bold')}</h3>
+                        <pre>**{t('help.bold')}**</pre>
+
+                        <h3>{t('help.italic')}</h3>
+                        <pre>_{t('help.italic')}_</pre>
+
+                        <h3>{t('help.list')}</h3>
+                        <pre>{`- ${t('help.list.element')}
+- ${t('help.list.element')}
+  - ${t('help.list.subelement')}`}</pre>
+
+                        <h3>{t('help.title.1')}</h3>
+                        <pre># {t('help.title.label')} #</pre>
+
+                        <h3>{t('help.title.2')}</h3>
+                        <pre>## {t('help.title.label')} ##</pre>
+
+                        <h3>{t('help.title.3')}</h3>
+                        <pre>### {t('help.title.label')} ###</pre>
+
+                        <h3>Lien</h3>
+                        <pre>[Thermomix](http://www.vorwerk.com)</pre>
+
+                        <h3>Image</h3>
+                        <pre>![description](imgs/logo_thermomix.png)</pre>
+                    </details>
                 </form>
             </div>
             <footer>
