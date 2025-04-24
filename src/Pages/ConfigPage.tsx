@@ -3,7 +3,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import { useDataContext } from '../DataContext'
 import { t } from '../i18n/i18n'
 
-const Config = () => {
+const ConfigPage = () => {
     const inputRef = useRef<HTMLInputElement>(null)
     const navigate = useNavigate()
     const [error, setError] = useState<string | undefined>()
@@ -74,4 +74,4 @@ const Config = () => {
     )
 }
 
-export default Config
+export default ConfigPage

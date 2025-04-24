@@ -106,12 +106,13 @@ h3,
 summary {
     font-size: 20px;
 }
+
 a {
     color: var(--main-fg-color);
 }
 
-form p {
-    margin: 4px 0;
+p {
+    margin: 8px 0;
 }
 
 pre {

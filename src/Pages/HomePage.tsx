@@ -3,9 +3,9 @@ import { Link } from 'react-router-dom'
 import { useDataContext } from '../DataContext'
 import { t } from '../i18n/i18n'
 import { Category } from '../Types'
-import useOnline from './useOnline'
+import useOnline from '../Utils/useOnline'
 
-const Home = () => {
+const HomePage = () => {
     const { cookBook, addCategory, renameCategory, deleteCategory } =
         useDataContext()
     const online = useOnline()
@@ -100,4 +100,4 @@ const Home = () => {
     )
 }
 
-export default Home
+export default HomePage

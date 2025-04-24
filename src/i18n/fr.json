@@ -3,6 +3,8 @@
     "home": "Accueil",
     "back": "Retour",
     "search": "chercher",
+    "search.title": "Recherche",
+    "search.placeholder": "Quiche",
     "cancel": "annuler",
     "save": "sauvegarder",
     "load": "charger",

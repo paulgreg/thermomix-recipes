@@ -6,5 +6,9 @@ export default defineConfig(() => {
     return {
         base: './',
         plugins: [react(), svgrPlugin()],
+        test: {
+            include: ['**/*.test.js'],
+            globals: true,
+        },
     }
 })

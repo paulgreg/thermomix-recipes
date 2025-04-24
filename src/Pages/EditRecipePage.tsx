@@ -6,9 +6,9 @@ import { useDataContext } from '../DataContext'
 import { ReactTags } from 'react-tag-autocomplete'
 import type { TagSelected } from 'react-tag-autocomplete'
 import './react-tags.css'
-import ThermomixIcons from './ThermomixIcons'
+import ThermomixIcons from '../Components/ThermomixIcons'
 
-const EditRecipe: React.FC<InjectableComponent> = ({ recipe }) => {
+const EditRecipePage: React.FC<InjectableComponent> = ({ recipe }) => {
     const navigate = useNavigate()
     const { cookBook, availableTags, addOrEditRecipe } = useDataContext()
     const formRef = useRef<HTMLFormElement>(null)
@@ -186,4 +186,4 @@ const EditRecipe: React.FC<InjectableComponent> = ({ recipe }) => {
     )
 }
 
-export default EditRecipe
+export default EditRecipePage

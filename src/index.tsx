@@ -1,17 +1,19 @@
 import React from 'react'
 import { createRoot } from 'react-dom/client'
 import App from './App'
-import Config from './Components/Config'
+import ConfigPage from './Pages/ConfigPage'
 import { BrowserRouter, Routes, Route, useParams } from 'react-router-dom'
-import Home from './Components/Home'
+import HomePage from './Pages/HomePage'
 import DataContextProvider, { useDataContext } from './DataContext'
 import { InjectableComponent, CookBook } from './Types'
-import Category from './Components/Category'
+import CategoryPage from './Pages/CategoryPage'
 import ErrorMessage from './Components/Error'
 import settings from './settings.json'
-import Recipe from './Components/Recipe'
+import RecipePage from './Pages/RecipePage'
 import './index.css'
-import EditRecipe from './Components/EditRecipe'
+import EditRecipePage from './Pages/EditRecipePage'
+import SearchPage from './Pages/SearchPage'
+import TagPage from './Pages/TagPage'
 
 type ValidateInjectableType = {
     component: React.FC<InjectableComponent>
@@ -66,38 +68,51 @@ if (container) {
                 <BrowserRouter basename={settings.baseUrl}>
                     <Routes>
                         <Route path="/" element={<App />}>
-                            <Route index element={<Home />} />
+                            <Route index element={<HomePage />} />
+                            <Route path="/search" element={<SearchPage />} />
+                            <Route
+                                path="/tag/:tag"
+                                element={
+                                    <ValidateComponent component={TagPage} />
+                                }
+                            />
                             <Route
                                 path="/category/:categoryId"
                                 element={
-                                    <ValidateComponent component={Category} />
+                                    <ValidateComponent
+                                        component={CategoryPage}
+                                    />
                                 }
                             />
                             <Route
                                 path="/recipe/:recipeId"
                                 element={
-                                    <ValidateComponent component={Recipe} />
+                                    <ValidateComponent component={RecipePage} />
                                 }
                             />
                             <Route
                                 path="/recipe/add"
                                 element={
-                                    <ValidateComponent component={EditRecipe} />
+                                    <ValidateComponent
+                                        component={EditRecipePage}
+                                    />
                                 }
                             />
                             <Route
                                 path="/recipe/:recipeId/edit"
                                 element={
-                                    <ValidateComponent component={EditRecipe} />
+                                    <ValidateComponent
+                                        component={EditRecipePage}
+                                    />
                                 }
                             />
                             <Route
                                 path="/category/:categoryId/recipe/:recipeId"
                                 element={
-                                    <ValidateComponent component={Recipe} />
+                                    <ValidateComponent component={RecipePage} />
                                 }
                             />
-                            <Route path="/configure" element={<Config />} />
+                            <Route path="/configure" element={<ConfigPage />} />
                         </Route>
                     </Routes>
                 </BrowserRouter>

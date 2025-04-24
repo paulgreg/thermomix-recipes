@@ -3,9 +3,10 @@ import { Link, useNavigate } from 'react-router-dom'
 import { useDataContext } from '../DataContext'
 import { t } from '../i18n/i18n'
 import { InjectableComponent } from '../Types'
-import useOnline from './useOnline'
+import useOnline from '../Utils/useOnline'
+import { replaceStars } from '../Utils/string'
 
-const Category: React.FC<InjectableComponent> = ({ category }) => {
+const CategoryPage: React.FC<InjectableComponent> = ({ category }) => {
     const { cookBook } = useDataContext()
     const online = useOnline()
     const navigate = useNavigate()
@@ -32,7 +33,7 @@ const Category: React.FC<InjectableComponent> = ({ category }) => {
                         <Link
                             to={`/category/${category.id}/recipe/${recipe.id}`}
                         >
-                            {recipe.name}
+                            {replaceStars(recipe.name)}
                         </Link>
                     </div>
                 ))}
@@ -50,4 +51,4 @@ const Category: React.FC<InjectableComponent> = ({ category }) => {
     )
 }
 
-export default Category
+export default CategoryPage

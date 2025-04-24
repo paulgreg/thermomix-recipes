@@ -6,10 +6,11 @@ import Markdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
 import settings from '../settings.json'
 import { useDataContext } from '../DataContext'
-import Tags from './Tags'
-import useOnline from './useOnline'
+import TagsCloud from '../Components/TagsCloud'
+import useOnline from '../Utils/useOnline'
+import { replaceStars } from '../Utils/string'
 
-const Recipe: React.FC<InjectableComponent> = ({ category, recipe }) => {
+const RecipePage: React.FC<InjectableComponent> = ({ category, recipe }) => {
     const navigate = useNavigate()
     const online = useOnline()
     const { deleteRecipe } = useDataContext()
@@ -34,18 +35,16 @@ const Recipe: React.FC<InjectableComponent> = ({ category, recipe }) => {
                 ) : (
                     <Link to="/">{t('home')}</Link>
                 )}
-                &gt; <span>{recipe.name}</span>
+                &gt; <span>{replaceStars(recipe.name)}</span>
             </header>
             <div className="content">
-                <h1>{recipe.name}</h1>
+                <h1>{replaceStars(recipe.name)}</h1>
                 <div
                     style={{
                         textAlign: 'left',
                     }}
                 >
-                    <div>
-                        <Tags tags={recipe?.tags ?? []} />
-                    </div>
+                    <TagsCloud tags={recipe?.tags ?? []} />
                     <Markdown
                         remarkPlugins={[remarkGfm]}
                         components={{
@@ -97,4 +96,4 @@ const Recipe: React.FC<InjectableComponent> = ({ category, recipe }) => {
     )
 }
 
-export default Recipe
+export default RecipePage
