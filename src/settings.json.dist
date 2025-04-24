@@ -1,5 +1,5 @@
 {
-    "baseUrl": "/thermomixrecipes",
+    "baseUrl": "/recipes/",
     "saveUrl": "https://some-server-url-to-allow-json-get-and-post",
     "authorization": "user:password-encoded-in-base64"
 }
