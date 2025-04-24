@@ -14,7 +14,7 @@
   },
   "scripts": {
     "dev": "vite",
-    "build": "vite build --base=/thermomix-recipes/",
+    "build": "vite build --base=/recipes/",
     "deploy": "npm i && ./to_ghpages"
   },
   "eslintConfig": {
