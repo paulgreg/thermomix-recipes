@@ -21,7 +21,7 @@ type DataContextType = {
     cookBook: CookBook
     loaded: boolean
     availableTags: string[]
-    initLoad: () => Promise<void>
+    initLoad: (cookbookName?: string) => Promise<void>
     load: (key: string) => Promise<void>
     save: (key: string, cookBook: CookBook) => Promise<void>
     addCategory: (name: string) => Promise<void>
@@ -133,7 +133,9 @@ const DataContextProvider: React.FC<DataContextProviderPropsType> = ({
         [loadOnline, setCookBook, setPreviousCookBook]
     )
 
-    const initLoad = async () => {
+    const initLoad = async (cookbookName?: string) => {
+        if (cookbookName) localStorage.setItem(KEY_NAME, cookbookName)
+
         const key = localStorage.getItem(KEY_NAME)
         if (key) await load(key)
         setLoaded(true)

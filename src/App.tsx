@@ -6,7 +6,10 @@ export default function App() {
     const { initLoad } = useDataContext()
 
     useEffect(() => {
-        initLoad()
+        const searchParams = new URLSearchParams(location.search)
+        const cookbookName = searchParams.get('cookbook')
+
+        initLoad(cookbookName ?? undefined)
     }, [])
 
     return (
