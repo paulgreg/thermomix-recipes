@@ -27,7 +27,6 @@ const TagPage: React.FC<InjectableComponent> = ({ tag }) => {
     return (
         <>
             <header>
-                <Link to="/">{t('home')}</Link> &gt;
                 <span>#{tag}</span>
             </header>
             <div className="content">
@@ -41,7 +40,9 @@ const TagPage: React.FC<InjectableComponent> = ({ tag }) => {
                     ))}
                 </div>
             </div>
-            <footer></footer>
+            <footer>
+                <Link to="/">{t('home')}</Link>
+            </footer>
         </>
     )
 }
