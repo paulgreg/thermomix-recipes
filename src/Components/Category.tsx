@@ -25,22 +25,20 @@ const Category: React.FC<InjectableComponent> = ({ category }) => {
             </header>
             <div className="content">
                 {recipes.length === 0 && <p>{t('recipes.empty')}</p>}
-                {recipes
-                    .toSorted((r1, r2) => r1.name.localeCompare(r2.name))
-                    .map((recipe) => (
-                        <div key={recipe.id} className="row">
-                            <Link
-                                to={`/category/${category.id}/recipe/${recipe.id}`}
-                            >
-                                {recipe.name}
-                            </Link>
-                        </div>
-                    ))}
+                {recipes.map((recipe) => (
+                    <div key={recipe.id} className="row">
+                        <Link
+                            to={`/category/${category.id}/recipe/${recipe.id}`}
+                        >
+                            {recipe.name}
+                        </Link>
+                    </div>
+                ))}
             </div>
             <footer>
                 <Link to="/search">{t('search')}</Link>
                 {' | '}
-                <Link to="/add">{t('recipe.add')}</Link>
+                <Link to="/recipe/add">{t('recipe.add')}</Link>
             </footer>
         </>
     )

@@ -41,34 +41,32 @@ const Home = () => {
             </header>
             <div className="content">
                 {categories.length === 0 && <p>{t('category.empty')}</p>}
-                {categories
-                    .toSorted((c1, c2) => c1.name.localeCompare(c2.name))
-                    .map((category) => (
-                        <div key={category.id} className="grid row">
-                            <span style={{ display: 'flex' }}>
+                {categories.map((category) => (
+                    <div key={category.id} className="grid row">
+                        <span style={{ display: 'flex' }}>
+                            <button
+                                className="icon"
+                                onClick={onRenameCategory(category)}
+                            >
+                                ✏️
+                            </button>
+                            {category.count === 0 && (
                                 <button
                                     className="icon"
-                                    onClick={onRenameCategory(category)}
+                                    onClick={onDeleteCategory(category)}
                                 >
-                                    ✏️
+                                    🗑️
                                 </button>
-                                {category.count === 0 && (
-                                    <button
-                                        className="icon"
-                                        onClick={onDeleteCategory(category)}
-                                    >
-                                        🗑️
-                                    </button>
-                                )}
-                            </span>
-                            <Link to={`/category/${category.id}`}>
-                                {category.name}
-                            </Link>
-                            <small style={{ fontSize: '.7em' }}>
-                                ({category.count})
-                            </small>
-                        </div>
-                    ))}
+                            )}
+                        </span>
+                        <Link to={`/category/${category.id}`}>
+                            {category.name}
+                        </Link>
+                        <small style={{ fontSize: '.7em' }}>
+                            ({category.count})
+                        </small>
+                    </div>
+                ))}
                 <div style={{ marginTop: 20 }}>
                     <button style={{ margin: 'auto' }} onClick={onAddCategory}>
                         {t('category.add')}
@@ -78,7 +76,7 @@ const Home = () => {
             <footer>
                 <Link to="/search">{t('search')}</Link>
                 {' | '}
-                <Link to="/add">{t('recipe.add')}</Link>
+                <Link to="/recipe/add">{t('recipe.add')}</Link>
                 {' | '}
                 <Link to="/configure">{t('configure')}</Link>
             </footer>

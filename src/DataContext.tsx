@@ -5,6 +5,7 @@ import React, {
     useMemo,
     useState,
 } from 'react'
+import type { Recipe } from './Types'
 import settings from './settings.json'
 import { getId } from './Utils/id'
 import * as jsonpatch from 'fast-json-patch'
@@ -18,12 +19,21 @@ const KEY_NAME = 'THERMOMIXRECIPES_KEY'
 type DataContextType = {
     key: string | null
     cookBook: CookBook
+    availableTags: string[]
     initLoad: () => Promise<void>
     load: (key: string) => Promise<void>
     save: (key: string, cookBook: CookBook) => Promise<void>
-    addCategory: (name: string) => void
-    renameCategory: (id: string, newName: string) => void
-    deleteCategory: (id: string) => void
+    addCategory: (name: string) => Promise<void>
+    renameCategory: (id: string, newName: string) => Promise<void>
+    deleteCategory: (id: string) => Promise<void>
+    addOrEditRecipe: (
+        categoryId: string,
+        name: string,
+        recipe: string,
+        tags: string[],
+        id?: string
+    ) => Promise<string>
+    deleteRecipe: (id: string) => Promise<void>
 }
 
 const EMPTY_COOKBOOK = {
@@ -87,6 +97,16 @@ const DataContextProvider: React.FC<DataContextProviderPropsType> = ({
         return { categories, recipes, lastSave: cookBook.lastSave }
     }
 
+    const sortCookBook = (cookBook: CookBook): CookBook => ({
+        ...cookBook,
+        categories: cookBook.categories.toSorted((c1, c2) =>
+            c1.name.localeCompare(c2.name)
+        ),
+        recipes: cookBook.recipes.toSorted((r1, r2) =>
+            r1.name.localeCompare(r2.name)
+        ),
+    })
+
     const load = useCallback(
         async (key: string) => {
             setKey(key)
@@ -94,10 +114,16 @@ const DataContextProvider: React.FC<DataContextProviderPropsType> = ({
             let serverData, localData
 
             const rawData = localStorage.getItem(key)
-            if (rawData) localData = JSON.parse(rawData)
+            if (rawData) {
+                localData = sortCookBook(JSON.parse(rawData) ?? EMPTY_COOKBOOK)
+            }
 
             const json = await loadOnline(key)
-            if (json) serverData = convertIdToString(json)
+            if (json) {
+                serverData = sortCookBook(
+                    convertIdToString(json) ?? EMPTY_COOKBOOK
+                )
+            }
 
             setCookBook(serverData ?? localData ?? EMPTY_COOKBOOK)
             setPreviousCookBook(serverData ?? EMPTY_COOKBOOK)
@@ -112,9 +138,12 @@ const DataContextProvider: React.FC<DataContextProviderPropsType> = ({
 
     const save = useCallback(
         async (key: string, cookBook: CookBook) => {
+            cookBook.lastSave = Date.now()
+            const sortedCookBook = sortCookBook(cookBook)
             localStorage.setItem(KEY_NAME, key)
-            localStorage.setItem(key, JSON.stringify(cookBook))
-            saveOnline(key, cookBook, previousCookBook, newDoc)
+            localStorage.setItem(key, JSON.stringify(sortedCookBook))
+            saveOnline(key, sortedCookBook, previousCookBook, newDoc)
+            setCookBook(sortedCookBook)
         },
         [previousCookBook, newDoc]
     )
@@ -156,7 +185,7 @@ const DataContextProvider: React.FC<DataContextProviderPropsType> = ({
     )
 
     const addCategory = useCallback(
-        (name: string) => {
+        async (name: string) => {
             const categories = cookBook.categories.concat({
                 id: getId(),
                 name,
@@ -166,13 +195,13 @@ const DataContextProvider: React.FC<DataContextProviderPropsType> = ({
                 categories,
             }
             setCookBook(newCookbook)
-            if (key) save(key, newCookbook)
+            if (key) await save(key, newCookbook)
         },
         [cookBook, key]
     )
 
     const renameCategory = useCallback(
-        (id: string, newName: string) => {
+        async (id: string, newName: string) => {
             const newCookbook = {
                 ...cookBook,
                 categories: cookBook.categories.map((category) =>
@@ -185,11 +214,11 @@ const DataContextProvider: React.FC<DataContextProviderPropsType> = ({
                 ),
             }
             setCookBook(newCookbook)
-            if (key) save(key, newCookbook)
+            if (key) await save(key, newCookbook)
         },
         [cookBook, key]
     )
-    const deleteCategory = (id: string) => {
+    const deleteCategory = async (id: string) => {
         const recipeFromThatCategory = cookBook.recipes.find(
             (recipe) => recipe.categoryId === id
         )
@@ -202,21 +231,78 @@ const DataContextProvider: React.FC<DataContextProviderPropsType> = ({
             ),
         }
         setCookBook(newCookbook)
-        if (key) save(key, newCookbook)
+        if (key) await save(key, newCookbook)
     }
+
+    const deleteRecipe = useCallback(
+        async (id: string) => {
+            const newCookbook = {
+                ...cookBook,
+                recipes: cookBook.recipes.filter((recipe) => recipe.id !== id),
+            }
+            setCookBook(newCookbook)
+            if (key) await save(key, newCookbook)
+        },
+        [cookBook, key]
+    )
+    const addOrEditRecipe = useCallback(
+        async (
+            categoryId: string,
+            name: string,
+            recipe: string,
+            tags: string[],
+            maybeId?: string
+        ) => {
+            const id = maybeId ?? getId()
+            const newRecipe: Recipe = {
+                id,
+                categoryId,
+                name,
+                recipe,
+                tags,
+            }
+
+            const recipes = maybeId
+                ? cookBook.recipes.map((recipe) =>
+                      recipe.id === maybeId ? newRecipe : recipe
+                  )
+                : cookBook.recipes.concat(newRecipe)
+
+            const newCookbook = {
+                ...cookBook,
+                recipes,
+            }
+            setCookBook(newCookbook)
+            if (key) await save(key, newCookbook)
+            return id
+        },
+        [cookBook, key]
+    )
+
+    const availableTags = useMemo(() => {
+        const set = new Set<string>()
+        const tags: string[] = cookBook.recipes
+            .flatMap(({ tags }): string[] => tags || [])
+            .filter((tag) => !!tag)
+        tags.forEach((tag) => set.add(tag))
+        return Array.from(set)
+    }, [cookBook])
 
     const contextValue = useMemo(
         () => ({
             key,
             cookBook,
+            availableTags,
             initLoad,
             load,
             save,
             addCategory,
             renameCategory,
             deleteCategory,
+            addOrEditRecipe,
+            deleteRecipe,
         }),
-        [cookBook, key, load, save]
+        [cookBook, availableTags, key, load, save]
     )
 
     return (

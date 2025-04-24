@@ -1,14 +1,22 @@
-import React from 'react'
+import React, { useCallback } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-import { useDataContext } from '../DataContext'
 import { t } from '../i18n/i18n'
 import { InjectableComponent } from '../Types'
 import Markdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
 import Settings from '../settings.json'
+import { useDataContext } from '../DataContext'
 
-const Recipe: React.FC<InjectableComponent> = ({ category, tag, recipe }) => {
+const Recipe: React.FC<InjectableComponent> = ({ category, recipe }) => {
     const navigate = useNavigate()
+    const { deleteRecipe } = useDataContext()
+
+    const onDelete = useCallback(() => {
+        if (recipe && confirm(t('recipe.delete.confirm'))) {
+            deleteRecipe(recipe.id)
+            navigate('/')
+        }
+    }, [])
 
     if (!recipe) {
         navigate('/')
@@ -32,7 +40,9 @@ const Recipe: React.FC<InjectableComponent> = ({ category, tag, recipe }) => {
                         textAlign: 'left',
                     }}
                 >
-                    <p>Tag: {recipe.tags ?? t('tags.no')}</p>
+                    <p>
+                        {t('tags.label')}: {recipe.tags ?? t('tags.no')}
+                    </p>
                     <Markdown
                         remarkPlugins={[remarkGfm]}
                         components={{
@@ -55,9 +65,21 @@ const Recipe: React.FC<InjectableComponent> = ({ category, tag, recipe }) => {
                 </div>
             </div>
             <footer>
-                <Link to="/search">{t('search')}</Link>
-                {' | '}
-                <Link to="/add">{t('recipe.add')}</Link>
+                <button
+                    style={{ color: 'white', backgroundColor: 'crimson' }}
+                    onClick={onDelete}
+                >
+                    {t('recipe.delete')}
+                </button>
+                <button
+                    onClick={() => navigate(`/recipe/${recipe.id}/edit`)}
+                    style={{
+                        color: 'black',
+                        backgroundColor: 'bisque',
+                    }}
+                >
+                    {t('recipe.edit')}
+                </button>
             </footer>
         </>
     )

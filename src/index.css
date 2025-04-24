@@ -15,19 +15,27 @@ body {
 }
 
 input,
+select,
 button {
     padding: 6px;
+    margin: 6px;
     font-size: 24px;
-    color: var(--main-bg-color);
-    background: var(--main-fg-color);
-    border: 1px solid var(--main-fg-color);
+    border: 1px solid black;
 }
-input[type='text'] {
+input[type='text'],
+select {
     margin-top: 20px;
+    color: black;
+    background: white;
 }
 button {
+    border-radius: 12px;
+    margin-left: auto;
+    margin-right: auto;
     padding: 4px;
     display: block;
+    color: var(--main-bg-color);
+    background: var(--main-fg-color);
 }
 button.icon {
     border: none;
@@ -107,6 +115,11 @@ a {
 .row:hover a {
     color: var(--main-bg-color);
     background-color: var(--main-fg-color);
+}
+
+.area {
+    display: flex;
+    flex-direction: column;
 }
 
 .thermomixIcon {

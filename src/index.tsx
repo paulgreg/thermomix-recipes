@@ -9,8 +9,9 @@ import { InjectableComponent, CookBook } from './Types'
 import Category from './Components/Category'
 import ErrorMessage from './Components/Error'
 import Settings from './settings.json'
-import Recipe from './Components/Recipes'
+import Recipe from './Components/Recipe'
 import './index.css'
+import EditRecipe from './Components/EditRecipe'
 
 type ValidateInjectableType = {
     component: React.FC<InjectableComponent>
@@ -70,6 +71,24 @@ if (container) {
                                 path="/category/:categoryId"
                                 element={
                                     <ValidateComponent component={Category} />
+                                }
+                            />
+                            <Route
+                                path="/recipe/:recipeId"
+                                element={
+                                    <ValidateComponent component={Recipe} />
+                                }
+                            />
+                            <Route
+                                path="/recipe/add"
+                                element={
+                                    <ValidateComponent component={EditRecipe} />
+                                }
+                            />
+                            <Route
+                                path="/recipe/:recipeId/edit"
+                                element={
+                                    <ValidateComponent component={EditRecipe} />
                                 }
                             />
                             <Route
