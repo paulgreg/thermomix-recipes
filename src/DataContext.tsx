@@ -84,24 +84,6 @@ const DataContextProvider: React.FC<DataContextProviderPropsType> = ({
         []
     )
 
-    const convertIdToStringAndRemovePreviousValues = (
-        cookBook: CookBook
-    ): CookBook => {
-        const categories = cookBook.categories.map((category) => ({
-            ...category,
-            id: String(category.id),
-            count: undefined,
-        }))
-        const recipes = cookBook.recipes.map((recipe) => ({
-            ...recipe,
-            categoryId: String(recipe.categoryId),
-            id: String(recipe.id),
-            lastDone: undefined,
-        }))
-
-        return { categories, recipes, lastSave: cookBook.lastSave }
-    }
-
     const load = useCallback(
         async (key: string) => {
             setKey(key)
@@ -109,14 +91,10 @@ const DataContextProvider: React.FC<DataContextProviderPropsType> = ({
             let serverData, localData
 
             const rawData = localStorage.getItem(key)
-            if (rawData) {
-                localData = JSON.parse(rawData)
-            }
+            if (rawData) localData = JSON.parse(rawData)
 
             const json = await loadOnline(key)
-            if (json) {
-                serverData = convertIdToStringAndRemovePreviousValues(json)
-            }
+            if (json) serverData = json
 
             setCookBook(serverData ?? localData ?? EMPTY_COOKBOOK)
             setPreviousCookBook(serverData ?? EMPTY_COOKBOOK)
