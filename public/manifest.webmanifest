@@ -7,7 +7,7 @@
     "background_color": "#109045",
     "icons": [
         {
-            "purpose": "any",
+            "purpose": "maskable any",
             "src": "logo-512.png",
             "type": "image/png",
             "sizes": "512x512"
