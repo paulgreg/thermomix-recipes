@@ -1,16 +1,13 @@
 const fs = require('fs')
 const path = require('path')
 
-const convertIdToStringAndRemovePreviousValues = (cookBook) => {
+const cleanJSON = (cookBook) => {
     const categories = cookBook.categories.map((category) => ({
         ...category,
-        id: String(category.id),
         count: undefined,
     }))
     const recipes = cookBook.recipes.map((recipe) => ({
         ...recipe,
-        categoryId: String(recipe.categoryId),
-        id: String(recipe.id),
         lastDone: undefined,
     }))
 
@@ -42,7 +39,7 @@ const migrateJsonStore = (filePath) => {
     }
 
     try {
-        const cleanCoookBook = convertIdToStringAndRemovePreviousValues(data)
+        const cleanCoookBook = cleanJSON(data)
         fs.writeFileSync(filePath, JSON.stringify(cleanCoookBook))
         console.log('File written back successfully.')
     } catch (error) {

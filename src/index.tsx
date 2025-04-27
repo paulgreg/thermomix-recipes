@@ -33,7 +33,7 @@ const validate =
                 return <ErrorMessage msg="error.badid" />
 
             category = cookBook.categories.find(
-                (category) => category.id === categoryIdStr
+                (category) => category.id === parseInt(categoryIdStr, 10)
             )
             if (!category) return <ErrorMessage msg="error.nocategory" />
         }
@@ -43,7 +43,7 @@ const validate =
                 return <ErrorMessage msg="error.badid" />
 
             recipe = cookBook.recipes.find(
-                (recipe) => recipe.id === recipeIdStr
+                (recipe) => recipe.id === parseInt(recipeIdStr, 10)
             )
             if (!recipe) return <ErrorMessage msg="error.norecipe" />
         }

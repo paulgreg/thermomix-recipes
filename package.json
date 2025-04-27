@@ -9,8 +9,7 @@
     "react-markdown": "^10.1.0",
     "react-router-dom": "^7.5.2",
     "react-tag-autocomplete": "^7.5.0",
-    "remark-gfm": "^4.0.1",
-    "uuid": "^11.1.0"
+    "remark-gfm": "^4.0.1"
   },
   "scripts": {
     "dev": "vite",

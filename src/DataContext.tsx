@@ -7,7 +7,6 @@ import React, {
 } from 'react'
 import type { Recipe } from './Types'
 import settings from './settings.json'
-import { getId } from './Utils/id'
 import * as jsonpatch from 'fast-json-patch'
 import { CookBook } from './Types'
 import { debounce } from './Utils/debounce'
@@ -24,16 +23,16 @@ type DataContextType = {
     initLoad: (cookbookName?: string) => Promise<void>
     load: (key: string) => Promise<void>
     save: (key: string, cookBook: CookBook) => Promise<void>
-    addOrEditCategory: (name: string, id?: string) => Promise<void>
-    deleteCategory: (id: string) => Promise<void>
+    addOrEditCategory: (name: string, maybeId?: number) => Promise<number>
+    deleteCategory: (id: number) => Promise<void>
     addOrEditRecipe: (
-        categoryId: string,
+        categoryId: number,
         name: string,
         recipe: string,
         tags: string[],
-        id?: string
-    ) => Promise<string>
-    deleteRecipe: (id: string) => Promise<void>
+        maybeId?: number
+    ) => Promise<number>
+    deleteRecipe: (id: number) => Promise<void>
 }
 
 const EMPTY_COOKBOOK = {
@@ -156,9 +155,24 @@ const DataContextProvider: React.FC<DataContextProviderPropsType> = ({
         []
     )
 
+    const getNextCategoryId = () => {
+        const maxId = cookBook.categories.reduce(
+            (maxId, recipe) => Math.max(maxId, recipe.id),
+            0
+        )
+        return maxId + 1
+    }
+    const getNextRecipeId = () => {
+        const maxId = cookBook.recipes.reduce(
+            (maxId, recipe) => Math.max(maxId, recipe.id),
+            0
+        )
+        return maxId + 1
+    }
+
     const addOrEditCategory = useCallback(
-        async (name: string, maybeId?: string) => {
-            const id = maybeId ?? getId()
+        async (name: string, maybeId?: number) => {
+            const id = maybeId ?? getNextCategoryId()
 
             const newCategory = {
                 id,
@@ -177,11 +191,12 @@ const DataContextProvider: React.FC<DataContextProviderPropsType> = ({
             }
             setCookBook(newCookbook)
             if (key) await save(key, newCookbook)
+            return id
         },
         [cookBook, key]
     )
 
-    const deleteCategory = async (id: string) => {
+    const deleteCategory = async (id: number) => {
         const recipeFromThatCategory = cookBook.recipes.find(
             (recipe) => recipe.categoryId === id
         )
@@ -198,7 +213,7 @@ const DataContextProvider: React.FC<DataContextProviderPropsType> = ({
     }
 
     const deleteRecipe = useCallback(
-        async (id: string) => {
+        async (id: number) => {
             const newCookbook = {
                 ...cookBook,
                 recipes: cookBook.recipes.filter((recipe) => recipe.id !== id),
@@ -210,13 +225,13 @@ const DataContextProvider: React.FC<DataContextProviderPropsType> = ({
     )
     const addOrEditRecipe = useCallback(
         async (
-            categoryId: string,
+            categoryId: number,
             name: string,
             recipe: string,
             tags: string[],
-            maybeId?: string
+            maybeId?: number
         ) => {
-            const id = maybeId ?? getId()
+            const id = maybeId ?? getNextRecipeId()
             const newRecipe: Recipe = {
                 id,
                 categoryId,

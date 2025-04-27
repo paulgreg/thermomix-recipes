@@ -95,7 +95,9 @@ const EditRecipePage: React.FC<InjectableComponent> = ({ recipe }) => {
                             id="category"
                             value={categoryIdValue}
                             required
-                            onChange={(e) => setCategoryIdValue(e.target.value)}
+                            onChange={(e) =>
+                                setCategoryIdValue(parseInt(e.target.value))
+                            }
                         >
                             {cookBook.categories.map(({ id, name }) => (
                                 <option value={id} key={id}>

@@ -5,15 +5,14 @@ export type CookBook = {
 }
 
 export interface NamedEntity {
+    id: number
     name: string
 }
-export type Category = NamedEntity & {
-    id: string
-}
+
+export type Category = NamedEntity
 
 export type Recipe = NamedEntity & {
-    id: string
-    categoryId: string
+    categoryId: number
     recipe: string
     tags?: string[]
 }
