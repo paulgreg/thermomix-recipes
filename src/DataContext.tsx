@@ -9,9 +9,6 @@ import type { Recipe } from './Types'
 import settings from './settings.json'
 import * as jsonpatch from 'fast-json-patch'
 import { CookBook } from './Types'
-import { debounce } from './Utils/debounce'
-
-const DEBOUNCE_SAVE_TIME = 2000
 
 const KEY_NAME = 'THERMOMIXRECIPES_KEY'
 
@@ -120,38 +117,35 @@ const DataContextProvider: React.FC<DataContextProviderPropsType> = ({
     )
 
     const saveOnline = useCallback(
-        debounce(
-            (
-                key: string,
-                data: CookBook,
-                previousData: CookBook,
-                newDoc: boolean
-            ) => {
-                let method
-                let bodyRaw
-                if (!newDoc && previousData) {
-                    method = 'PATCH'
-                    bodyRaw = jsonpatch.compare(previousData, data)
-                } else {
-                    method = 'POST'
-                    bodyRaw = data
-                }
+        (
+            key: string,
+            data: CookBook,
+            previousData: CookBook,
+            newDoc: boolean
+        ) => {
+            let method
+            let bodyRaw
+            if (!newDoc && previousData) {
+                method = 'PATCH'
+                bodyRaw = jsonpatch.compare(previousData, data)
+            } else {
+                method = 'POST'
+                bodyRaw = data
+            }
 
-                return fetch(`${settings.saveUrl}/${key}.json`, {
-                    method,
-                    mode: 'cors',
-                    headers: {
-                        Authorization: `Basic ${settings.authorization}`,
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify(bodyRaw),
-                }).then(() => {
-                    setPreviousCookBook(data)
-                    setNewDoc(false)
-                })
-            },
-            DEBOUNCE_SAVE_TIME
-        ),
+            return fetch(`${settings.saveUrl}/${key}.json`, {
+                method,
+                mode: 'cors',
+                headers: {
+                    Authorization: `Basic ${settings.authorization}`,
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(bodyRaw),
+            }).then(() => {
+                setPreviousCookBook(data)
+                setNewDoc(false)
+            })
+        },
         []
     )
 
