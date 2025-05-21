@@ -53,7 +53,7 @@ const DataContextProvider: React.FC<DataContextProviderPropsType> = ({
     const [cookBook, setCookBook] = useState<CookBook>(EMPTY_COOKBOOK)
     const [previousCookBook, setPreviousCookBook] =
         useState<CookBook>(EMPTY_COOKBOOK)
-    const [newDoc, setNewDoc] = useState(true)
+    const [fullSave, setFullSave] = useState(true)
     const [key, setKey] = useState<string | null>(null)
 
     const loadOnline = useCallback(
@@ -65,11 +65,11 @@ const DataContextProvider: React.FC<DataContextProviderPropsType> = ({
             })
                 .then((response) => {
                     if (response.ok) {
-                        setNewDoc(false)
+                        setFullSave(false)
                         return response.json()
                     }
                     if (response.status === 404) {
-                        setNewDoc(true)
+                        setFullSave(true)
                         return EMPTY_COOKBOOK
                     }
                 })
@@ -111,9 +111,9 @@ const DataContextProvider: React.FC<DataContextProviderPropsType> = ({
             cookBook.lastSave = Date.now()
             localStorage.setItem(KEY_NAME, key)
             localStorage.setItem(key, JSON.stringify(cookBook))
-            saveOnline(key, cookBook, previousCookBook, newDoc)
+            saveOnline(key, cookBook, previousCookBook, fullSave)
         },
-        [previousCookBook, newDoc]
+        [previousCookBook, fullSave]
     )
 
     const saveOnline = useCallback(
@@ -121,17 +121,22 @@ const DataContextProvider: React.FC<DataContextProviderPropsType> = ({
             key: string,
             data: CookBook,
             previousData: CookBook,
-            newDoc: boolean
+            fullSave: boolean
         ) => {
             let method
             let bodyRaw
-            if (!newDoc && previousData) {
+            if (!fullSave && previousData) {
                 method = 'PATCH'
                 bodyRaw = jsonpatch.compare(previousData, data)
             } else {
                 method = 'POST'
                 bodyRaw = data
             }
+
+            setPreviousCookBook(data)
+            setFullSave(true)
+
+            const body = JSON.stringify(bodyRaw)
 
             return fetch(`${settings.saveUrl}/${key}.json`, {
                 method,
@@ -140,11 +145,22 @@ const DataContextProvider: React.FC<DataContextProviderPropsType> = ({
                     Authorization: `Basic ${settings.authorization}`,
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify(bodyRaw),
-            }).then(() => {
-                setPreviousCookBook(data)
-                setNewDoc(false)
+                body,
             })
+                .then((response) => {
+                    if (!response.ok)
+                        throw new Error(
+                            `HTTP error! status: ${response.status}`
+                        )
+                    setFullSave(false)
+                })
+                .catch((e) => {
+                    console.error(e)
+                    alert(
+                        'An error occured. App will refresh data to avoid data corruption.'
+                    )
+                    location.reload()
+                })
         },
         []
     )
