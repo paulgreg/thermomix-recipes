@@ -38,11 +38,13 @@ const SearchPage: React.FC = () => {
             .split(' ')
             .filter(filterByLength)
 
-        return searchableTerms.filter((recipe) =>
-            searchTerms.every((searchTerm) =>
-                recipe.terms.some((term) => term.includes(searchTerm))
+        return searchableTerms
+            .filter((recipe) =>
+                searchTerms.every((searchTerm) =>
+                    recipe.terms.some((term) => term.includes(searchTerm))
+                )
             )
-        )
+            .toSorted(sortByName)
     }, [cookBook, search])
 
     return (
@@ -58,7 +60,7 @@ const SearchPage: React.FC = () => {
                 ></input>
 
                 <div>
-                    {matchingRecipes.toSorted(sortByName).map((recipe) => (
+                    {matchingRecipes.map((recipe) => (
                         <div key={recipe.id} className="row">
                             <Link to={`/recipe/${recipe.id}`}>
                                 {replaceStars(recipe.name)}

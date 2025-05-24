@@ -11,11 +11,12 @@ const TagPage: React.FC<InjectableComponent> = ({ tag }) => {
 
     const matchingRecipes = useMemo(
         () =>
-            tag
+            (tag
                 ? cookBook.recipes.filter((recipe) =>
                       recipe.tags?.includes(tag)
                   )
-                : [],
+                : []
+            ).toSorted(sortByName),
         [cookBook]
     )
 
@@ -31,7 +32,7 @@ const TagPage: React.FC<InjectableComponent> = ({ tag }) => {
             </header>
             <div className="content">
                 <div>
-                    {matchingRecipes.toSorted(sortByName).map((recipe) => (
+                    {matchingRecipes.map((recipe) => (
                         <div key={recipe.id} className="row">
                             <Link to={`/recipe/${recipe.id}`}>
                                 {replaceStars(recipe.name)}

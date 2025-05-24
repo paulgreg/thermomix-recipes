@@ -12,13 +12,15 @@ const HomePage = () => {
 
     const categories = useMemo(
         () =>
-            cookBook.categories.map((category) => {
-                const { id, name } = category
-                const recipesByCategory = cookBook.recipes.filter(
-                    ({ categoryId }) => categoryId === id
-                )
-                return { id, name, count: recipesByCategory.length }
-            }),
+            cookBook.categories
+                .map((category) => {
+                    const { id, name } = category
+                    const recipesByCategory = cookBook.recipes.filter(
+                        ({ categoryId }) => categoryId === id
+                    )
+                    return { id, name, count: recipesByCategory.length }
+                })
+                .toSorted(sortByName),
         [cookBook]
     )
 
@@ -43,7 +45,7 @@ const HomePage = () => {
             </header>
             <div className="content">
                 {categories.length === 0 && <p>{t('category.empty')}</p>}
-                {categories.toSorted(sortByName).map((category) => (
+                {categories.map((category) => (
                     <div key={category.id} className="grid row">
                         <span style={{ display: 'flex' }}>
                             {online && (

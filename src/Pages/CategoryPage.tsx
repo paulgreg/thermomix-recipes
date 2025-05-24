@@ -16,9 +16,9 @@ const CategoryPage: React.FC<InjectableComponent> = ({ category }) => {
         return <></>
     }
 
-    const recipes = cookBook.recipes.filter(
-        ({ categoryId }) => categoryId === category.id
-    )
+    const recipes = cookBook.recipes
+        .filter(({ categoryId }) => categoryId === category.id)
+        .toSorted(sortByName)
 
     return (
         <>
@@ -28,7 +28,7 @@ const CategoryPage: React.FC<InjectableComponent> = ({ category }) => {
             </header>
             <div className="content">
                 {recipes.length === 0 && <p>{t('recipes.empty')}</p>}
-                {recipes.toSorted(sortByName).map((recipe) => (
+                {recipes.map((recipe) => (
                     <div key={recipe.id} className="row">
                         <Link
                             to={`/category/${category.id}/recipe/${recipe.id}`}
