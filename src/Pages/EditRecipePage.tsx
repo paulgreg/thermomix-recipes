@@ -172,7 +172,7 @@ const EditRecipePage: React.FC<InjectableComponent> = ({ recipe }) => {
             </div>
             <footer>
                 <button
-                    style={{ color: 'white', backgroundColor: 'crimson' }}
+                    style={{ color: 'white', backgroundColor: 'darkslategray' }}
                     onClick={() => navigate(-1)}
                 >
                     {t('cancel')}

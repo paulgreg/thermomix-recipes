@@ -72,7 +72,7 @@ const RecipePage: React.FC<InjectableComponent> = ({ category, recipe }) => {
                         <button
                             style={{
                                 color: 'white',
-                                backgroundColor: 'crimson',
+                                backgroundColor: 'darkslategray',
                             }}
                             onClick={onDelete}
                         >
