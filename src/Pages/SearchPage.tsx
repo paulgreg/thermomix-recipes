@@ -45,7 +45,7 @@ const SearchPage: React.FC = () => {
                 )
             )
             .toSorted(sortByName)
-    }, [cookBook, search])
+    }, [search, searchableTerms])
 
     return (
         <>

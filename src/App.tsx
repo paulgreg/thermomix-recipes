@@ -10,7 +10,7 @@ export default function App() {
         const cookbookName = searchParams.get('cookbook')
 
         initLoad(cookbookName ?? undefined)
-    }, [])
+    }, [initLoad])
 
     return (
         <div className="app">

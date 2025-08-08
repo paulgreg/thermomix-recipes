@@ -20,7 +20,7 @@ const RecipePage: React.FC<InjectableComponent> = ({ category, recipe }) => {
             deleteRecipe(recipe.id)
             navigate('/')
         }
-    }, [])
+    }, [deleteRecipe, navigate, recipe])
 
     if (!recipe) {
         navigate('/')
@@ -48,7 +48,7 @@ const RecipePage: React.FC<InjectableComponent> = ({ category, recipe }) => {
                     <Markdown
                         remarkPlugins={[remarkGfm]}
                         components={{
-                            img: ({ node, ...props }) => (
+                            img: ({ ...props }) => (
                                 <img
                                     {...props}
                                     src={

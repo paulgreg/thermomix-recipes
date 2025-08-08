@@ -65,7 +65,15 @@ const EditRecipePage: React.FC<InjectableComponent> = ({ recipe }) => {
             recipe?.id
         )
         navigate(`/recipe/${recipeId}`)
-    }, [nameValue, categoryIdValue, tagsValue, recipeValue])
+    }, [
+        nameValue,
+        categoryIdValue,
+        addOrEditRecipe,
+        recipeValue,
+        tagsValue,
+        recipe?.id,
+        navigate,
+    ])
 
     return (
         <>

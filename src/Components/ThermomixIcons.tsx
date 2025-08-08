@@ -39,7 +39,7 @@ const ThermomixIcons: React.FC<ThermomixIcons> = ({ onIconClick }) => {
             event.stopPropagation()
             onIconClick(`![${t(icon.tKey)}](${icon.src})`)
         },
-        []
+        [onIconClick]
     )
 
     return (

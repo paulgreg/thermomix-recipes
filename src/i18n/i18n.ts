@@ -6,7 +6,7 @@ interface Translation {
 
 export const t = (key: string, parameter = '') => {
     const translations = fr as Translation
-    if (translations.hasOwnProperty(key)) {
+    if (Object.hasOwn(translations, key)) {
         const translation = translations[key]
         return translation.replace('$', parameter)
     }

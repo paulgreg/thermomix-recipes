@@ -1,9 +1,9 @@
 import React, { useMemo } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-import { useDataContext } from '../DataContext'
 import { t } from '../i18n/i18n'
 import { replaceStars, sortByName } from '../Utils/string'
 import { InjectableComponent } from '../Types'
+import { useDataContext } from '../DataContext'
 
 const TagPage: React.FC<InjectableComponent> = ({ tag }) => {
     const { cookBook } = useDataContext()
@@ -17,7 +17,7 @@ const TagPage: React.FC<InjectableComponent> = ({ tag }) => {
                   )
                 : []
             ).toSorted(sortByName),
-        [cookBook]
+        [cookBook.recipes, tag]
     )
 
     if (!tag) {

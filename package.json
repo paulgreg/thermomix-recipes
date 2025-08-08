@@ -1,7 +1,7 @@
 {
   "name": "thermomix-recipes",
   "version": "1.0.0",
-  "private": true,
+  "type": "module",
   "dependencies": {
     "fast-json-patch": "^3.1.1",
     "react": "^19.1.1",
@@ -14,6 +14,7 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build --base=/recipes/",
+    "lint": "tsc && eslint",
     "deploy": "npm i && ./to_ghpages"
   },
   "eslintConfig": {
@@ -38,8 +39,12 @@
     "@types/react": "^19.1.9",
     "@types/react-dom": "^19.1.7",
     "@vitejs/plugin-react": "^5.0.0",
+    "eslint": "^9.32.0",
+    "eslint-plugin-react-hooks": "^5.2.0",
+    "eslint-plugin-react-refresh": "^0.4.20",
     "prettier": "^3.6.2",
     "typescript": "^5.9.2",
+    "typescript-eslint": "^8.39.0",
     "vite": "^7.1.1",
     "vite-plugin-svgr": "^4.3.0",
     "vitest": "^3.2.4"
