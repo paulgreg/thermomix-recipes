@@ -4,10 +4,10 @@
   "private": true,
   "dependencies": {
     "fast-json-patch": "^3.1.1",
-    "react": "^19.1.0",
-    "react-dom": "^19.1.0",
+    "react": "^19.1.1",
+    "react-dom": "^19.1.1",
     "react-markdown": "^10.1.0",
-    "react-router-dom": "^7.6.3",
+    "react-router-dom": "^7.8.0",
     "react-tag-autocomplete": "^7.5.0",
     "remark-gfm": "^4.0.1"
   },
@@ -35,12 +35,12 @@
     ]
   },
   "devDependencies": {
-    "@types/react": "^19.1.8",
-    "@types/react-dom": "^19.1.6",
-    "@vitejs/plugin-react": "^4.6.0",
+    "@types/react": "^19.1.9",
+    "@types/react-dom": "^19.1.7",
+    "@vitejs/plugin-react": "^5.0.0",
     "prettier": "^3.6.2",
-    "typescript": "^5.8.3",
-    "vite": "^7.0.4",
+    "typescript": "^5.9.2",
+    "vite": "^7.1.1",
     "vite-plugin-svgr": "^4.3.0",
     "vitest": "^3.2.4"
   }
