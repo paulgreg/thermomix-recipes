@@ -3,12 +3,10 @@ import { Link, useNavigate } from 'react-router-dom'
 import { useDataContext } from '../DataContext'
 import { t } from '../i18n/i18n'
 import { InjectableComponent } from '../Types'
-import useOnline from '../Utils/useOnline'
 import { replaceStars, sortByName } from '../Utils/string'
 
 const CategoryPage: React.FC<InjectableComponent> = ({ category }) => {
-    const { cookBook } = useDataContext()
-    const online = useOnline()
+    const { recipes } = useDataContext()
     const navigate = useNavigate()
 
     if (!category) {
@@ -16,7 +14,7 @@ const CategoryPage: React.FC<InjectableComponent> = ({ category }) => {
         return <></>
     }
 
-    const recipes = cookBook.recipes
+    const recipesItems = recipes
         .filter(({ categoryId }) => categoryId === category.id)
         .toSorted(sortByName)
 
@@ -27,8 +25,8 @@ const CategoryPage: React.FC<InjectableComponent> = ({ category }) => {
                 <span>{category.name}</span>
             </header>
             <div className="content">
-                {recipes.length === 0 && <p>{t('recipes.empty')}</p>}
-                {recipes.map((recipe) => (
+                {recipesItems.length === 0 && <p>{t('recipes.empty')}</p>}
+                {recipesItems.map((recipe) => (
                     <div key={recipe.id} className="row">
                         <Link
                             to={`/category/${category.id}/recipe/${recipe.id}`}
@@ -40,12 +38,8 @@ const CategoryPage: React.FC<InjectableComponent> = ({ category }) => {
             </div>
             <footer>
                 <Link to="/search">{t('search')}</Link>
-                {online && (
-                    <>
-                        {' | '}
-                        <Link to="/recipe/add">{t('recipe.add')}</Link>
-                    </>
-                )}
+                {' | '}
+                <Link to="/recipe/add">{t('recipe.add')}</Link>
             </footer>
         </>
     )

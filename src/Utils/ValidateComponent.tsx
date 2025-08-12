@@ -11,17 +11,15 @@ type ValidateInjectableType = {
 const validate =
     (categoryIdStr?: string, recipeIdStr?: string, tag?: string) =>
     (Component: React.FC<InjectableComponent>) => {
-        const { cookBook, loaded } = useDataContext()
+        const { categories, recipes } = useDataContext()
         let category
         let recipe
-
-        if (!loaded) return <></>
 
         if (categoryIdStr) {
             if (!RegExp(/\w+/).exec(categoryIdStr))
                 return <ErrorMessage msg="error.badid" />
 
-            category = cookBook.categories.find(
+            category = categories?.find(
                 (category) => category.id === parseInt(categoryIdStr, 10)
             )
             if (!category) return <ErrorMessage msg="error.nocategory" />
@@ -31,7 +29,7 @@ const validate =
             if (!RegExp(/\w+/).exec(recipeIdStr))
                 return <ErrorMessage msg="error.badid" />
 
-            recipe = cookBook.recipes.find(
+            recipe = recipes?.find(
                 (recipe) => recipe.id === parseInt(recipeIdStr, 10)
             )
             if (!recipe) return <ErrorMessage msg="error.norecipe" />

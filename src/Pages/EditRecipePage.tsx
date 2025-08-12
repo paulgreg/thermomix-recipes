@@ -7,12 +7,10 @@ import { ReactTags } from 'react-tag-autocomplete'
 import type { TagSelected } from 'react-tag-autocomplete'
 import './react-tags.css'
 import ThermomixIcons from '../Components/ThermomixIcons'
-import { sortByName } from '../Utils/string'
 
 const EditRecipePage: React.FC<InjectableComponent> = ({ recipe }) => {
     const navigate = useNavigate()
-    const { cookBook, availableTags, addOrEditRecipe } = useDataContext()
-    const categories = cookBook.categories.toSorted(sortByName)
+    const { categories, availableTags, addOrEditRecipe } = useDataContext()
     const formRef = useRef<HTMLFormElement>(null)
     const textAreaRef = useRef<HTMLTextAreaElement>(null)
     const [nameValue, setNameValue] = useState(recipe?.name ?? '')
@@ -57,7 +55,7 @@ const EditRecipePage: React.FC<InjectableComponent> = ({ recipe }) => {
             navigate('/')
             return
         }
-        const recipeId = await addOrEditRecipe(
+        const recipeId = addOrEditRecipe(
             categoryIdValue,
             nameValue,
             recipeValue,

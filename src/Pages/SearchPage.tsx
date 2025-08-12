@@ -12,13 +12,13 @@ import TagsCloud from '../Components/TagsCloud'
 
 const SearchPage: React.FC = () => {
     const [search, setSearch] = useState('')
-    const { cookBook, availableTags } = useDataContext()
+    const { recipes, availableTags } = useDataContext()
 
     const filterByLength = (str: string) => str.length > 2
 
     const searchableTerms = useMemo(
         () =>
-            cookBook.recipes.map((recipe) => ({
+            recipes.map((recipe) => ({
                 ...recipe,
                 terms: replaceSpecialCharBySpace(
                     removeAccent(recipe.name.toLocaleLowerCase())
@@ -27,7 +27,7 @@ const SearchPage: React.FC = () => {
                     .filter(filterByLength),
             })),
 
-        [cookBook]
+        [recipes]
     )
 
     const matchingRecipes = useMemo(() => {

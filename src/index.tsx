@@ -67,7 +67,7 @@ if (container) {
                                     <ValidateComponent component={RecipePage} />
                                 }
                             />
-                            <Route path="/configure" element={<ConfigPage />} />
+                            <Route path="/config" element={<ConfigPage />} />
                         </Route>
                     </Routes>
                 </BrowserRouter>
@@ -75,3 +75,6 @@ if (container) {
         </React.StrictMode>
     )
 }
+
+if ('serviceWorker' in navigator)
+    navigator.serviceWorker.register(`${settings.baseUrl}sw.js`)

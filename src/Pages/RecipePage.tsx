@@ -7,12 +7,10 @@ import remarkGfm from 'remark-gfm'
 import settings from '../settings.json'
 import { useDataContext } from '../DataContext'
 import TagsCloud from '../Components/TagsCloud'
-import useOnline from '../Utils/useOnline'
 import { replaceStars } from '../Utils/string'
 
 const RecipePage: React.FC<InjectableComponent> = ({ category, recipe }) => {
     const navigate = useNavigate()
-    const online = useOnline()
     const { deleteRecipe } = useDataContext()
 
     const onDelete = useCallback(() => {
@@ -67,30 +65,24 @@ const RecipePage: React.FC<InjectableComponent> = ({ category, recipe }) => {
                 </div>
             </div>
             <footer>
-                {online && (
-                    <>
-                        <button
-                            style={{
-                                color: 'white',
-                                backgroundColor: 'darkslategray',
-                            }}
-                            onClick={onDelete}
-                        >
-                            {t('recipe.delete')}
-                        </button>
-                        <button
-                            onClick={() =>
-                                navigate(`/recipe/${recipe.id}/edit`)
-                            }
-                            style={{
-                                color: 'black',
-                                backgroundColor: 'bisque',
-                            }}
-                        >
-                            {t('recipe.edit')}
-                        </button>
-                    </>
-                )}
+                <button
+                    style={{
+                        color: 'white',
+                        backgroundColor: 'darkslategray',
+                    }}
+                    onClick={onDelete}
+                >
+                    {t('recipe.delete')}
+                </button>
+                <button
+                    onClick={() => navigate(`/recipe/${recipe.id}/edit`)}
+                    style={{
+                        color: 'black',
+                        backgroundColor: 'bisque',
+                    }}
+                >
+                    {t('recipe.edit')}
+                </button>
             </footer>
         </>
     )

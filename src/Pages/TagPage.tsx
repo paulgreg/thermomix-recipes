@@ -6,18 +6,16 @@ import { InjectableComponent } from '../Types'
 import { useDataContext } from '../DataContext'
 
 const TagPage: React.FC<InjectableComponent> = ({ tag }) => {
-    const { cookBook } = useDataContext()
+    const { recipes } = useDataContext()
     const navigate = useNavigate()
 
     const matchingRecipes = useMemo(
         () =>
             (tag
-                ? cookBook.recipes.filter((recipe) =>
-                      recipe.tags?.includes(tag)
-                  )
+                ? recipes.filter((recipe) => recipe.tags?.includes(tag))
                 : []
             ).toSorted(sortByName),
-        [cookBook.recipes, tag]
+        [recipes, tag]
     )
 
     if (!tag) {

@@ -1,4 +1,4 @@
-import { replaceSpecialCharBySpace } from './string'
+import { replaceSpecialCharBySpace, slugify } from './string'
 
 describe('string', () => {
     describe('replaceSpecialCharBySpace', () => {
@@ -19,5 +19,17 @@ describe('string', () => {
                 ' sans viande '
             )
         })
+    })
+    describe('slugify', () => {
+        test('should handle null', () => expect(slugify(null)).toEqual(''))
+
+        test('should remove space', () => expect(slugify('a a')).toEqual('a-a'))
+
+        test('should trim space', () => expect(slugify('  a  ')).toEqual('a'))
+
+        test('should keep accent', () => expect(slugify('àé')).toEqual('àé'))
+
+        test('should keep uppercase', () =>
+            expect(slugify('Test')).toEqual('Test'))
     })
 })

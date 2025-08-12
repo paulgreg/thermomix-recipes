@@ -1,8 +1,4 @@
-export type CookBook = {
-    categories: Category[]
-    recipes: Recipe[]
-    lastSave: number
-}
+import * as Y from 'yjs'
 
 export interface NamedEntity {
     id: number
@@ -16,6 +12,10 @@ export type Recipe = NamedEntity & {
     recipe: string
     tags?: string[]
 }
+
+export type YCategory = number | string
+
+export type YRecipe = number | string | Y.Array<string>
 
 export type InjectableComponent = {
     category?: Category

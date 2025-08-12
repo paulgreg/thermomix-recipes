@@ -1,13 +1,11 @@
 import React, { useState, useRef, MouseEvent } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
 import { useDataContext } from '../DataContext'
 import { t } from '../i18n/i18n'
 
 const ConfigPage = () => {
     const inputRef = useRef<HTMLInputElement>(null)
-    const navigate = useNavigate()
     const [error, setError] = useState<string | undefined>()
-    const { key, load } = useDataContext()
+    const { key, setKey } = useDataContext()
 
     const commonCheck = (e: MouseEvent<HTMLButtonElement>) => {
         e.preventDefault()
@@ -26,12 +24,12 @@ const ConfigPage = () => {
 
     const onLoad = async (e: MouseEvent<HTMLButtonElement>) => {
         if (inputRef.current && commonCheck(e)) {
-            await load(inputRef.current.value)
-            navigate('/')
+            setKey(inputRef.current.value)
         }
     }
     return (
         <>
+            <header>{t('title')}</header>
             <div className="content">
                 <form>
                     <label>
@@ -67,9 +65,7 @@ const ConfigPage = () => {
                     </p>
                 </form>
             </div>
-            <footer>
-                <Link to="/">{t('back')}</Link>
-            </footer>
+            <footer></footer>
         </>
     )
 }

@@ -1,5 +1,5 @@
 {
     "baseUrl": "/recipes/",
-    "saveUrl": "https://some-server-url-to-allow-json-get-and-post",
-    "authorization": "user:password-encoded-in-base64"
+    "crdtUrl": "//127.0.0.1:6010/",
+    "secret": "random-string"
 }

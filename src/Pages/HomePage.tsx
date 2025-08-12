@@ -3,25 +3,24 @@ import { Link } from 'react-router-dom'
 import { useDataContext } from '../DataContext'
 import { t } from '../i18n/i18n'
 import { Category } from '../Types'
-import useOnline from '../Utils/useOnline'
 import { sortByName } from '../Utils/string'
 
 const HomePage = () => {
-    const { cookBook, addOrEditCategory, deleteCategory } = useDataContext()
-    const online = useOnline()
+    const { categories, recipes, addOrEditCategory, deleteCategory } =
+        useDataContext()
 
-    const categories = useMemo(
+    const categoriesItems = useMemo(
         () =>
-            cookBook.categories
+            categories
                 .map((category) => {
                     const { id, name } = category
-                    const recipesByCategory = cookBook.recipes.filter(
+                    const recipesByCategory = recipes.filter(
                         ({ categoryId }) => categoryId === id
                     )
                     return { id, name, count: recipesByCategory.length }
                 })
                 .toSorted(sortByName),
-        [cookBook]
+        [categories, recipes]
     )
 
     const onAddCategory = () => {
@@ -44,28 +43,24 @@ const HomePage = () => {
                 <Link to="/">{t('title')}</Link>
             </header>
             <div className="content">
-                {categories.length === 0 && <p>{t('category.empty')}</p>}
-                {categories.map((category) => (
+                {categoriesItems.length === 0 && <p>{t('category.empty')}</p>}
+                {categoriesItems.map((category) => (
                     <div key={category.id} className="grid row">
                         <span style={{ display: 'flex' }}>
-                            {online && (
-                                <>
-                                    <button
-                                        className="icon"
-                                        onClick={onRenameCategory(category)}
-                                    >
-                                        ✏️
-                                    </button>
+                            <button
+                                className="icon"
+                                onClick={onRenameCategory(category)}
+                            >
+                                ✏️
+                            </button>
 
-                                    {category.count === 0 && (
-                                        <button
-                                            className="icon"
-                                            onClick={onDeleteCategory(category)}
-                                        >
-                                            🗑️
-                                        </button>
-                                    )}
-                                </>
+                            {category.count === 0 && (
+                                <button
+                                    className="icon"
+                                    onClick={onDeleteCategory(category)}
+                                >
+                                    🗑️
+                                </button>
                             )}
                         </span>
                         <Link to={`/category/${category.id}`}>
@@ -77,26 +72,17 @@ const HomePage = () => {
                     </div>
                 ))}
                 <div style={{ marginTop: 20 }}>
-                    {online && (
-                        <button
-                            style={{ margin: 'auto' }}
-                            onClick={onAddCategory}
-                        >
-                            {t('category.add')}
-                        </button>
-                    )}
+                    <button style={{ margin: 'auto' }} onClick={onAddCategory}>
+                        {t('category.add')}
+                    </button>
                 </div>
             </div>
             <footer>
                 <Link to="/search">{t('search')}</Link>
-                {online && (
-                    <>
-                        {' | '}
-                        <Link to="/recipe/add">{t('recipe.add')}</Link>
-                        {' | '}
-                        <Link to="/configure">{t('configure')}</Link>
-                    </>
-                )}
+                {' | '}
+                <Link to="/recipe/add">{t('recipe.add')}</Link>
+                {' | '}
+                <Link to="/config">{t('configure')}</Link>
             </footer>
         </>
     )

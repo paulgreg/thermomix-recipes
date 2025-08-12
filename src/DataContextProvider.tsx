@@ -1,17 +1,16 @@
-import React, { useCallback, useMemo, useState } from 'react'
-import type { Recipe } from './Types'
+import React, { useCallback, useEffect, useMemo, useRef } from 'react'
+import * as Y from 'yjs'
+import type { Category, Recipe, YCategory, YRecipe } from './Types'
 import settings from './settings.json'
-import * as jsonpatch from 'fast-json-patch'
-import { CookBook } from './Types'
 import { DataContext } from './DataContext'
+import { IndexeddbPersistence } from 'y-indexeddb'
+import { WebsocketProvider } from 'y-websocket'
+import { slugify, sortByName } from './Utils/string'
+import { useY } from 'react-yjs'
 
 const KEY_NAME = 'THERMOMIXRECIPES_KEY'
 
-const EMPTY_COOKBOOK = {
-    categories: [],
-    recipes: [],
-    lastSave: 0,
-}
+const PREFIX = 'tr'
 
 interface DataContextProviderPropsType {
     children: React.ReactNode | React.ReactNode[]
@@ -20,248 +19,192 @@ interface DataContextProviderPropsType {
 const DataContextProvider: React.FC<DataContextProviderPropsType> = ({
     children,
 }) => {
-    const [loaded, setLoaded] = useState(false)
-    const [cookBook, setCookBook] = useState<CookBook>(EMPTY_COOKBOOK)
-    const [previousCookBook, setPreviousCookBook] =
-        useState<CookBook>(EMPTY_COOKBOOK)
-    const [fullSave, setFullSave] = useState(true)
-    const [key, setKey] = useState<string | null>(null)
+    const key = localStorage.getItem(KEY_NAME)
 
-    const saveOnline = useCallback(
-        (
-            key: string,
-            data: CookBook,
-            previousData: CookBook,
-            fullSave: boolean
-        ) => {
-            let method
-            let bodyRaw
-            if (!fullSave && previousData) {
-                method = 'PATCH'
-                bodyRaw = jsonpatch.compare(previousData, data)
-            } else {
-                method = 'POST'
-                bodyRaw = data
-            }
+    const guid = `${PREFIX}:${key}`
+    const yDoc = useMemo(() => new Y.Doc({ guid }), [guid])
 
-            setPreviousCookBook(data)
-            setFullSave(true)
+    const yCategories = yDoc.getArray<Y.Map<YCategory>>('categories')
+    const yRecipes = yDoc.getArray<Y.Map<YRecipe>>('recipes')
 
-            const body = JSON.stringify(bodyRaw)
+    const persistence = useRef<IndexeddbPersistence>(null)
+    const provider = useRef<WebsocketProvider>(null)
 
-            return fetch(`${settings.saveUrl}/${key}.json`, {
-                method,
-                mode: 'cors',
-                headers: {
-                    Authorization: `Basic ${settings.authorization}`,
-                    'Content-Type': 'application/json',
-                },
-                body,
-            })
-                .then((response) => {
-                    if (!response.ok)
-                        throw new Error(
-                            `HTTP error! status: ${response.status}`
-                        )
-                    setFullSave(false)
-                })
-                .catch((e) => {
-                    console.error(e)
-                    alert(
-                        'An error occured. App will refresh data to avoid data corruption.'
-                    )
-                    location.reload()
-                })
-        },
-        []
-    )
-    const loadOnline = useCallback(
-        async (key: string) =>
-            fetch(`${settings.saveUrl}/${key}.json`, {
-                headers: {
-                    Authorization: `Basic ${settings.authorization}`,
-                },
-            })
-                .then((response) => {
-                    if (response.ok) {
-                        setFullSave(false)
-                        return response.json()
-                    }
-                    if (response.status === 404) {
-                        setFullSave(true)
-                        return EMPTY_COOKBOOK
-                    }
-                })
-                .catch((e) => {
-                    console.error(e)
-                    alert('error while loading json')
-                }),
-        []
-    )
+    const persistKey = useCallback((newKey: string) => {
+        const slugKey = slugify(newKey)
+        if (!slugKey) {
+            alert('Malformed key')
+        } else {
+            localStorage.setItem(KEY_NAME, slugKey)
+            window.location.href = settings.baseUrl
+        }
+    }, [])
 
-    const load = useCallback(
-        async (key: string) => {
-            setKey(key)
-            localStorage.setItem(KEY_NAME, key)
-            let serverData, localData
-
-            const rawData = localStorage.getItem(key)
-            if (rawData) localData = JSON.parse(rawData)
-
-            const json = await loadOnline(key)
-            if (json) serverData = json
-
-            setCookBook(serverData ?? localData ?? EMPTY_COOKBOOK)
-            setPreviousCookBook(serverData ?? EMPTY_COOKBOOK)
-        },
-        [loadOnline, setCookBook, setPreviousCookBook]
-    )
-
-    const initLoad = useCallback(
-        async (cookbookName?: string) => {
-            if (cookbookName) localStorage.setItem(KEY_NAME, cookbookName)
-
-            const key = localStorage.getItem(KEY_NAME)
-            if (key) await load(key)
-            setLoaded(true)
-        },
-        [load]
-    )
-
-    const save = useCallback(
-        async (key: string, cookBook: CookBook) => {
-            cookBook.lastSave = Date.now()
-            localStorage.setItem(KEY_NAME, key)
-            localStorage.setItem(key, JSON.stringify(cookBook))
-            saveOnline(key, cookBook, previousCookBook, fullSave)
-        },
-        [saveOnline, previousCookBook, fullSave]
-    )
+    useEffect(() => {
+        if (key) {
+            persistence.current = new IndexeddbPersistence(guid, yDoc)
+            provider.current = new WebsocketProvider(
+                settings.crdtUrl,
+                guid,
+                yDoc,
+                {
+                    params: { secret: settings.secret },
+                }
+            )
+            return () => provider.current?.disconnect()
+        }
+    }, [guid, key, yDoc])
 
     const getNextCategoryId = useCallback(() => {
-        const maxId = cookBook.categories.reduce(
-            (maxId, recipe) => Math.max(maxId, recipe.id),
+        const categories = yCategories.toArray()
+        const maxId = categories.reduce(
+            (maxId, category) =>
+                Math.max(maxId, category?.get('id') as unknown as number),
             0
         )
         return maxId + 1
-    }, [cookBook.categories])
+    }, [yCategories])
 
     const getNextRecipeId = useCallback(() => {
-        const maxId = cookBook.recipes.reduce(
-            (maxId, recipe) => Math.max(maxId, recipe.id),
+        const recipes = yRecipes.toArray()
+        const maxId = recipes.reduce(
+            (maxId, recipe) =>
+                Math.max(maxId, recipe.get('id') as unknown as number),
             0
         )
         return maxId + 1
-    }, [cookBook.recipes])
+    }, [yRecipes])
 
     const addOrEditCategory = useCallback(
-        async (name: string, maybeId?: number) => {
-            const id = maybeId ?? getNextCategoryId()
+        (name: string, maybeId?: number) => {
+            if (maybeId === undefined) {
+                const id = getNextCategoryId()
+                const yCategory = new Y.Map<YCategory>()
+                yCategory.set('id', getNextCategoryId())
+                yCategory.set('name', name)
+                yCategories.push([yCategory])
+                return id
+            } else {
+                const categoryIdx = yCategories
+                    .toArray()
+                    .findIndex((yCategory) => yCategory.get('id') === maybeId)
 
-            const newCategory = {
-                id,
-                name,
+                if (categoryIdx === -1) throw new Error('Category not found')
+
+                const yCategory = yCategories.get(categoryIdx)
+                const id = yCategory.get('id') as unknown as number
+                yCategory.set('name', name)
+                return id
             }
-
-            const categories = maybeId
-                ? cookBook.categories.map((category) =>
-                      category.id === maybeId ? newCategory : category
-                  )
-                : cookBook.categories.concat(newCategory)
-
-            const newCookbook = {
-                ...cookBook,
-                categories,
-            }
-            setCookBook(newCookbook)
-            if (key) await save(key, newCookbook)
-            return id
         },
-        [cookBook, getNextCategoryId, key, save]
+        [getNextCategoryId, yCategories]
     )
 
     const deleteCategory = useCallback(
-        async (id: number) => {
-            const recipeFromThatCategory = cookBook.recipes.find(
-                (recipe) => recipe.categoryId === id
-            )
+        (id: number) => {
+            const recipeFromThatCategory = yRecipes
+                .toArray()
+                .find((yRecipe) => yRecipe.get('categoryId') === id)
+
             if (recipeFromThatCategory) throw new Error('Category not empty')
 
-            const newCookbook = {
-                ...cookBook,
-                categories: cookBook.categories.filter(
-                    (category) => category.id !== id
-                ),
+            const categoryIdx = yCategories
+                .toArray()
+                .findIndex((yCategory) => yCategory.get('id') === id)
+
+            if (categoryIdx !== -1) {
+                yCategories.delete(categoryIdx, 1)
+            } else {
+                throw new Error('Category not found')
             }
-            setCookBook(newCookbook)
-            if (key) await save(key, newCookbook)
         },
-        [cookBook, key, save]
+        [yCategories, yRecipes]
     )
 
     const deleteRecipe = useCallback(
-        async (id: number) => {
-            const newCookbook = {
-                ...cookBook,
-                recipes: cookBook.recipes.filter((recipe) => recipe.id !== id),
+        (id: number) => {
+            const recipeIdx = yRecipes
+                .toArray()
+                .findIndex((yRecipe) => yRecipe.get('id') === id)
+
+            if (recipeIdx !== -1) {
+                yRecipes.delete(recipeIdx, 1)
+            } else {
+                throw new Error('Recipe not found')
             }
-            setCookBook(newCookbook)
-            if (key) await save(key, newCookbook)
         },
-        [cookBook, key, save]
+        [yRecipes]
     )
     const addOrEditRecipe = useCallback(
-        async (
+        (
             categoryId: number,
             name: string,
             recipe: string,
             tags: string[],
             maybeId?: number
         ) => {
-            const id = maybeId ?? getNextRecipeId()
-            const newRecipe: Recipe = {
-                id,
-                categoryId,
-                name,
-                recipe,
-                tags,
-            }
+            if (maybeId === undefined) {
+                const id = getNextRecipeId()
+                yDoc.transact(() => {
+                    const yRecipe = new Y.Map<YRecipe>()
+                    yRecipe.set('id', id)
+                    yRecipe.set('name', name)
+                    yRecipe.set('categoryId', categoryId)
+                    yRecipe.set('recipe', recipe)
+                    const yTags = new Y.Array<string>()
+                    yTags.push(tags)
+                    yRecipe.set('tags', yTags)
+                    yRecipes.push([yRecipe])
+                })
+                return id
+            } else {
+                const recipeIdx = yRecipes
+                    .toArray()
+                    .findIndex((yRecipe) => yRecipe.get('id') === maybeId)
 
-            const recipes = maybeId
-                ? cookBook.recipes.map((recipe) =>
-                      recipe.id === maybeId ? newRecipe : recipe
-                  )
-                : cookBook.recipes.concat(newRecipe)
-
-            const newCookbook = {
-                ...cookBook,
-                recipes,
+                if (recipeIdx !== -1) {
+                    const yRecipe = yRecipes.get(recipeIdx)
+                    const id = yRecipe.get('id') as unknown as number
+                    yDoc.transact(() => {
+                        yRecipe.set('name', name)
+                        yRecipe.set('categoryId', categoryId)
+                        yRecipe.set('recipe', recipe)
+                        const yTags = new Y.Array<string>()
+                        yTags.push(tags)
+                        yRecipe.set('tags', yTags)
+                    })
+                    return id
+                } else {
+                    throw new Error('Recipe not found')
+                }
             }
-            setCookBook(newCookbook)
-            if (key) await save(key, newCookbook)
-            return id
         },
-        [cookBook, getNextRecipeId, key, save]
+        [getNextRecipeId, yDoc, yRecipes]
     )
+
+    const unsortedRecipes = useY(yRecipes) as unknown as Recipe[]
+    const recipes = unsortedRecipes.toSorted(sortByName)
+
+    const unsortedCategories = useY(yCategories) as unknown as Category[]
+    const categories = unsortedCategories.toSorted(sortByName)
 
     const availableTags = useMemo(() => {
         const set = new Set<string>()
-        const tags: string[] = cookBook.recipes
-            .flatMap(({ tags }): string[] => tags || [])
+        console.log(2, recipes.length)
+        const tags: string[] = recipes
+            .flatMap((item): string[] => item.tags ?? [])
             .filter((tag) => !!tag)
         tags.forEach((tag) => set.add(tag))
         return Array.from(set)
-    }, [cookBook])
+    }, [recipes])
 
     const contextValue = useMemo(
         () => ({
             key,
-            loaded,
-            cookBook,
+            setKey: persistKey,
+            categories,
+            recipes,
             availableTags,
-            initLoad,
-            load,
-            save,
             addOrEditCategory,
             deleteCategory,
             addOrEditRecipe,
@@ -269,12 +212,10 @@ const DataContextProvider: React.FC<DataContextProviderPropsType> = ({
         }),
         [
             key,
-            loaded,
-            cookBook,
+            persistKey,
+            categories,
+            recipes,
             availableTags,
-            initLoad,
-            load,
-            save,
             addOrEditCategory,
             deleteCategory,
             addOrEditRecipe,

@@ -3,13 +3,16 @@
   "version": "1.0.0",
   "type": "module",
   "dependencies": {
-    "fast-json-patch": "^3.1.1",
     "react": "^19.1.1",
     "react-dom": "^19.1.1",
     "react-markdown": "^10.1.0",
     "react-router-dom": "^7.8.0",
     "react-tag-autocomplete": "^7.5.0",
-    "remark-gfm": "^4.0.1"
+    "react-yjs": "^2.0.1",
+    "remark-gfm": "^4.0.1",
+    "y-indexeddb": "^9.0.12",
+    "y-websocket": "^3.0.0",
+    "yjs": "^13.6.27"
   },
   "scripts": {
     "dev": "vite",

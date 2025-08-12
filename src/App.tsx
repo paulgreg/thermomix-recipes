@@ -1,16 +1,22 @@
 import React, { useEffect } from 'react'
-import { Outlet } from 'react-router-dom'
+import { Outlet, useNavigate } from 'react-router-dom'
 import { useDataContext } from './DataContext'
+import { useLocation } from 'react-router-dom'
 
 export default function App() {
-    const { initLoad } = useDataContext()
+    const { key, setKey } = useDataContext()
+    const location = useLocation()
+    const navigate = useNavigate()
 
     useEffect(() => {
         const searchParams = new URLSearchParams(location.search)
         const cookbookName = searchParams.get('cookbook')
-
-        initLoad(cookbookName ?? undefined)
-    }, [initLoad])
+        if (cookbookName) {
+            setKey(cookbookName)
+        } else if (!key && !location.pathname.includes('/config')) {
+            navigate('/config')
+        }
+    }, [key, location, navigate, setKey])
 
     return (
         <div className="app">
