@@ -3,7 +3,7 @@
     "short_name": "Recipes",
     "start_url": "./",
     "display": "standalone",
-    "theme_color": "#e1eebc",
+    "theme_color": "#109045",
     "background_color": "#109045",
     "icons": [
         {
