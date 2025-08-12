@@ -1,5 +1,10 @@
 # Thermomix-recipes
 
+**Warning**, The `main` branch is unmaintained.
+
+I’ve built a new version based on React but only for self-hosting (see below).
+
+
 - That application is a basic cookbook based on jQuery mobile (dedicated for a kitchen robot my wife bought called 'thermomix').
 - Application is mainly written in JavaScript, on the client side.
 - Data (categories, recipes and cookbook name) are stored in the client’s localStorage.
@@ -7,14 +12,25 @@
 - You can switch between cookbooks, which are stored on separated files on the server.
 - Application should work on offline mode, in a read only mode (using a ServiceWorker).
 
+
 ### Demo
 
 Here’s a demo version of the application : http://thermomix.recipes.free.fr
 
+
+
+
 ## Self-hosting variants
 
-There is a [branch](https://github.com/paulgreg/thermomix-recipes/tree/json-store) storing data on server (using [json-store](https://github.com/paulgreg/json-store), a simple way to store json).
+The latest and more maintained version of the app is on
+[branch yjs](https://github.com/paulgreg/thermomix-recipes/tree/yjs). It is based on React and [CRDT](https://en.wikipedia.org/wiki/Conflict-free_replicated_data_type) / [YJS](https://docs.yjs.dev/) for data storage.
 
+It is designed to be used with [paulgreg/y-websocket-service](https://github.com/paulgreg/y-websocket-service) for client synchronisation.
+
+There is also another React version [branch](https://github.com/paulgreg/thermomix-recipes/tree/json-store) storing data on server (using [json-store](https://github.com/paulgreg/json-store), a simple way to store json).
+
+
+## Main legacy branch
 
 ### Prerequisites
 
