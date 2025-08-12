@@ -55,8 +55,9 @@ const SearchPage: React.FC = () => {
             <div className="content">
                 <input
                     type="text"
-                    placeholder={t('search.placeholder')}
                     onChange={(e) => setSearch(e.target.value)}
+                    autoComplete="off"
+                    autoFocus
                 ></input>
 
                 <div>
