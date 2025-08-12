@@ -190,7 +190,6 @@ const DataContextProvider: React.FC<DataContextProviderPropsType> = ({
 
     const availableTags = useMemo(() => {
         const set = new Set<string>()
-        console.log(2, recipes.length)
         const tags: string[] = recipes
             .flatMap((item): string[] => item.tags ?? [])
             .filter((tag) => !!tag)
