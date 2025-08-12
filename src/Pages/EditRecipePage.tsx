@@ -1,5 +1,5 @@
 import React, { useState, useRef, useCallback } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { t } from '../i18n/i18n'
 import { InjectableComponent } from '../Types'
 import { useDataContext } from '../DataContext'
@@ -77,6 +77,8 @@ const EditRecipePage: React.FC<InjectableComponent> = ({ recipe }) => {
         <>
             <header>
                 <span>{recipe?.name ?? t('recipe.new')}</span>
+                {' | '}
+                <Link to="/search">{t('search')}</Link>
             </header>
             <div className="content">
                 <form

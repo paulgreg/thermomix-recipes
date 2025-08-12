@@ -34,6 +34,8 @@ const RecipePage: React.FC<InjectableComponent> = ({ category, recipe }) => {
                     <Link to="/">{t('home')}</Link>
                 )}
                 &gt; <span>{replaceStars(recipe.name)}</span>
+                {' | '}
+                <Link to="/search">{t('search')}</Link>
             </header>
             <div className="content">
                 <h1>{replaceStars(recipe.name)}</h1>

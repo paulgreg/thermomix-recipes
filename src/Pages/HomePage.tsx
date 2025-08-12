@@ -40,7 +40,9 @@ const HomePage = () => {
     return (
         <>
             <header>
-                <Link to="/">{t('title')}</Link>
+                {t('title')}
+                {' | '}
+                <Link to="/search">{t('search')}</Link>
             </header>
             <div className="content">
                 {categoriesItems.length === 0 && <p>{t('category.empty')}</p>}
@@ -78,11 +80,9 @@ const HomePage = () => {
                 </div>
             </div>
             <footer>
-                <Link to="/search">{t('search')}</Link>
+                <Link to="/config">{t('configure')}</Link>
                 {' | '}
                 <Link to="/recipe/add">{t('recipe.add')}</Link>
-                {' | '}
-                <Link to="/config">{t('configure')}</Link>
             </footer>
         </>
     )

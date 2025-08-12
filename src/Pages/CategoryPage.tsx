@@ -23,6 +23,8 @@ const CategoryPage: React.FC<InjectableComponent> = ({ category }) => {
             <header>
                 <Link to="/">{t('home')}</Link> &gt;{' '}
                 <span>{category.name}</span>
+                {' | '}
+                <Link to="/search">{t('search')}</Link>
             </header>
             <div className="content">
                 {recipesItems.length === 0 && <p>{t('recipes.empty')}</p>}
@@ -37,8 +39,6 @@ const CategoryPage: React.FC<InjectableComponent> = ({ category }) => {
                 ))}
             </div>
             <footer>
-                <Link to="/search">{t('search')}</Link>
-                {' | '}
                 <Link to="/recipe/add">{t('recipe.add')}</Link>
             </footer>
         </>
