@@ -1,0 +1,16 @@
+{
+    "name": "Thermomix Recipes",
+    "short_name": "Recipes",
+    "start_url": "./",
+    "display": "standalone",
+    "theme_color": "#e1eebc",
+    "background_color": "#109045",
+    "icons": [
+        {
+            "purpose": "maskable any",
+            "src": "logo-512.png",
+            "type": "image/png",
+            "sizes": "512x512"
+        }
+    ]
+}
