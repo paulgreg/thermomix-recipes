@@ -1,5 +1,6 @@
 {
-    "baseUrl": "/recipes/",
+    "saveOnline": false,
+    "baseUrl": "/thermomix-recipes/",
     "crdtUrl": "//127.0.0.1:6010/",
     "secret": "random-string"
 }
