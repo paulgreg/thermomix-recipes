@@ -1,21 +1,26 @@
+import './react-tags.css'
 import React, { useState, useRef, useCallback } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link, useNavigate, useSearchParams } from 'react-router-dom'
 import { t } from '../i18n/i18n'
 import { InjectableComponent } from '../Types'
 import { useDataContext } from '../DataContext'
 import { ReactTags } from 'react-tag-autocomplete'
 import type { TagSelected } from 'react-tag-autocomplete'
-import './react-tags.css'
 import ThermomixIcons from '../Components/ThermomixIcons'
 
 const EditRecipePage: React.FC<InjectableComponent> = ({ recipe }) => {
     const navigate = useNavigate()
+    const [searchParams] = useSearchParams()
+    const rawParamCategoryId = searchParams.get('categoryId')
+    const paramCategoryId = rawParamCategoryId
+        ? parseInt(rawParamCategoryId, 10)
+        : undefined
     const { categories, availableTags, addOrEditRecipe } = useDataContext()
     const formRef = useRef<HTMLFormElement>(null)
     const textAreaRef = useRef<HTMLTextAreaElement>(null)
     const [nameValue, setNameValue] = useState(recipe?.name ?? '')
     const [categoryIdValue, setCategoryIdValue] = useState(
-        recipe?.categoryId ?? categories?.[0]?.id
+        recipe?.categoryId ?? paramCategoryId ?? categories?.[0]?.id
     )
     const [tagsValue, setTagsValue] = useState<TagSelected[]>(
         (recipe?.tags ?? [])?.map((t) => ({ value: t, label: t }))

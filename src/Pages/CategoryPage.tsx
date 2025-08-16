@@ -39,7 +39,9 @@ const CategoryPage: React.FC<InjectableComponent> = ({ category }) => {
                 ))}
             </div>
             <footer>
-                <Link to="/recipe/add">{t('recipe.add')}</Link>
+                <Link to={`/recipe/add?categoryId=${category.id}`}>
+                    {t('recipe.add')}
+                </Link>
             </footer>
         </>
     )
