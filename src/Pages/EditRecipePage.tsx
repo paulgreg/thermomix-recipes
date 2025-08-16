@@ -44,13 +44,14 @@ const EditRecipePage: React.FC<InjectableComponent> = ({ recipe }) => {
     const onIconClick = useCallback((markdown: string) => {
         if (!textAreaRef.current) return
         const value = textAreaRef.current.value
+        const newPosition = textAreaRef.current.selectionStart + markdown.length
         const newRecipeValue =
             value.substring(0, textAreaRef.current.selectionStart) +
             markdown +
             value.substring(textAreaRef.current.selectionEnd)
         textAreaRef.current.value = newRecipeValue
         setRecipeValue(newRecipeValue)
-        textAreaRef.current.selectionStart += markdown.length
+        textAreaRef.current.selectionEnd = newPosition
         textAreaRef.current.focus()
     }, [])
 
