@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "type": "module",
   "dependencies": {
+    "@hocuspocus/provider": "^4.0.0",
     "react": "^19.2.6",
     "react-dom": "^19.2.6",
     "react-markdown": "^10.1.0",
@@ -11,7 +12,6 @@
     "react-yjs": "^2.0.1",
     "remark-gfm": "^4.0.1",
     "y-indexeddb": "^9.0.12",
-    "y-websocket": "^3.0.0",
     "yjs": "^13.6.30"
   },
   "scripts": {

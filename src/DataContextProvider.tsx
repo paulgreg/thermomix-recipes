@@ -4,9 +4,9 @@ import type { Category, Recipe, YCategory, YRecipe } from './Types'
 import settings from './settings.json'
 import { DataContext } from './DataContext'
 import { IndexeddbPersistence } from 'y-indexeddb'
-import { WebsocketProvider } from 'y-websocket'
 import { slugify, sortByName } from './Utils/string'
 import { useY } from 'react-yjs'
+import { HocuspocusProvider } from '@hocuspocus/provider'
 
 const KEY_NAME = 'THERMOMIXRECIPES_KEY'
 
@@ -28,7 +28,7 @@ const DataContextProvider: React.FC<DataContextProviderPropsType> = ({
     const yRecipes = yDoc.getArray<Y.Map<YRecipe>>('recipes')
 
     const persistence = useRef<IndexeddbPersistence>(null)
-    const provider = useRef<WebsocketProvider>(null)
+    const provider = useRef<HocuspocusProvider>(null)
 
     const persistKey = useCallback((newKey: string) => {
         const slugKey = slugify(newKey)
@@ -43,14 +43,12 @@ const DataContextProvider: React.FC<DataContextProviderPropsType> = ({
     useEffect(() => {
         if (settings.saveOnline && key) {
             persistence.current = new IndexeddbPersistence(guid, yDoc)
-            provider.current = new WebsocketProvider(
-                settings.crdtUrl,
-                guid,
-                yDoc,
-                {
-                    params: { secret: settings.secret },
-                }
-            )
+            provider.current = new HocuspocusProvider({
+                url: `${settings.crdtUrl}ws`,
+                name: guid,
+                document: yDoc,
+                token: settings.secret,
+            })
             return () => provider.current?.disconnect()
         }
     }, [guid, key, yDoc])
@@ -112,10 +110,10 @@ const DataContextProvider: React.FC<DataContextProviderPropsType> = ({
                 .toArray()
                 .findIndex((yCategory) => yCategory.get('id') === id)
 
-            if (categoryIdx !== -1) {
-                yCategories.delete(categoryIdx, 1)
-            } else {
+            if (categoryIdx === -1) {
                 throw new Error('Category not found')
+            } else {
+                yCategories.delete(categoryIdx, 1)
             }
         },
         [yCategories, yRecipes]
@@ -127,10 +125,10 @@ const DataContextProvider: React.FC<DataContextProviderPropsType> = ({
                 .toArray()
                 .findIndex((yRecipe) => yRecipe.get('id') === id)
 
-            if (recipeIdx !== -1) {
-                yRecipes.delete(recipeIdx, 1)
-            } else {
+            if (recipeIdx === -1) {
                 throw new Error('Recipe not found')
+            } else {
+                yRecipes.delete(recipeIdx, 1)
             }
         },
         [yRecipes]
@@ -162,7 +160,9 @@ const DataContextProvider: React.FC<DataContextProviderPropsType> = ({
                     .toArray()
                     .findIndex((yRecipe) => yRecipe.get('id') === maybeId)
 
-                if (recipeIdx !== -1) {
+                if (recipeIdx === -1) {
+                    throw new Error('Recipe not found')
+                } else {
                     const yRecipe = yRecipes.get(recipeIdx)
                     const id = yRecipe.get('id') as unknown as number
                     yDoc.transact(() => {
@@ -174,8 +174,6 @@ const DataContextProvider: React.FC<DataContextProviderPropsType> = ({
                         yRecipe.set('tags', yTags)
                     })
                     return id
-                } else {
-                    throw new Error('Recipe not found')
                 }
             }
         },
